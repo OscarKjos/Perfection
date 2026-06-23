@@ -212,7 +212,7 @@
 
         <div class="field">
             <label>Dato</label>
-            <input id="dato_value" type="date" required>
+            <input style="padding:0;" id="dato_value" type="date" required>
         </div>
 
     <style>
@@ -289,12 +289,12 @@
     <div class="wrappingbox">
         <div class="field">
             <label>Start - tid</label>
-            <input id="start_value" type="time" min="0" required>
+            <input style="padding:0;" id="start_value" type="time" min="0" required>
         </div>
 
         <div class="field">
             <label>Slutt - tid</label>
-            <input id="slutt_value" type="time" min="0" required>
+            <input style="padding:0;"id="slutt_value" type="time" min="0" required>
         </div>
     </div>
 
@@ -571,7 +571,19 @@
 /* =============================================== XP Calculation Logic =============================================== */
 
          // Placeholder for XP calculation logic
-        const point = document.getElementById("active_point");
+        
+        function calculateXP() {
+            const point = document.getElementById("active_point");
+            const tidsanslag = localStorage.getItem("diff");
+
+            const totalxp = (tidsanslag / 5).toFixed(1);
+
+            point.innerHTML = totalxp;
+            localStorage.setItem("totalxp", totalxp);
+        }
+        [start_tid, slutt_tid].forEach((input) => {
+            input.addEventListener("input", calculateXP);
+        });
         
         
     </script>
@@ -604,7 +616,7 @@
         
         const { error } = await supabase
                 .from('bruker_data_studie')
-                .insert([{ user_id:user.id, dato:Dato, fagområde:Fagområde, studiemetode:Type, varighet:localStorage.getItem("diff"), notater:Notat, sted:localStorage.getItem("sted"), fokus:Innsats, xp:20,}])
+                .insert([{ user_id:user.id, dato:Dato, fagområde:Fagområde, studiemetode:Type, varighet:localStorage.getItem("diff"), notater:Notat, sted:localStorage.getItem("sted"), fokus:Innsats, xp:localStorage.getItem("totalxp"),}])
 
             if (error) {
                 Submit.innerText = "Noe gikk galt";
