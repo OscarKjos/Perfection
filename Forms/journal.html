@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../global.css">
+
+    <title>Journal</title>
+
+    <style>
+        :root{
+            --border: #e0e0e0;
+            --text: #333;
+            --muted: #777;
+        }
+
+        body{
+            font-family: var(--font);
+            margin:0;
+            background-color: var(--white);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+
+            background: linear-gradient(160deg, #e8f5ee 0%, #d4ede3 40%, #c5e4d7 100%);
+            padding: 55px 32px 65px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+
+            justify-content: space-between;
+            color:var(--text);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 240px; height: 240px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; left: -40px;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: rgba(29,184,116,0.10);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #Flexor{
+            display:flex;
+            flex-direction: column;
+            border-radius: 10px;
+            height: auto;
+        }
+
+        .hero h2, .hero p{
+            margin:5px;
+            z-index: 100;
+        }
+
+        .instruction{
+            font-size: 12px;
+            color: var(--grå);
+            margin:10px 0px 20px 0px;
+        }
+
+        .nyhetsSkjema{
+            display:flex;
+            flex-direction: column;
+            gap:20px;
+
+            background-color: var(--white);
+            border-radius: 20px 20px 0px 0px;
+            padding:36px 28px 10px;
+            z-index: 100;
+            transform: translateY(-30px);
+        }
+
+        /* Tittel */
+        .nyhetsSkjema h2{
+            margin:0;
+            font-size:24px;
+            color: var(--text);
+        }
+
+        /* Felt wrapper */
+        .field{
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+        }
+
+        /* Labels */
+        .field label{
+            font-weight:300;
+            font-size:13px;
+            color: var(--muted);
+        }
+
+        .field textarea{
+            padding-top:10px;
+            height: 130px;
+        }
+
+        /* Inputs */
+        .field input, select, textarea{
+            height:45px;
+            padding:0 12px;
+            border-radius:10px;
+            border:1px solid var(--border);
+            font-size:15px;
+            transition:0.2s;
+            background-color: transparent;
+            width:100%;
+            box-sizing:border-box;
+        }
+
+        .field input:focus, select:focus, textarea:focus{
+            outline:none;
+            border-color: var(--primærfarge);
+        }
+
+        /* Footer */
+        .form-footer{
+            display:flex;
+            gap:10px;
+            margin-top:10px;
+        }
+
+        /* Knapper */
+        .form-footer button{
+            height:50px;
+            border:none;
+            border-radius:12px;
+            font-size:15px;
+            cursor:pointer;
+        }
+
+        /* Avbryt */
+        .cancel{
+            flex:1;
+            background:#f1f1f1;
+            color:black;
+            padding:10px 25px 10px 25px;
+        }
+
+        /* Lagre */
+        .submit{
+            flex:2;
+            background: var(--primærfarge);
+            color:white;
+            font-weight:600;
+        }
+
+        /* Hover */
+        .submit:hover{
+            background:var(--primærfarge);
+        }
+
+        .cancel:hover{
+            background:#e0e0e0;
+        }
+
+        select:invalid{
+            color:var(--muted); /* grå */
+        }
+
+        select option{
+            color:#111827; /* vanlig tekst */
+        }
+
+         /*_______________Responsiv Desktop________________*/
+
+            @media (min-width:450px){
+                #FlexGrid{
+                    width:100%;
+                    display:flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                #Flexor{
+                    width:50%;
+                    padding:20px;
+                }
+            }
+
+    </style>
+</head>
+<body>
+    <div id="FlexGrid">
+    <div id="Flexor">
+        <div class="hero">
+            <h2><i>Journal / Dagbok</i></h2>
+            <p class="instruction">Skriv om dagen og bygg opp profilen din</p>
+        </div>
+        
+        <form id="training_form" class="nyhetsSkjema">
+
+    <style>
+        .wrappingbox{
+            display:flex;
+            flex-direction:row;
+            gap:20px;
+        }
+
+        .wrappingbox .field{
+            flex:1;
+        }
+
+         #faglitteratur{
+                display:none;
+        }
+    </style>
+
+        <div class="field">
+            <label>Dato</label>
+            <input id="dato_value" type="date" required>
+        </div>
+
+        <style>
+            .button {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 8px 14px;
+                font-size: 13px;
+                font-weight: 500;
+                border: 0.5px solid #d0cfc8;
+                border-radius: 999px;
+                background: transparent;
+                color: #5f5e5a;
+                cursor: pointer;
+                transition: background 0.12s, border-color 0.12s, color 0.12s;
+                font-family: inherit;
+            }
+
+            .button:hover {
+                background: #f1efe8;
+                border-color: #b4b2a9;
+            }
+
+            .button.active {
+                background: var(--primærfarge);
+                border-color: var(--primærfarge);
+                color: #ffffff;
+            }
+        </style>
+
+        <div class="field">
+            <label>Hva handlet dagen om?</label>
+            <div style="display:flex; gap:5px; flex-wrap: wrap;">
+                <div class="button"><i class="fa-solid fa-code"></i>Prosjekt</div>
+                <div class="button"><i class="fa-solid fa-running"></i>Trening</div>
+                <div class="button"><i class="fa-solid fa-plane"></i>Reise</div>
+                <div class="button"><i class="fa-regular fa-comments"></i>Sosialt</div>
+                <div class="button"><i class="fa-regular fa-newspaper"></i>Læring</div>
+                <div class="button"><i class="fa-solid fa-chalkboard-user"></i>Skole</div>
+                <div class="button"><i class="fa-solid fa-bed"></i>Hvile</div>
+                <div class="button"><i class="fa-regular fa-pen-to-square"></i>Krativitet</div>
+                <div class="button"><i class="fa-regular fa-lightbulb"></i>Tankefull</div>
+                <div class="button"><i class="fa-solid fa-seedling"></i>Natur</div>
+                <div class="button"><i class="fa-regular fa-chart-bar"></i>Produktivitet</div>
+                <div class="button"><i class="fa-solid fa-computer"></i>Jobb</div>
+            </div>
+        </div>
+
+        <style>
+            .roundmark {
+                width: 28px;
+                height: 25px;
+                border-radius: 50%;
+                background-color: var(--primærfarge);
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+            }
+
+            .flex_to_right {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+
+        <div class="field">
+            <label>Tre ting du er taknemlig for</label>
+            <div class="flex_to_right">
+                <div class="roundmark">1</div>
+                <input id="takknemlig_1" type="text" placeholder=": Familie og venner" required>
+            </div>
+
+            <div class="flex_to_right">
+                <div class="roundmark">2</div>
+                <input id="takknemlig_2" type="text" placeholder=": Even til å fokusere" required>
+            </div>
+
+            <div class="flex_to_right">
+                <div class="roundmark">3</div>
+                <input id="takknemlig_3" type="text" placeholder=": Helse og liv" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <div style="display:flex; justify-content: space-between;">
+                <label>Refleksjon & Tanker</label>
+                <label>Antall Tegn: <i>0</i></label>
+            </div>
+            <textarea id="notat_value" placeholder="Skriv fritt - ingen format" maxlength="1000" required></textarea>
+        </div>
+
+        <div class="field">
+            <label style="margin-bottom:8px;">Energinivå i dag</label>
+            <div style="display:flex; flex-direction:row; align-items:center;">
+                <input id="innsats_value" type="range" min="1" max="10" value="5">
+                <label id="active_label" style="width:60px; text-align:center;">5/10</label>
+            </div>
+        </div>
+
+        <script>
+            const slider = document.getElementById("innsats_value");
+            const label = document.getElementById("active_label");
+
+            function updateSlider() {
+                const pct = ((slider.value - 1) / 9) * 100;
+                slider.style.background = `linear-gradient(to right, var(--primærfarge) ${pct}%, #ddd ${pct}%)`;
+                label.textContent = slider.value + "/10";
+
+                const energy = document.getElementById("active_energy_value");
+                if (!energy) return;
+
+                energy.textContent = slider.value + "/10";
+
+                if(slider.value >= 7){
+                    energy.style.color = "var(--primærfarge)";
+                }
+                else if(slider.value >= 4){
+                    energy.style.color = "#B8860B";
+                }
+                else{
+                    energy.style.color = "#B23A48";
+                }
+            }
+
+            slider.addEventListener("input", updateSlider);
+            updateSlider();
+        </script>
+
+        <script>
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(otherButton => {
+                        otherButton.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    if (button.classList.contains('active')) {
+                        localStorage.setItem("kategori", button.innerText);
+                        console.clear();
+                        console.log(localStorage.getItem("kategori"));
+                    }
+                });
+            });
+        </script>
+
+        <style>
+            #innsats_value {
+                appearance: none;
+                height: 5px;
+                padding: 0;
+                border-radius: 999px;
+                border: none;
+                background: linear-gradient(to right, var(--primærfarge) 50%, #ddd 50%);
+                cursor: pointer;
+            }
+
+            #innsats_value::-webkit-slider-thumb {
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: var(--primærfarge);
+                border: 2px solid white;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+                cursor: pointer;
+            }
+
+            #innsats_value::-moz-range-thumb {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: var(--primærfarge);
+                border: 2px solid white;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+                cursor: pointer;
+            }
+
+            #innsats_value:focus-visible {
+                outline: 3px solid rgba(0,176,121,0.22);
+                outline-offset: 4px;
+            }
+
+            #rate_flex{
+                display:flex;
+                flex-direction:row;
+                align-items:center;
+                gap:5px;
+                font-size: 22px;
+            }
+
+            #rate_flex i{
+                color:var(--primærfarge);
+            }
+        </style>
+
+        <div class="field">
+            <label style="margin-bottom:8px;">Hvordan var dagen totalt?</label>
+            <div id="rate_flex">
+                <i id="icon1" class="fa-regular fa-star iconClikk"></i>
+                <i id="icon2" class="fa-regular fa-star"></i>
+                <i id="icon3" class="fa-regular fa-star"></i>
+                <i id="icon4" class="fa-regular fa-star"></i>
+                <i id="icon5" class="fa-regular fa-star"></i>
+            </div>
+        </div>
+
+        <script>
+            function iconClikk(name) {
+                const ClickBate = document.getElementById(name);
+                ClickBate.addEventListener("click", () => {
+                    ClickBate.className = "fa-solid fa-star";
+
+                    if(name === "icon1"){
+                        ClickBate.className = "fa-solid fa-star";
+                        document.getElementById("icon2").className = "fa-regular fa-star";
+                        document.getElementById("icon3").className = "fa-regular fa-star";
+                        document.getElementById("icon4").className = "fa-regular fa-star";
+                        document.getElementById("icon5").className = "fa-regular fa-star";
+                    }
+
+                    if(name === "icon2"){
+                        document.getElementById("icon1").className = "fa-solid fa-star";
+                        ClickBate.className = "fa-solid fa-star";
+                        document.getElementById("icon3").className = "fa-regular fa-star";
+                        document.getElementById("icon4").className = "fa-regular fa-star";
+                        document.getElementById("icon5").className = "fa-regular fa-star";
+                    }
+
+                    if(name === "icon3"){
+                        document.getElementById("icon1").className = "fa-solid fa-star";
+                        document.getElementById("icon2").className = "fa-solid fa-star";
+                        ClickBate.className = "fa-solid fa-star";
+                        document.getElementById("icon4").className = "fa-regular fa-star";
+                        document.getElementById("icon5").className = "fa-regular fa-star";
+                    }
+
+                    if(name === "icon4"){
+                        document.getElementById("icon1").className = "fa-solid fa-star";
+                        document.getElementById("icon2").className = "fa-solid fa-star";
+                        document.getElementById("icon3").className = "fa-solid fa-star";
+                        ClickBate.className = "fa-solid fa-star";
+                        document.getElementById("icon5").className = "fa-regular fa-star";
+                    }
+
+                    if(name === "icon5"){
+                        document.getElementById("icon1").className = "fa-solid fa-star";
+                        document.getElementById("icon2").className = "fa-solid fa-star";
+                        document.getElementById("icon3").className = "fa-solid fa-star";
+                        document.getElementById("icon4").className = "fa-solid fa-star";
+                        ClickBate.className = "fa-solid fa-star";
+                    }
+
+                    const numberOfStars = document.querySelectorAll(".fa-solid.fa-star").length;
+                    const dagscore = (numberOfStars / 5)*100;
+
+                    localStorage.setItem("dagscore", dagscore);
+
+                    const placeholder = document.getElementById("active_rating_value");
+                    placeholder.innerHTML = dagscore+"%";
+                });
+            }
+            iconClikk("icon1");
+            iconClikk("icon2");
+            iconClikk("icon3");
+            iconClikk("icon4");
+            iconClikk("icon5");
+            
+        </script>
+
+
+        <style>
+            .stats-wrapper{
+                display:flex;
+                gap:16px;
+            }
+
+            .stat-card{
+                flex:1;
+                background:white;
+                border:1px solid #e5e7eb;
+                border-radius:16px;
+                padding:5px;
+                text-align:center;
+                box-shadow:0 6px 18px rgba(0,0,0,0.04);
+                transition:0.2s;
+            }
+
+            .stat-card:hover{
+                transform:translateY(-2px);
+                box-shadow:0 10px 25px rgba(0,0,0,0.08);
+            }
+
+            .label{
+                font-size:13px;
+                color:#6b7280;
+                margin:5px;
+            }
+
+            .value{
+                font-size:20px;
+                margin:5px;
+                font-weight:700;
+                color:#111827;
+            }
+
+            .value[id="active_tempo"]::after{
+                content:" min";
+                font-size:12px;
+                color:#6b7280;
+            }
+
+             .value[id="active_point"]::before{
+                content:"+ ";
+                font-size:18px;
+            }
+
+             #active_point_2::after{
+                content:" XP";
+                font-size:12px;
+            }
+
+             #active_point_2::before{
+                content:" +";
+                font-size:12px;
+            }
+
+            #active_rating_value{
+                color:var(--primærfarge);
+                font-weight:700;
+                font-size: 16px;
+            }
+
+            #active_energy_value{
+                color:var(--primærfarge);
+                font-weight:700;
+                font-size: 16px;
+            }
+
+        </style>
+
+        <div class="stats-wrapper">
+
+             <div class="stat-card">
+                <p class="label">Energi</p>
+                <p id="active_energy_value" class="value">-</p>
+            </div>
+
+            <div class="stat-card">
+                <p class="label">Dagscore</p>
+                <p id="active_rating_value" class="value">-</p>
+            </div>
+
+            <div class="stat-card">
+                <p class="label">XP</p>
+                <p id="active_point" class="value">0</p>
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <a href="../index.html"><button type="button" class="cancel">Avbryt</button></a>
+            <button type="submit" id="send_data" class="submit">Lagre økt <i id="active_point_2"> 0 </i></button>
+        </div>
+
+    </div>
+    </form>
+    </div>
+    </div>
+
+    <script>
+        // Placeholder for form submission logic
+        const form = document.getElementById("training_form");
+        const Submit = document.getElementById("send_data");
+
+        form.addEventListener("submit", () => {
+            Submit.disabled = true;
+            Submit.innerText = "Sender...";
+        });
+
+
+        // Placeholder for Innsats slider logic
+        const innsats = document.getElementById("innsats_value");
+        const activeLabel = document.getElementById("active_label");
+        innsats.addEventListener("input", () => {
+            const placehold = activeLabel.innerText = `${innsats.value}/10`;
+
+            const charge_style = document.getElementById("active_energy_value");
+            if(innsats.value >= 7){
+                charge_style.style.color = "var(--primærfarge)";
+            }
+            else if(innsats.value >= 4){
+                charge_style.style.color = "#B8860B";
+            }
+            else{
+                charge_style.style.color = "#B23A48";
+            }
+            
+            const energy = document.getElementById("active_energy_value");
+            energy.innerHTML = placehold;
+        });
+
+
+/* =============================================== XP Calculation Logic =============================================== */
+
+        const textarea = document.getElementById("notat_value");
+        const counter = document.querySelector(".field label i");
+        textarea.addEventListener("input", () => {
+            const letters = textarea.value.length;
+            counter.textContent = letters;
+            
+            // Placeholder for XP calculation logic
+            const point = document.getElementById("active_point");
+            point.innerHTML = (letters / 10).toFixed(1);
+
+        });
+    </script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+        const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+        const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        document.getElementById('training_form').addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const { data: { user }} = await supabase.auth.getUser()
+
+        if (!user) {
+            alert("Ingen bruker er logget inn")
+            return
+        }
+
+        const Dato = document.getElementById("dato_value").value;
+        const Refleksjon = document.getElementById("notat_value").value;
+        
+        const Energi = document.getElementById("innsats_value").value;
+        const takknemlig1 = document.getElementById("takknemlig_1").value;
+        const takknemlig2 = document.getElementById("takknemlig_2").value;
+        const takknemlig3 = document.getElementById("takknemlig_3").value;
+
+        const XP = document.getElementById("active_point").innerHTML;
+        
+        const { error } = await supabase
+                .from('bruker_data_journal')
+                .insert([{ user_id:user.id, dato:Dato, kategori:localStorage.getItem("kategori"), takknemlig_1:takknemlig1, takknemlig_2:takknemlig2, takknemlig_3:takknemlig3, refleksjon:Refleksjon, energi:Energi, rate:localStorage.getItem("dagscore"), xp:XP,}])
+
+            if (error) {
+                Submit.innerText = "Noe gikk galt";
+                alert('Feil: ' + error.message)
+            } else {
+                Submit.innerText = "Lagret ✓";
+                alert('Journalen ble lagt til!')
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>

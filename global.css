@@ -1,0 +1,29 @@
+:root{
+    /* Fonts */
+    --font: Arial,sans-serif;
+    --font-size-large: 25px;
+    --font-size-medium: 18px;
+    --font-size-small: 16px;
+
+    /* Colors */
+    --top-color: #333333;
+    --text-color: #555555;
+
+    --bg-color: #f3f4fa;
+    --surface-color: white;
+    --white:white;
+    --black:black;
+
+    --primærfarge:#00b079;
+    --sekundærfarge:none;
+    --eksternfarge:none;
+
+    --hoverfarge:rgb(100, 100, 100);
+    --marked:#ffcc00;
+
+    /* Layout */
+    --shadow-small: 0 0 5px rgb(192, 209, 207);
+    --shadow-medium: 0 4px 10px rgba(0,0,0,0.1);
+    --overlay:rgba(0, 0, 0, 0.45);
+    --border-radius: 8px;
+}

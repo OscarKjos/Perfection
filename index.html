@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfection</title>
+
+    <!-- Ekstern CSS for global stil og ikoner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Robots: Tillat søkemotorer å indeksere -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Ikoner for ulike enheter -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+
+    <!-- PWA / mobil optimalisering -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="white">
+
+    <!-- Google Search Console -->
+    
+    
+    <!-- Tittel og beskrivelse (SEO) -->
+    <title>Perfection</title>
+    <meta name="description" content="Perfection er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Perfection det lettere enn noen gang å nå dine mål og forbedre deg selv.">
+
+
+    <style>
+        
+        .stat-divider {
+            width: 1px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            align-self: stretch;
+        }
+
+        .stats-card {
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
+            padding: 18px 10px;
+            gap: 5px;
+        }
+
+        .stat-section {
+            flex: 1 1 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .stat-icon {
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            color: var(--primary-color);
+        }
+
+        .stat-section:nth-child(1) .stat-icon {
+            color: #ff4d4d;
+        }
+
+        .stat-section:nth-child(3) .stat-icon {
+            color: var(--primary-color);
+        }
+
+        .stat-section:nth-child(5) .stat-icon {
+            color: #dfb44e;
+        }
+
+        .stat-section:nth-child(7) .stat-icon {
+            color: #619cc4;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stat-value {
+            font-size: 0.9em;
+            font-weight: bold;
+            color: var(--text-color);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.7em;
+            color: var(--subtext-color);
+            margin-top: 2px;
+        }
+        
+        .quote {
+            background: #e6f9ef;
+            color: #00b079;
+            border-radius: 7px;
+            padding: 2px 10px 2px 7px;
+            font-size: 0.7em;
+            margin-top: -2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            width: fit-content;
+        }
+
+        .quote .fa-star {
+            font-size: 0.9em;
+            margin-right: 2px;
+        }
+
+        :root{
+            --primary-color:#00b079;
+            --background-color:#f6f5fb;
+            --text-color:#222;
+            --subtext-color:#666;
+            --white:white;
+            --XP-background:#f1f1f9;
+        }
+
+        body{
+            background:var(--background-color);
+            font-family:Arial,sans-serif;
+            min-height:100vh;
+            margin:0px;
+            display:grid;
+            grid-template-rows:50px fit-content(100%) auto;
+        }
+
+        .card{
+            background:var(--white);
+            border-radius:0px;
+            display:flex;
+            align-items:center;
+            gap:24px;
+            padding:18px;
+            padding-bottom:24px;
+            width:100%;
+            height:fit-content;
+            grid-row:2;
+        }
+
+        .circle{
+            --progress:0%;     /* Denne må byttes ut med dynmisk verdi */
+
+            width:100px;
+            height:100px;
+            border-radius:50%;
+            background:conic-gradient(
+                var(--primary-color) 0% var(--progress),
+                var(--XP-background) var(--progress) 100%
+            );
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            position:relative;
+            flex-shrink:0;
+        }
+
+        .circle::before{
+            content:"";
+            position:absolute;
+            width:90px;
+            height:90px;
+            background:var(--white);
+            border-radius:50%;
+        }
+
+        .circle-content{
+            position:relative;
+            z-index:2;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .circle-level{
+            font-size:11px;
+            font-weight:700;
+            color:var(--primary-color);
+            letter-spacing:1px;
+            margin-bottom:2px;
+        }
+
+        .circle-number{
+            font-size:2rem;
+            font-weight:bold;
+            color:var(--text-color);
+            line-height:1;
+        }
+
+        .circle .fa-bolt{
+            color:var(--primary-color);
+            font-size:16px;
+            margin-top:4px;
+        }
+
+        .info{
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+
+        .name{
+            font-size:1.2rem;
+            font-weight:bold;
+            color:var(--text-color);
+        }
+
+        .xp{
+            color:var(--subtext-color);
+            font-size:0.95rem;
+            display:flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .xp p{
+            margin:0;
+        }
+
+        .xp-bar-bg{
+            width:100%;
+            height:5px;
+            background:var(--XP-background);
+            border-radius:999px;
+            overflow:hidden;
+        }
+
+        .xp-bar{
+            width:0%;
+            height:100%;
+            background:var(--primary-color);
+            border-radius:inherit;
+        }
+
+        .container{
+            margin:8px;
+            grid-row:3;
+        }
+
+</style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="circle">
+            <div class="circle-content">
+                <div class="circle-level">
+                    LEVEL
+                </div>
+                <div class="circle-number dynamic_level">
+                    0
+                </div>
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+        </div>
+
+        <div class="info">
+            <div class="name">
+                Oscar Kjos
+            </div>
+            <div class="quote"><i class="fa-solid fa-star"></i>One day - Or day one</div>
+            <div class="xp">
+                <p class="dynamic_xp_current_level">0</p> <!-- XP value for nåværende level -->
+                <p>/</p>
+                <i style="font-size: 12px;" class="dynamic_xp_krav"> 0</i> <!-- XP krav for neste level -->
+                <p style="font-size: 12px;">XP</p>
+            </div>
+            <div class="xp-bar-bg">
+                <div class="xp-bar"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <main class="container">
+
+    <div class="stats-card">
+        <div class="stat-section">
+            <div class="stat-icon"><i class="fa-solid fa-fire"></i></div>
+            <div class="stat-info">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Streak</div>
+            </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-section">
+            <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="stat-info">
+                <div class="stat-value dynamic_xp">0</div>
+                <div class="stat-label">Total XP</div>
+            </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-section">
+            <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
+            <div class="stat-info">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Segment</div>
+            </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-section">
+            <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="stat-info">
+                <div class="stat-value">0%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        #diagram_grid{
+            display: flex;
+            width:100%;
+            gap:16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #diagram_card{
+            width:100%;
+            min-height: 160px;
+            height: auto;
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+            display:flex;
+            justify-content: space-evenly;
+            transform: rotate(180deg);
+            z-index: -100;
+            position: relative;
+        }
+
+        .rutenett{
+            position:absolute;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width:85%;
+            height: 100%;
+        }
+
+        .line{
+            height: 0.1px;
+            width:100%;
+            border-bottom:dashed rgba(128, 128, 128, 0.173) 1px;
+        }
+
+        .progress_max{
+            width:35px;
+            height: 100%;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress_max p{
+            color: #777;
+            transform: rotate(180deg);
+            font-size: 10px;
+            margin:2px;
+        }
+
+        .progress_true{
+            border:var(--XP-background) solid 1.3px;
+            background-color: var(--primary-color);
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            width:100%;
+        }
+
+        #prog1{
+            height: 0%;
+        }
+
+        #prog2{
+            height: 0%;
+        }
+
+        #prog3{
+            height: 0%;
+        }
+
+        #prog4{
+            height: 0%;
+        }
+
+        #prog5{
+            height: 0%;
+        }
+
+        #prog6{
+            height: 0%;
+        }
+
+        #prog7{
+            height: 0%;
+        }
+
+    </style>
+
+
+    <!-- -------------------------------- Diagram (Km per uke) ------------------------------------- -->
+
+    <section id="diagram_grid">
+        <div id="diagram_card">
+            <div class="rutenett">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog1" class="progress_true"></div>
+                <p id="one_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog2" class="progress_true"></div>
+                <p id="two_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog3" class="progress_true"></div>
+                <p id="three_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog4" class="progress_true"></div>
+                <p id="four_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog5" class="progress_true"></div>
+                <p id="five_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog6" class="progress_true"></div>
+                <p id="six_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <div id="prog7" class="progress_true"></div>
+                <p id="seven_lable">0</p>
+            </div>
+        </div>
+    </section>
+
+    </main>
+</body>
+
+    <script src="navigator.js" defer></script>
+    <script type="module" src="progress.js"></script>
+    <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    
+    const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+    const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+        async function sjekkLogin() {
+            const { data } = await supabase.auth.getUser();
+
+        if (!data.user) {
+            window.location.href = "login.html";
+        }
+        }
+        sjekkLogin();
+    </script>
+</html>

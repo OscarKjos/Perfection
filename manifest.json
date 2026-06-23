@@ -1,0 +1,21 @@
+{
+  "name": "Perfection",
+  "short_name": "Perfection",
+  "description": "Perfection er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Perfection det lettere enn noen gang å nå dine mål og forbedre deg selv.",
+  "start_url": "login.html",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "white",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

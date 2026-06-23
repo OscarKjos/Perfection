@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../global.css">
+
+    <title>Registrer Vaner</title>
+
+    <style>
+        :root{
+            --border: #e0e0e0;
+            --text: #333;
+            --muted: #777;
+            --primary: #00b079;
+            --primary-soft: #e3f3ed;
+        }
+
+        body{
+            font-family: var(--font);
+            margin:0;
+            background-color: var(--white);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(160deg, #e8f5ee 0%, #d4ede3 40%, #c5e4d7 100%);
+            padding: 55px 32px 65px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            justify-content: space-between;
+            color:var(--text);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 240px; height: 240px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; left: -40px;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: rgba(29,184,116,0.10);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #Flexor{
+            display:flex;
+            flex-direction: column;
+            border-radius: 10px;
+            height: auto;
+        }
+
+        .hero h2, .hero p{
+            margin:5px;
+            z-index: 100;
+        }
+
+        .instruction{
+            font-size: 12px;
+            color: var(--muted);
+            margin:10px 0px 20px 0px;
+        }
+
+        .nyhetsSkjema{
+            display:flex;
+            flex-direction: column;
+            gap:20px;
+            background-color: var(--white);
+            border-radius: 20px 20px 0px 0px;
+            padding:36px 28px 10px;
+            z-index: 100;
+            transform: translateY(-30px);
+        }
+
+        .field{
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+        }
+
+        .field label{
+            font-weight:300;
+            font-size:13px;
+            color: var(--muted);
+        }
+
+        .field input, .field select, .field textarea{
+            height:45px;
+            padding:0 12px;
+            border-radius:10px;
+            border:1px solid var(--border);
+            font-size:15px;
+            transition:0.2s;
+            background-color: transparent;
+            width:100%;
+            box-sizing:border-box;
+            font-family: inherit;
+        }
+
+        .field textarea{
+            padding-top:10px;
+            height: 70px;
+            resize: vertical;
+        }
+
+        .field input:focus, .field select:focus, .field textarea:focus{
+            outline:none;
+            border-color: var(--primary);
+        }
+
+        .field input[type="range"]{
+            appearance:none;
+            height:5px;
+            padding:0;
+            border:none;
+            border-radius:999px;
+            background:linear-gradient(to right, var(--primary) 50%, #ddd 50%);
+            cursor:pointer;
+        }
+
+        .field input[type="range"]::-webkit-slider-thumb{
+            appearance:none;
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            background:var(--primary);
+            border:2px solid white;
+            box-shadow:0 2px 6px rgba(0,0,0,0.18);
+        }
+
+        .field input[type="range"]::-moz-range-thumb{
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            background:var(--primary);
+            border:2px solid white;
+            box-shadow:0 2px 6px rgba(0,0,0,0.18);
+        }
+
+        .wrappingbox{
+            display:flex;
+            flex-direction:row;
+            gap:20px;
+        }
+
+        .wrappingbox .field{
+            flex:1;
+        }
+
+        .habit-grid{
+            display:grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap:8px;
+        }
+
+        .habit-option{
+            min-height:48px;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            padding:10px 12px;
+            border:1px solid #d0cfc8;
+            border-radius:10px;
+            background:#ffffff;
+            color:#4b5563;
+            cursor:pointer;
+            text-align:left;
+            font-size:13px;
+            font-family:inherit;
+            transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.12s;
+        }
+
+        .habit-option:hover{
+            background:#f5fbf8;
+            border-color:#b8dccc;
+        }
+
+        .habit-option.active{
+            background:var(--primary);
+            border-color:var(--primary);
+            color:white;
+        }
+
+        .habit-option i{
+            width:18px;
+            text-align:center;
+            font-size:15px;
+        }
+
+        .dynamic-panel{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            padding:16px;
+            border:1px solid #dbe9e4;
+            border-radius:12px;
+            background:var(--primary-soft);
+        }
+
+        .dynamic-panel.visible{
+            display:flex;
+        }
+
+        #dynamic_inputs{
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+
+        .dynamic-title{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin:0;
+            font-size:15px;
+            color:#1f2937;
+            font-weight:700;
+        }
+
+        .field-hint{
+            margin:0;
+            color:#6b7280;
+            font-size:12px;
+            line-height:1.4;
+        }
+
+        .checkbox-row{
+            min-height:45px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:0 12px;
+            border:1px solid var(--border);
+            border-radius:10px;
+            background:white;
+        }
+
+        .checkbox-row input{
+            width:auto;
+            height:auto;
+        }
+
+        .stats-wrapper{
+            display:flex;
+            gap:16px;
+        }
+
+        .stat-card{
+            flex:1;
+            background:white;
+            border:1px solid #e5e7eb;
+            border-radius:16px;
+            padding:5px;
+            text-align:center;
+            box-shadow:0 6px 18px rgba(0,0,0,0.04);
+            transition:0.2s;
+        }
+
+        .stat-card:hover{
+            transform:translateY(-2px);
+            box-shadow:0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .label{
+            font-size:13px;
+            color:#6b7280;
+            margin:5px;
+        }
+
+        .value{
+            font-size:20px;
+            margin:5px;
+            font-weight:700;
+            color:#111827;
+        }
+
+        #active_point::before{
+            content:"+ ";
+            font-size:18px;
+        }
+
+        #active_point_2::before{
+            content:" +";
+            font-size:12px;
+        }
+
+        #active_point_2::after{
+            content:" XP";
+            font-size:12px;
+        }
+
+        #active_rating_value{
+            color:var(--primary);
+            font-weight:700;
+            font-size:15px;
+        }
+
+        .form-footer{
+            display:flex;
+            gap:10px;
+            margin-top:10px;
+        }
+
+        .form-footer button{
+            height:50px;
+            border:none;
+            border-radius:12px;
+            font-size:15px;
+            cursor:pointer;
+        }
+
+        .cancel{
+            flex:1;
+            background:#f1f1f1;
+            color:black;
+            padding:10px 25px 10px 25px;
+        }
+
+        .submit{
+            flex:2;
+            background: var(--primary);
+            color:white;
+            font-weight:600;
+        }
+
+        .cancel:hover{
+            background:#e0e0e0;
+        }
+
+        .submit:hover{
+            background:#009b6b;
+        }
+
+        @media (max-width:520px){
+            .wrappingbox{
+                flex-direction:column;
+                gap:16px;
+            }
+
+            .habit-grid{
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media (min-width:450px){
+            #FlexGrid{
+                width:100%;
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #Flexor{
+                width:50%;
+                padding:20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="FlexGrid">
+        <div id="Flexor">
+            <div class="hero">
+                <h2><i>Registrer Vaner</i></h2>
+                <p class="instruction">Logg vanene dine og bygg opp profilen din</p>
+            </div>
+
+            <form id="habit_form" class="nyhetsSkjema">
+                <input id="habit_value" type="hidden" required>
+
+                <div class="field">
+                    <label for="dato_value">Dato</label>
+                    <input id="dato_value" type="date" required>
+                </div>
+
+                <style>
+                    .habit-grid{
+                        display:flex;
+                        overflow: scroll;
+                        gap:10px;
+                    }
+                </style>
+
+                <div class="field">
+                    <label>Vane (Scroll til venstre)</label>
+                    <div class="habit-grid" id="habit_options">
+                        <button type="button" class="habit-option" data-habit="kald_dusj"><i class="fa-solid fa-shower"></i>Kalddusj</button>
+                        <button type="button" class="habit-option" data-habit="meditasjon"><i class="fa-solid fa-heart"></i>Meditasjon</button>
+                        <button type="button" class="habit-option" data-habit="sovn"><i class="fa-solid fa-moon"></i>S&oslash;vn</button>
+                        <button type="button" class="habit-option" data-habit="vann"><i class="fa-solid fa-glass-water-droplet"></i>Vanntilf&oslash;rsel</button>
+                        <button type="button" class="habit-option" data-habit="kalorier"><i class="fa-solid fa-fire"></i>Kaloriinntak</button>
+                        <button type="button" class="habit-option" data-habit="re_sengen"><i class="fa-solid fa-bed"></i>Resengen</button>
+                        <button type="button" class="habit-option" data-habit="meal_prep"><i class="fa-solid fa-utensils"></i>Mealprep</button>
+                        <button type="button" class="habit-option" data-habit="vitaminer"><i class="fa-solid fa-droplet"></i>Vitaminer</button>
+                        <button type="button" class="habit-option" data-habit="protein"><i class="fa-solid fa-hand-fist"></i>Proteintilskudd</button>
+                        <button type="button" class="habit-option" data-habit="skritt"><i class="fa-solid fa-shoe-prints"></i>Skrittm&aring;l</button>
+                        <button type="button" class="habit-option" data-habit="energi"><i class="fa-solid fa-battery-full"></i>BodyBattery</button>
+                    </div>
+                </div>
+
+                <div id="dynamic_fields" class="dynamic-panel" aria-live="polite">
+                    <p id="dynamic_title" class="dynamic-title"></p>
+                    <p id="dynamic_hint" class="field-hint">Velg en vane overfor for å legge inn detaljer.</p>
+                    <div id="dynamic_inputs"></div>
+                </div>
+
+                <div class="field">
+                    <label for="notat_value">Notater (Valgfritt)</label>
+                    <textarea id="notat_value" placeholder="Hvordan påvirket vanen dagen din?" maxlength="150"></textarea>
+                </div>
+
+                <div class="stats-wrapper">
+                    <div class="stat-card">
+                        <p class="label">Status</p>
+                        <p id="active_rating_value" class="value">Velg vane</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <p class="label">XP</p>
+                        <p id="active_point" class="value">0</p>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <a href="../index.html"><button type="button" class="cancel">Avbryt</button></a>
+                    <button type="submit" id="send_data" class="submit">Registrer <i id="active_point_2"> 0 </i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const habitDefinitions = {
+            kald_dusj: {
+                navn: "Kald dusj",
+                icon: "fa-shower",
+                hint: "Registrer hvor lenge du stod i kaldt vann og hvor kaldt det f&oslash;ltes.",
+                fields: [
+                    { id: "varighet", label: "Varighet (min)", type: "number", min: "0", step: "0.5", placeholder: "3", required: true, unit: "min" },
+                    { id: "intensitet", label: "Intensitet", type: "select", required: true, options: ["Lett", "Middels", "Kaldt", "Iskaldt"] }
+                ],
+                xp: values => 4 + Math.min(Number(values.varighet || 0), 10)
+            },
+            meditasjon: {
+                navn: "Meditasjon",
+                icon: "fa-heart",
+                hint: "Legg inn antall minutter og hvor rolig/fokusert &oslash;kten var.",
+                fields: [
+                    { id: "minutter", label: "Minutter", type: "number", min: "1", step: "1", placeholder: "10", required: true, unit: "min" },
+                    { id: "fokus", label: "Fokus", type: "range", min: "1", max: "10", value: "5", required: true, unit: "/10" }
+                ],
+                xp: values => 3 + Math.min(Number(values.minutter || 0) / 2, 12) + Number(values.fokus || 0) / 3
+            },
+            sovn: {
+                navn: "S&oslash;vn",
+                icon: "fa-moon",
+                hint: "Registrer timer sovet og opplevd kvalitet.",
+                fields: [
+                    { id: "timer", label: "Timer s&oslash;vn", type: "number", min: "0", step: "0.25", placeholder: "7.5", required: true, unit: "t" },
+                    { id: "kvalitet", label: "S&oslash;vnkvalitet", type: "range", min: "1", max: "10", value: "5", required: true, unit: "/10" }
+                ],
+                xp: values => 4 + Math.min(Number(values.timer || 0), 9) + Number(values.kvalitet || 0) / 2
+            },
+            vann: {
+                navn: "Vanntilf&oslash;rsel",
+                icon: "fa-glass-water-droplet",
+                hint: "Registrer antall dl vann du har drukket i dag.",
+                fields: [
+                    { id: "mengde", label: "Vann drukket (dl)", type: "number", min: "0", step: "1", placeholder: "20", required: true, unit: "dl" }
+                ],
+                xp: values => 2 + Math.min(Number(values.mengde || 0) / 3, 10)
+            },
+            kalorier: {
+                navn: "Kaloriinntak",
+                icon: "fa-fire",
+                hint: "Registrer ca. kaloriinntak og om du traff m&aring;let ditt.",
+                fields: [
+                    { id: "kcal", label: "Kalorier (kcal)", type: "number", min: "0", step: "10", placeholder: "2400", required: true, unit: "kcal" },
+                    { id: "mal", label: "Traff m&aring;let?", type: "select", required: true, options: ["Ja", "Nesten", "Nei"] }
+                ],
+                xp: values => values.mal === "Ja" ? 12 : values.mal === "Nesten" ? 8 : 4
+            },
+            re_sengen: {
+                navn: "Re sengen",
+                icon: "fa-bed",
+                hint: "Marker at vanen er gjennomf&oslash;rt.",
+                fields: [
+                    { id: "fullfort", label: "Sengen er redd", type: "checkbox", required: true }
+                ],
+                xp: values => values.fullfort ? 5 : 0
+            },
+            meal_prep: {
+                navn: "Meal prep",
+                icon: "fa-utensils",
+                hint: "Registrer hvor mange m&aring;ltider du forberedte.",
+                fields: [
+                    { id: "maltider", label: "Antall m&aring;ltider", type: "number", min: "1", step: "1", placeholder: "3", required: true, unit: "stk" }
+                ],
+                xp: values => 4 + Math.min(Number(values.maltider || 0) * 2, 12)
+            },
+            vitaminer: {
+                navn: "Vitaminer",
+                icon: "fa-droplet",
+                hint: "Registrer hvilke vitaminer eller tilskudd du tok.",
+                fields: [
+                    { id: "type", label: "Type", type: "text", placeholder: "D-vitamin, omega-3", required: true },
+                    { id: "fullfort", label: "Tatt i dag", type: "checkbox", required: true }
+                ],
+                xp: values => values.fullfort ? 5 : 0
+            },
+            protein: {
+                navn: "Proteintilskudd",
+                icon: "fa-hand-fist",
+                hint: "Registrer gram protein fra tilskudd.",
+                fields: [
+                    { id: "gram", label: "Protein (g)", type: "number", min: "0", step: "1", placeholder: "30", required: true, unit: "g" }
+                ],
+                xp: values => 3 + Math.min(Number(values.gram || 0) / 5, 8)
+            },
+            skritt: {
+                navn: "Skrittm&aring;l",
+                icon: "fa-shoe-prints",
+                hint: "Registrer antall skritt og dagens m&aring;l.",
+                fields: [
+                    { id: "skritt", label: "Skritt", type: "number", min: "0", step: "100", placeholder: "10000", required: true, unit: "skritt" },
+                    { id: "mal", label: "M&aring;l", type: "number", min: "0", step: "100", placeholder: "10000", required: true, unit: "skritt" }
+                ],
+                xp: values => {
+                    const skritt = Number(values.skritt || 0);
+                    const mal = Number(values.mal || 0);
+                    const bonus = mal > 0 && skritt >= mal ? 5 : 0;
+                    return 3 + Math.min(skritt / 1000, 12) + bonus;
+                }
+            },
+            energi: {
+                navn: "Body Battery / Energi",
+                icon: "fa-battery-full",
+                hint: "Registrer energiniv&aring;et ditt, gjerne morgen eller kveld.",
+                fields: [
+                    { id: "energi", label: "Energi", type: "range", min: "1", max: "100", value: "50", required: true, unit: "/100" },
+                    { id: "tidspunkt", label: "Tidspunkt", type: "select", required: true, options: ["Morgen", "Midt p&aring; dagen", "Kveld"] }
+                ],
+                xp: values => 3 + Number(values.energi || 0) / 20
+            }
+        };
+
+        const form = document.getElementById("habit_form");
+        const submit = document.getElementById("send_data");
+        const habitInput = document.getElementById("habit_value");
+        const dynamicPanel = document.getElementById("dynamic_fields");
+        const dynamicTitle = document.getElementById("dynamic_title");
+        const dynamicHint = document.getElementById("dynamic_hint");
+        const dynamicInputs = document.getElementById("dynamic_inputs");
+        const rating = document.getElementById("active_rating_value");
+        const point = document.getElementById("active_point");
+        const pointButton = document.getElementById("active_point_2");
+
+        document.getElementById("dato_value").valueAsDate = new Date();
+
+        function makeField(field) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "field";
+
+            if (field.type === "checkbox") {
+                const row = document.createElement("label");
+                row.className = "checkbox-row";
+
+                const input = document.createElement("input");
+                input.type = "checkbox";
+                input.id = `habit_${field.id}`;
+                input.dataset.detailId = field.id;
+                input.required = Boolean(field.required);
+
+                const text = document.createElement("span");
+                text.textContent = field.label;
+
+                row.append(input, text);
+                wrapper.append(row);
+                return wrapper;
+            }
+
+            const label = document.createElement("label");
+            label.setAttribute("for", `habit_${field.id}`);
+            label.innerHTML = field.label;
+            wrapper.append(label);
+
+            let input;
+            if (field.type === "select") {
+                input = document.createElement("select");
+                input.innerHTML = '<option value="" selected disabled hidden>Velg...</option>';
+                field.options.forEach(optionText => {
+                    const option = document.createElement("option");
+                    option.textContent = optionText;
+                    option.value = optionText;
+                    input.append(option);
+                });
+            } else {
+                input = document.createElement("input");
+                input.type = field.type;
+            }
+
+            input.id = `habit_${field.id}`;
+            input.dataset.detailId = field.id;
+            input.required = Boolean(field.required);
+
+            ["min", "max", "step", "placeholder", "value"].forEach(attr => {
+                if (field[attr] !== undefined) input.setAttribute(attr, field[attr]);
+            });
+
+            wrapper.append(input);
+
+            if (field.type === "range") {
+                const hint = document.createElement("p");
+                hint.className = "field-hint";
+                hint.id = `habit_${field.id}_label`;
+                hint.textContent = `${input.value}${field.unit || ""}`;
+
+                function updateRangeStyle() {
+                    const min = Number(input.min || 0);
+                    const max = Number(input.max || 100);
+                    const value = Number(input.value || min);
+                    const percent = ((value - min) / (max - min)) * 100;
+                    input.style.background = `linear-gradient(to right, var(--primary) ${percent}%, #ddd ${percent}%)`;
+                    hint.textContent = `${input.value}${field.unit || ""}`;
+                }
+
+                input.addEventListener("input", updateRangeStyle);
+                updateRangeStyle();
+                wrapper.append(hint);
+            }
+
+            return wrapper;
+        }
+
+        function getDetailValues() {
+            const values = {};
+            dynamicInputs.querySelectorAll("[data-detail-id]").forEach(input => {
+                values[input.dataset.detailId] = input.type === "checkbox" ? input.checked : input.value;
+            });
+            return values;
+        }
+
+        function updateStats() {
+            const habit = habitDefinitions[habitInput.value];
+
+            if (!habit) {
+                rating.textContent = "Velg vane";
+                point.textContent = "0";
+                pointButton.textContent = " 0 ";
+                return;
+            }
+
+            const values = getDetailValues();
+            const xp = Math.max(0, habit.xp(values)).toFixed(1);
+            point.textContent = xp;
+            pointButton.textContent = ` ${xp} `;
+            rating.textContent = "Klar";
+            localStorage.setItem("habit_xp", xp);
+        }
+
+        function selectHabit(habitKey) {
+            const habit = habitDefinitions[habitKey];
+            habitInput.value = habitKey;
+
+            document.querySelectorAll(".habit-option").forEach(button => {
+                button.classList.toggle("active", button.dataset.habit === habitKey);
+            });
+
+            dynamicInputs.innerHTML = "";
+            dynamicTitle.innerHTML = `<i class="fa-solid ${habit.icon}"></i>${habit.navn}`;
+            dynamicHint.innerHTML = habit.hint;
+            habit.fields.forEach(field => dynamicInputs.append(makeField(field)));
+            dynamicPanel.classList.add("visible");
+
+            dynamicInputs.querySelectorAll("input, select, textarea").forEach(input => {
+                input.addEventListener("input", updateStats);
+                input.addEventListener("change", updateStats);
+            });
+
+            updateStats();
+        }
+
+        document.querySelectorAll(".habit-option").forEach(button => {
+            button.addEventListener("click", () => selectHabit(button.dataset.habit));
+        });
+
+        window.habitDefinitions = habitDefinitions;
+        window.getHabitDetailValues = getDetailValues;
+    </script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+        const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+        const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        const submitButton = document.getElementById("send_data")
+
+        document.getElementById('habit_form').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const { data: { user }} = await supabase.auth.getUser()
+
+            if (!user) {
+                alert("Ingen bruker er logget inn")
+                return
+            }
+
+            const selectedHabit = document.getElementById("habit_value").value
+
+            if (!selectedHabit) {
+                alert('Velg en vane f\u00f8rst')
+                return
+            }
+
+            submitButton.disabled = true
+            submitButton.innerText = "Sender..."
+
+            const habit = window.habitDefinitions[selectedHabit]
+            const details = window.getHabitDetailValues()
+            const primaryField = habit.fields[0]
+            const primaryValue = details[primaryField.id]
+            const habitName = document.querySelector(".habit-option.active").innerText.trim()
+
+            const { error } = await supabase
+                .from('bruker_data_vaner')
+                .insert([{
+                    user_id: user.id,
+                    dato: document.getElementById("dato_value").value,
+                    vane: habitName,
+                    verdi: primaryValue,
+                    enhet: primaryField.unit || "",
+                    detaljer: details,
+                    notat: document.getElementById("notat_value").value,
+                    xp: localStorage.getItem("habit_xp") || 0
+                }])
+
+            if (error) {
+                submitButton.innerText = "Noe gikk galt"
+                submitButton.disabled = false
+                alert('Feil: ' + error.message)
+            } else {
+                submitButton.innerText = "Lagret"
+                alert('Vanen ble lagt til!')
+                window.location.href = '../index.html'
+            }
+        });
+    </script>
+</body>
+</html>

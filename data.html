@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfection</title>
+
+    <!-- Ekstern CSS for global stil og ikoner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+
+    <!-- Robots: Tillat søkemotorer å indeksere -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Ikoner for ulike enheter -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+
+    <!-- PWA / mobil optimalisering -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="white">
+
+    <!-- Google Search Console -->
+    
+    
+    <!-- Tittel og beskrivelse (SEO) -->
+    <title>Perfection</title>
+    <meta name="description" content="Perfection er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Perfection det lettere enn noen gang å nå dine mål og forbedre deg selv.">
+
+    <style>
+        #section_part{
+            display:flex;
+            flex-direction: column;
+            gap:12px;
+            position: relative;
+            width:100%;
+            overflow: hidden;
+            padding:12px;
+            box-sizing:border-box;
+        }
+
+
+         #search_top_bar{
+            background-color: white;
+            padding:12px;
+            border-radius: 14px;
+            display:flex;
+            flex-direction: column;
+            gap:12px;
+            border:1px solid #e7eaf1;
+            box-shadow:0 8px 24px rgba(17,24,39,0.06);
+        }
+
+        #search_relative{
+            position: relative;
+            width:100%;
+            display:flex;
+            align-items:center;
+        }
+
+        #search_top_bar input{
+            height:44px;
+            padding:0 42px 0 40px;
+            background-color: #f6f8fb;
+            border:#e7eaf1 solid 1px;
+            border-radius: 10px;
+            width:100%;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline:none;
+            transition:border-color 0.16s, box-shadow 0.16s, background 0.16s;
+        }
+
+        #search_top_bar input:focus{
+            background:white;
+            border-color:var(--primary-color);
+            box-shadow:0 0 0 3px rgba(0,176,121,0.12);
+        }
+
+        .search-icon{
+            position: absolute;
+            top:50%;
+            left:14px;
+            transform: translateY(-50%);
+            color:#6b7280;
+            pointer-events:none;
+        }
+
+        #clear_search{
+            position:absolute;
+            right:8px;
+            width:30px;
+            height:30px;
+            border:none;
+            border-radius:8px;
+            background:transparent;
+            color:#6b7280;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        #clear_search:hover{
+            background:#eef0f8;
+            color:#111827;
+        }
+
+        #top_bar_alternative{
+            display:flex;
+            gap:8px;
+            overflow-x: auto;
+            width:100%;
+            padding-bottom:2px;
+            scrollbar-width:none;
+        }
+
+        #top_bar_alternative::-webkit-scrollbar{
+            display:none;
+        }
+
+        #top_bar_alternative button{
+            min-height:36px;
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            white-space:nowrap;
+            background-color:#f8fafc;
+            border:solid 1px #e2e6f0;
+            border-radius:999px;
+            padding:0 14px;
+            color:#374151;
+            font-family:inherit;
+            font-size:13px;
+            font-weight:600;
+            cursor:pointer;
+            transition:background 0.16s, border-color 0.16s, color 0.16s;
+        }
+
+        #top_bar_alternative button.active{
+            background-color: var(--primary-color);
+            border-color:var(--primary-color);
+            color:white;
+        }
+
+        #top_bar_alternative button:hover,
+        #top_bar_alternative button:focus-visible{
+            border-color:var(--primary-color);
+            outline:none;
+        }
+    </style>
+
+</head>
+<body>
+
+    <section id="section_part">
+        <div id="search_top_bar">
+            <div id="search_relative">
+                <input id="søksfelt" type="search" placeholder="Søk i aktiviteter">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <button id="clear_search" type="button" aria-label="Tøm søkefelt">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="top_bar_alternative" aria-label="Filtrer aktiviteter">
+                <button type="button" class="active"><i class="fa-solid fa-route"></i>Trening</button>
+                <button type="button"><i class="fa-solid fa-book"></i>Studie</button>
+                <button type="button"><i class="fa-solid fa-chart-line"></i>Arbeid</button>
+                <button type="button"><i class="fa-solid fa-bed"></i>Vaner</button>
+                <button type="button"><i class="fa-solid fa-journal-whills"></i>Journal</button>
+            </div>
+        </div>
+    </section>
+
+
+<style>
+        .contDisp{
+            padding:12px;
+            display: flex;
+            flex-direction: column;
+            gap:15px;
+            margin-bottom:85px;
+            display:none;
+        }
+
+        .contDisp.active{
+            display:flex;
+        }
+
+        .content_card{
+            background:white;
+            border:1px solid #e7eaf1;
+            border-radius:14px;
+
+            padding:14px;
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+
+            box-shadow:0 6px 18px rgba(17,24,39,.05);
+        }
+
+        p{
+            margin:0;
+        }
+
+        .label{
+            font-size:10px;
+            color:#7b8190;
+            text-transform:uppercase;
+            margin-bottom:2px;
+        }
+
+        .value{
+            font-size:14px;
+            font-weight:700;
+        }
+
+        .top{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .activity{
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .activity h2{
+            margin:0;
+            font-size:18px;
+        }
+
+        .badge{
+            background:#c7fcce;
+            color: #17727a;
+
+            padding:8px 10px;
+            border-radius:8px;
+
+            font-size:15px;
+            font-weight:700;
+        }
+
+        .aktivitet_label{
+            font-size:10px;
+            color:#7b8190;
+            text-transform:uppercase;
+            margin-bottom:2px;
+            font-weight: lighter;
+            color:#17727a;
+        }
+
+        .highlight{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:10px;
+        }
+
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:10px;
+
+            padding-top:10px;
+            border-top:1px solid #eef1f6;
+        }
+
+        .note{
+            color:#4b5563;
+            font-size:13px;
+            line-height:1.4;
+        }
+
+
+        /* -- Studie-card -- */
+            .content_card{
+                background: white;
+                border-radius: 22px;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+
+                border: 1px solid #e8edf2;
+
+                box-shadow:
+                    0 6px 24px rgba(15,23,42,0.06);
+
+                transition: 0.2s;
+            }
+
+            .content_card:hover{
+                transform: translateY(-2px);
+            }
+
+            .card_top{
+                display:flex;
+                justify-content:space-between;
+                align-items:start;
+            }
+
+            .study_title{
+                font-size:1.3rem;
+                font-weight:700;
+            }
+
+            .study_date{
+                color:#73808f;
+                font-size:0.9rem;
+            }
+
+            .study_duration{
+                font-size:2rem;
+                font-weight:800;
+                color:var(--primærfarge);
+            }
+
+            .study_duration span{
+                font-size:1rem;
+                color:#73808f;
+            }
+
+            .meta_grid{
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:10px;
+            }
+
+            .meta{
+                background:#f5f7fa;
+                padding:10px 14px;
+                border-radius:14px;
+            }
+
+            .meta_label{
+                font-size:0.75rem;
+                color:#7b8794;
+            }
+
+            .meta_value{
+                margin-top:4px;
+                font-weight:600;
+            }
+
+            .study_notes{
+                color:#4b5563;
+                font-size:0.8rem;
+                line-height:1.4;
+            }
+</style>
+
+
+<main class="content_container contDisp"></main>
+<main class="study_container contDisp"></main>
+<main class="work_container contDisp"></main>
+<main class="habits_container contDisp"></main>
+<main class="journal_container contDisp"></main>
+
+
+    <script>
+        const filterButtons = document.querySelectorAll("#top_bar_alternative button");
+        const searchInput = document.getElementById("søksfelt");
+        const clearSearch = document.getElementById("clear_search");
+
+        const contentContainer = document.querySelector(".content_container");
+        contentContainer.classList.add("active");
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                filterButtons.forEach(otherButton => otherButton.classList.remove("active"));
+                button.classList.add("active");
+                
+                const contDisp = document.querySelectorAll(`.contDisp`);
+                contDisp.forEach(cont => cont.style.display = "none");
+                function showCont(cont) {
+                    cont.style.display = "flex";
+                }
+
+                if (button.classList.contains("active")) {
+                    if (button.innerText === "Trening") {
+                        showCont(document.querySelector(".content_container"));
+                    } else if (button.innerText === "Studie") {
+                        showCont(document.querySelector(".study_container"));
+                    } else if (button.innerText === "Arbeid") {
+                        showCont(document.querySelector(".work_container"));
+                    } else if (button.innerText === "Vaner") {
+                        showCont(document.querySelector(".habits_container"));
+                    } else if (button.innerText === "Journal") {
+                        showCont(document.querySelector(".journal_container"));
+                    }
+                }
+            });
+        });
+
+        clearSearch.addEventListener("click", () => {
+            searchInput.value = "";
+            searchInput.focus();
+        });
+    </script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+        const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+        const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        async function hentData() {              
+            const { data, error } = await supabase 
+                .from('bruker_data_trening')
+                .select('user_id, dato, aktivitet, type, varighet, distanse, gj_snitt_puls, maks_puls, innsats, notat, xp')
+                .order('dato', { ascending: false })
+
+        const content_container = document.querySelector(".content_container");
+        content_container.innerHTML = "";
+
+        data.forEach(element => {
+            const card = document.createElement("div");
+            card.className = "content_card";
+
+            /*Funksjon som finner ukedag basert på dato*/
+            const dato = new Date(element.dato);
+
+            const ukedag = dato.toLocaleDateString("nb-NO", {
+                weekday: "long"
+            });
+
+
+            /* Funksjon som beregner hastighet min/km */
+            const hastighet = (element.varighet / element.distanse).toFixed(2);
+
+            card.innerHTML = `
+
+                <!-- HEADER -->
+                <div class="top">
+
+                    <div>
+                        <p class="label">Dato</p>
+                        <p class="value">${element.dato} • ${ukedag}</p>
+                    </div>
+
+                    <div class="badge">
+                        <p class="aktivitet_label">Aktivitet</p>
+                        <p>${element.aktivitet} - ${element.type}</p>
+                    </div>
+
+                </div>
+
+
+                <!-- HOVEDTALL -->
+                <div class="highlight">
+
+                    <div>
+                        <p class="label">Distanse</p>
+                        <p class="value">${element.distanse} km</p>
+                    </div>
+
+                    <div>
+                        <p class="label">Tempo</p>
+                        <p class="value">${hastighet} min/km</p>
+                    </div>
+
+                    <div>
+                        <p class="label">Varighet</p>
+                        <p class="value">${element.varighet} min</p>
+                    </div>
+
+                </div>
+
+
+                <!-- NOTAT -->
+                <div>
+
+                    <p class="label">Notat</p>
+
+                    <p class="note">
+                        ${element.notat}
+                    </p>
+
+                </div>
+
+
+                <!-- STATS -->
+                <div class="stats">
+
+                    <div>
+                        <p class="label">Puls</p>
+                        <p class="value">${element.gj_snitt_puls} / ${element.maks_puls}</p>
+                    </div>
+
+                    <div>
+                        <p class="label">Innsats</p>
+                        <p class="value">${element.innsats}/10</p>
+                    </div>
+
+                    <div>
+                        <p class="label">XP</p>
+                        <p class="value">${element.xp}</p>
+                    </div>
+
+                </div>
+            `
+        content_container.appendChild(card);
+
+
+        /* --- Legger til stil på kortene basert på informasjon --- */
+
+        const badge = card.querySelector(".badge");
+        const aktivitet_label = card.querySelector(".aktivitet_label");
+
+        if (element.aktivitet == "Sykling") {
+            badge.style.backgroundColor = "rgb(250, 229, 211)";
+            badge.style.color = "brown";
+            aktivitet_label.style.color = "brown";
+        }
+
+        else if (element.aktivitet == "Forebyggende") {
+            badge.style.backgroundColor = "#f9ffb5";
+            badge.style.color = "#8a6b0f";
+            aktivitet_label.style.color = "#8a6b0f";
+        }
+
+        else if (element.aktivitet == "Styrke") {
+            badge.style.backgroundColor = "#ebdff7";
+            badge.style.color = "#581c94";
+            aktivitet_label.style.color = "#581c94";
+        }
+
+        else if (element.aktivitet == "Romaskin") {
+            badge.style.backgroundColor = "#fcc7d6";
+            badge.style.color = "#d12c42";
+            aktivitet_label.style.color = "#d12c42";
+        }
+
+        else if (element.aktivitet == "Svømming") {
+            badge.style.backgroundColor = "#c5f6fa";
+            badge.style.color = "#17727a";
+            aktivitet_label.style.color = "#17727a";
+        }
+
+        else if (element.aktivitet == "Langrenn") {
+            badge.style.backgroundColor = "#eef2ff";
+            badge.style.color = "#4f46e5";
+            aktivitet_label.style.color = "#4f46e5";
+        }
+
+        else if (element.aktivitet == "Ellipse") {
+            badge.style.backgroundColor = "#e9fac8";
+            badge.style.color = "#5c940d";
+            aktivitet_label.style.color = "#5c940d";
+        }
+
+        else if (element.aktivitet == "Annet" || element.aktivitet == "Gåtur") {
+            badge.style.backgroundColor = "#eef1f6";
+            badge.style.color = "#4b5563";
+            aktivitet_label.style.color = "#4b5563";
+        }
+        });
+        }
+        hentData()
+
+
+
+        /* ====================== Henter data fra Studietimer ========================= */
+
+        async function hentData_studie() {              
+            const { data, error } = await supabase 
+                .from('bruker_data_studie')
+                .select('user_id, dato, fagområde, studiemetode, varighet, notater, sted, fokus, xp')
+                .order('dato', { ascending: false })
+
+            const content_container = document.querySelector(".study_container");
+            content_container.innerHTML = "";
+
+            data.forEach(element => {
+                const card = document.createElement("div");
+                card.className = "content_card";
+
+                /*Funksjon som finner ukedag basert på dato*/
+                const dato = new Date(element.dato);
+
+                const ukedag = dato.toLocaleDateString("nb-NO", {
+                    weekday: "long"
+                });
+
+                card.innerHTML = `
+                    <div class="card_top">
+                        <div>
+                            <div class="study_title">
+                                ${element.fagområde}
+                            </div>
+
+                            <div class="study_date">
+                                ${ukedag} • ${element.dato}
+                            </div>
+                        </div>
+
+                        <div class="study_duration">
+                            ${element.varighet}
+                            <span>min</span>
+                        </div>
+
+                    </div>
+
+                    <div class="meta_grid">
+
+                        <div class="meta">
+                            <div class="meta_label">
+                                Studiemetode
+                            </div>
+
+                            <div class="meta_value">
+                                ${element.studiemetode}
+                            </div>
+                        </div>
+
+                        <div class="meta">
+                            <div class="meta_label">
+                                Fokus
+                            </div>
+
+                            <div class="meta_value">
+                                ${element.fokus}/10
+                            </div>
+                        </div>
+
+                        <div class="meta">
+                            <div class="meta_label">
+                                Sted
+                            </div>
+
+                            <div class="meta_value">
+                                ${element.sted}
+                            </div>
+                        </div>
+
+                        <div class="meta">
+                            <div class="meta_label">
+                                XP
+                            </div>
+
+                            <div class="meta_value">
+                                ${element.xp}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+                    <div class="study_notes">
+                        ${element.notater}
+                    </div>
+                `
+                content_container.appendChild(card);
+
+
+                if (element.dato == new Date().toISOString().slice(0, 10)) {
+                    card.style.borderLeft = "2px solid var(--primærfarge)";
+                }
+            });
+        };
+        hentData_studie()
+
+    </script>
+
+    <script src="navigator.js" defer></script>
+    <script type="module" src="../progress.js"></script>
+</body>
+</html>
