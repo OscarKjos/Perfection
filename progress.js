@@ -171,3 +171,31 @@ async function updateProgress(tabell) {
     });
     });
    
+
+
+    /* Hente navn og informasjon fra bruker_data */
+
+    async function hentBruker() {
+    const { data, error } = await supabase
+        .from('bruker_data')
+        .select('user_id, navn, fødselsdato, status');
+
+        data.forEach((element) => {
+            const navn = document.querySelectorAll(".dynamic_name");
+            navn.forEach((names) => {
+                names.innerText = element.navn;
+            })
+
+            const status = document.querySelectorAll(".dynamic_status");
+            status.forEach((stat) => {
+                stat.innerText = element.status;
+            })
+
+            const fødselsdato = document.querySelectorAll(".dynamic_age");
+            fødselsdato.forEach((date) => {
+                date.innerText = element.fødselsdato;
+            })
+        });
+
+    };
+    hentBruker();

@@ -321,8 +321,8 @@ navContainer.innerHTML = `
             <div class="sidebar__profile">
                 <div class="sidebar__avatar dynamic_level">0</div>
                 <div>
-                    <h3 id="name_value1">Anders Høgland</h3>
-                    <p id="klubb_value1">Disiplinert · 18 år</p>
+                    <h3 class="dynamic_name" id="name_value1"></h3>
+                    <p id="klubb_value1"><i class="dynamic_status">-</i> · <i class="dynamic_age">-</i></p>
                 </div>
             </div>
 
