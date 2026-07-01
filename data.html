@@ -355,6 +355,395 @@
                 font-size:0.8rem;
                 line-height:1.4;
             }
+
+
+            /* -- Journal-card -- */
+            .journal_container{
+                display:flex;
+                flex-direction:column;
+                gap:18px;
+                padding:16px;
+                margin-bottom:90px;
+            }
+
+            .content_card{
+                background:white;
+                border:1px solid #e8edf3;
+
+                border-radius:22px;
+
+                padding:20px;
+
+                display:flex;
+                flex-direction:column;
+
+                gap:18px;
+
+                box-shadow:
+                    0 8px 20px rgba(0,0,0,0.04);
+
+                transition:0.25s;
+            }
+
+            .content_card:hover{
+                transform:translateY(-2px);
+
+                box-shadow:
+                    0 14px 28px rgba(0,0,0,0.08);
+            }
+
+            .card_header{
+                display:flex;
+                flex-direction: column;
+            }
+
+            .journal_meta{
+                display:flex;
+
+                flex-direction:column;
+
+                gap:8px;
+            }
+
+            .journal_category{
+                font-weight:700;
+                border-radius:999px;
+                width:fit-content;
+                font-size:1rem;
+                display:flex;
+                flex-direction: row;
+                gap:10px;
+            }
+
+            .journal_date{
+                color:#7a8596;
+
+                font-size:0.95rem;
+            }
+
+            .journal_score{
+                min-width:72px;
+                aspect-ratio:1;
+                border-radius:18px;
+                display:flex;
+                gap:5px;
+                align-items:center;
+                justify-content:center;
+                flex-direction:row;
+                font-weight:800;
+            }
+
+            .journal_score span{
+                font-size:1.5rem;
+                line-height:1;
+            }
+
+            .journal_score small{
+                opacity:.8;
+            }
+
+            .journal_text{
+                line-height:1.8;
+                font-size: 13px;
+                color:#273142;
+                word-break:break-word;
+
+                display: -webkit-box;
+                -webkit-line-clamp: 4;  /* antall linjer */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                white-space: pre-line;
+            }
+
+            .journal_text.BeskShow{
+                display: -webkit-box;
+                -webkit-line-clamp: unset; /* antall linjer */
+                -webkit-box-orient: vertical;
+                overflow: visible;
+            }
+
+            .great_list{
+                display:flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .journal_footer{
+                display:flex;
+
+                justify-content:space-between;
+
+                align-items:center;
+
+                border-top:1px solid #eef1f5;
+
+                padding-top:14px;
+
+                color:#7b8594;
+
+                font-size:0.92rem;
+            }
+
+            .energy{
+                font-weight:600;
+            }
+
+            .xp{
+                color:#2fca87;
+
+                font-weight:700;
+            }
+
+
+            /* -- Work-card -- */
+            .work_container{
+                display:flex;
+                flex-direction:column;
+
+                gap:18px;
+
+                padding:16px;
+
+                margin-bottom:90px;
+            }
+
+            .content_card{
+                background:white;
+
+                border-radius:22px;
+
+                padding:20px;
+
+                border:1px solid #e8edf3;
+
+                display:flex;
+
+                flex-direction:column;
+
+                gap:18px;
+
+                transition:.25s;
+
+                box-shadow:
+                    0 8px 20px rgba(0,0,0,.04);
+            }
+
+            .content_card:hover{
+                transform:translateY(-3px);
+
+                box-shadow:
+                    0 16px 34px rgba(0,0,0,.08);
+            }
+
+            .work_header{
+                display:flex;
+                align-items:flex-start;
+                gap:40px;
+            }
+
+            .work_xp{
+                display:flex;
+                align-items: center;
+                gap:5px;
+            }
+
+            .work_xp_value{
+                font-size:0.9rem;
+                font-weight:800;
+            }
+
+            .work_meta{
+                display:flex;
+
+                flex-direction:column;
+
+                gap:8px;
+            }
+
+            .work_title{
+                font-weight:550;
+
+            }
+
+            .work_category{
+                width:fit-content;
+
+                padding:8px 14px;
+
+                background:#e8fff3;
+
+                color:#2fca87;
+
+                border-radius:999px;
+
+                font-size:.9rem;
+
+                font-weight:700;
+            }
+
+            .work_date{
+                color:#7c8595;
+
+                font-size:.95rem;
+            }
+
+            .work_duration span{
+                font-size:0.9rem;
+                font-weight:800;
+                line-height:1;
+            }
+
+            .work_duration small{
+                opacity:.8;
+            }
+
+            .work_duration_title{
+                color:#6c717a;
+                font-size:0.7rem;
+
+            }
+
+            .work_note{
+                color:#283343;
+
+                line-height:1.8;
+
+                font-size:0.8rem;
+
+                word-break:break-word;
+            }
+
+            .work_footer{
+                display:flex;
+
+                justify-content:space-between;
+
+                align-items:center;
+
+                border-top:1px solid #eef2f7;
+
+                padding-top:14px;
+
+                color:#7c8595;
+
+                font-size:.92rem;
+            }
+
+            .work_focus{
+                font-weight:600;
+            }
+
+            .work_progress{
+                display:flex;
+                align-items:center;
+                gap:5px;
+                font-weight:700;
+            }
+
+
+            /* -- Habits-card -- */
+            .habits_container{
+                display:flex;
+
+                flex-direction:column;
+
+                gap:18px;
+
+                padding:16px;
+
+                margin-bottom:90px;
+            }
+
+            .content_card{
+                background:white;
+
+                border:1px solid #e8edf3;
+
+                border-radius:22px;
+
+                padding:20px;
+
+                display:flex;
+
+                flex-direction:column;
+
+                gap:18px;
+
+                transition:.25s;
+
+                box-shadow:
+                    0 8px 20px rgba(0,0,0,.04);
+            }
+
+            .content_card:hover{
+                transform:translateY(-3px);
+
+                box-shadow:
+                    0 14px 30px rgba(0,0,0,.08);
+            }
+
+            .habit_header{
+                display:flex;
+                flex-direction: column;
+                gap:10px;
+            }
+
+            .habit_meta{
+                display:flex;
+                flex-direction:column;
+                gap:8px;
+            }
+
+            .habit_name{
+                font-size: 20px;
+                font-weight: 700;
+                color:var(--primærfarge);
+            }
+
+            .habit_date{
+                color:#7d8696;
+
+                font-size:.95rem;
+            }
+
+            .habit_note{
+                color:#283343;
+                line-height:1.8;
+                font-size:1rem;
+                display:flex;
+                flex-direction:row;
+                gap:10px;
+                align-items:center;
+            }
+
+            .habit_note_text{
+                font-size:0.8rem;
+                color:#283343;
+                line-height:1.6;
+                background-color: #eff2f5;
+                padding:8px 12px;
+                border-radius: 5px;
+                word-break:break-word;
+                width:100%;
+            }
+
+            .habit_footer{
+                display:flex;
+                gap:60px;
+                align-items:center;
+                border-top:1px solid #eef2f7;
+                padding-top:5px;
+            }
+
+            .habit_status{
+                font-weight:600;
+            }
+
+            .habit_xp{
+                color:#2fca87;
+
+                font-weight:700;
+            }
 </style>
 
 
@@ -569,7 +958,7 @@
 
 
 
-        /* ====================== Henter data fra Studietimer ========================= */
+        /* ====================== Henter data fra bruker_data_studie ========================= */
 
         async function hentData_studie() {              
             const { data, error } = await supabase 
@@ -668,6 +1057,245 @@
             });
         };
         hentData_studie()
+
+
+
+        /* ====================== Henter data fra bruker_data_vaner ========================= */
+
+        async function hentData_vaner() {              
+            const { data, error } = await supabase 
+                .from('bruker_data_vaner')
+                .select('user_id, dato, vane, verdi, enhet, notat, xp')
+                .order('dato', { ascending: false })
+
+            const content_container = document.querySelector(".habits_container");
+            content_container.innerHTML = "";
+
+            data.forEach(element => {
+                const card = document.createElement("div");
+                card.className = "content_card";
+
+                /*Funksjon som finner ukedag basert på dato*/
+                const dato = new Date(element.dato);
+
+                const ukedag = dato.toLocaleDateString("nb-NO", {
+                    weekday: "long"
+                });
+
+                card.innerHTML = `
+                <div class="habit_header">
+
+                    <div class="habit_meta">
+
+                        <span class="habit_name">
+                            ${element.vane}
+                        </span>
+
+                        <span class="habit_date">
+                            ${ukedag} • ${element.dato}
+                        </span>
+
+                    </div>
+
+                    <div class="habit_footer">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <div>
+                                <p class="work_duration_title">Verdi</p>
+                            <div class="work_duration">
+                                <span class="habit_number">${element.verdi}</span>
+                                <small>${element.enhet || ""}</small>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="work_xp">
+                            <i class="fa-solid fa-bolt"></i>
+                            <div>
+                                <p class="work_duration_title">XP</p>
+                                <p class="work_xp_value">+${element.xp || 0}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="habit_note">
+                    <i class="fa-regular fa-rectangle-list"></i>
+                    <p style="font-size:0.8rem;">Notat</p>
+                    <p class="habit_note_text">${element.notat}</p>
+                </div>
+            `
+                if(element.verdi == "true"){
+                    card.querySelector(".habit_number").innerText = "✔";
+                }
+
+                content_container.appendChild(card);
+            
+            });
+        };
+        hentData_vaner()
+
+
+        /* ====================== Henter data fra bruker_data_journal ========================= */
+
+        async function hentData_journal() {              
+            const { data, error } = await supabase 
+                .from('bruker_data_journal')
+                .select('user_id, dato, kategori, takknemlig_1, takknemlig_2, takknemlig_3, refleksjon, energi, rate, xp, tittel')
+                .order('dato', { ascending: false })
+
+            const content_container = document.querySelector(".journal_container");
+            content_container.innerHTML = "";
+
+            data.forEach(element => {
+                const card = document.createElement("div");
+                card.className = "content_card";
+
+                /*Funksjon som finner ukedag basert på dato*/
+                const dato = new Date(element.dato);
+
+                const ukedag = dato.toLocaleDateString("nb-NO", {
+                    weekday: "long"
+                });
+
+                card.innerHTML = `
+                    <div class="card_header">
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <span class="journal_category">
+                                ${element.kategori} -
+                                <p>${element.tittel}</p>
+                            </span>
+
+                            <span class="journal_date">
+                                ${ukedag} • ${element.dato}
+                            </span>
+                        </div>
+                        
+                        <div class="journal_text">
+                            ${element.refleksjon || "Ingen refleksjon skrevet"}
+                        </div>
+                    </div>
+                
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <p class="label">Takknemlig for</p>
+                    <div class="great_list">
+                        <p class="note">
+                            1. ${element.takknemlig_1 || "-"}
+                        </p>
+                        <p class="note">
+                            2. ${element.takknemlig_2 || "-"}
+                        </p>
+                        <p class="note">
+                            3. ${element.takknemlig_3 || "-"}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="journal_footer">
+
+                    <div class="energy">
+                        Energi: ${element.energi || "-"}
+                    </div>
+
+                    <div class="xp">
+                        +${element.xp || 0} XP
+                    </div>
+
+                </div>
+                `
+
+                const journal = card.querySelector(".journal_text");
+
+                card.addEventListener("click", () => {
+                    journal.classList.toggle("BeskShow");
+                });
+
+                content_container.appendChild(card);
+            });
+        };
+        hentData_journal()
+
+
+        /* ====================== Henter data fra bruker_data_produktvitet ========================= */
+
+        async function hentData_produktvitet() {              
+            const { data, error } = await supabase 
+                .from('bruker_data_produktivitet')
+                .select('user_id, dato, fokus, varighet, kategori, notat, fremgang, xp, tittel')
+                .order('dato', { ascending: false })
+
+            const content_container = document.querySelector(".work_container");
+            content_container.innerHTML = "";
+
+            data.forEach(element => {
+                const card = document.createElement("div");
+                card.className = "content_card";
+
+                /*Funksjon som finner ukedag basert på dato*/
+                const dato = new Date(element.dato);
+
+                const ukedag = dato.toLocaleDateString("nb-NO", {
+                    weekday: "long"
+                });
+
+                card.innerHTML = `
+                <div class="work_meta">
+
+                        <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="work_category">
+                            ${element.kategori}
+                        </span>
+                            <p class="work_title">${element.tittel}</p>
+                        </div>
+
+                        <span class="work_date">
+                            ${ukedag} • ${element.dato}
+                        </span>
+
+                    </div>
+
+                <div class="work_header">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="fa-regular fa-clock"></i>
+                        <div>
+                            <p class="work_duration_title">Varighet</p>
+                        <div class="work_duration">
+                            <span>${element.varighet}</span>
+                            <small>min</small>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="work_xp">
+                        <i class="fa-solid fa-bolt"></i>
+                        <div>
+                            <p class="work_duration_title">XP</p>
+                            <p class="work_xp_value">+${element.xp || 0}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work_note">
+                    ${element.notat || "Ingen notat skrevet"}
+                </div>
+
+                <div class="work_footer">
+
+                    <div class="work_focus">
+                        Fokus: ${element.fokus || "-"}
+                    </div>
+
+                    <div class="work_progress">
+                        <p class="work_progress_title">Fremgang:</p>
+                        <p>${element.fremgang || 0}0 %</p>
+                    </div>
+
+                </div>
+            `
+                content_container.appendChild(card);
+            });
+        };
+        hentData_produktvitet()
 
     </script>
 

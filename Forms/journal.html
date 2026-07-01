@@ -318,6 +318,11 @@
         </div>
 
         <div class="field">
+            <label>Tittel</label>
+            <input id="tittel_value" type="text" placeholder="En fantastisk opplevelse" maxlength="30" required>
+        </div>
+
+        <div class="field">
             <div style="display:flex; justify-content: space-between;">
                 <label>Refleksjon & Tanker</label>
                 <label>Antall Tegn: <i>0</i></label>
@@ -645,7 +650,7 @@
             
             // Placeholder for XP calculation logic
             const point = document.getElementById("active_point");
-            point.innerHTML = (letters / 10).toFixed(1);
+            point.innerHTML = (letters / 50).toFixed(1);
 
         });
     </script>
@@ -674,12 +679,13 @@
         const takknemlig1 = document.getElementById("takknemlig_1").value;
         const takknemlig2 = document.getElementById("takknemlig_2").value;
         const takknemlig3 = document.getElementById("takknemlig_3").value;
+        const tittel = document.getElementById("tittel_value").value;
 
         const XP = document.getElementById("active_point").innerHTML;
         
         const { error } = await supabase
                 .from('bruker_data_journal')
-                .insert([{ user_id:user.id, dato:Dato, kategori:localStorage.getItem("kategori"), takknemlig_1:takknemlig1, takknemlig_2:takknemlig2, takknemlig_3:takknemlig3, refleksjon:Refleksjon, energi:Energi, rate:localStorage.getItem("dagscore"), xp:XP,}])
+                .insert([{ user_id:user.id, dato:Dato, kategori:localStorage.getItem("kategori"), takknemlig_1:takknemlig1, takknemlig_2:takknemlig2, takknemlig_3:takknemlig3, refleksjon:Refleksjon, energi:Energi, rate:localStorage.getItem("dagscore"), xp:XP, tittel:tittel }])
 
             if (error) {
                 Submit.innerText = "Noe gikk galt";

@@ -237,16 +237,16 @@
             <label>Fokus / Energi</label>
             <select id="fokus_value" required>
                 <option value="" selected disabled hidden>Velg...</option>
-                    <option>1 - Svært dårlig</option>
-                    <option>2 - Dårlig</option>
-                    <option>3 - Distrahert</option>
-                    <option>4 - Normal</option>
-                    <option>5 - Greit</option>
-                    <option>6 - Bra</option>
-                    <option>7 - Godt fokus</option>
-                    <option>8 - Veldig fokusert</option>
-                    <option>9 - Nesten flyt</option>
-                    <option>10 - Full flyt</option>
+                    <option>1</option> <!-- - Svært dårlig -->
+                    <option>2</option>  <!-- - Dårlig -->
+                    <option>3</option>  <!-- - Distrahert -->
+                    <option>4</option> <!-- - Normal -->
+                    <option>5</option> <!-- - Greit -->
+                    <option>6</option> <!-- - Bra -->
+                    <option>7</option> <!-- - Godt fokus -->
+                    <option>8</option> <!-- - Veldig fokusert -->
+                    <option>9</option> <!-- - Nesten flyt -->
+                    <option>10</option> <!-- - Full flyt -->
             </select>
         </div>
     </div>
@@ -340,6 +340,11 @@
                 <div class="button"><i class="fa-solid fa-paintbrush"></i>Kreativt</div>
                 <div class="button"><i class="fa-brands fa-sistrix"></i>Research</div>
             </div>
+        </div>
+
+        <div class="field">
+            <label>Tittel / Tema</label>
+            <input id="tema_value" placeholder="Mikrovaner - James Clear" maxlength="30">
         </div>
 
         <div class="field">
@@ -611,10 +616,11 @@
         const Notat = document.getElementById("notat_value").value;
         const Innsats = document.getElementById("innsats_value").value;
         const Fokus = document.getElementById("fokus_value").value;
+        const Tema  = document.getElementById("tema_value").value;
                 
         const { error } = await supabase
                 .from('bruker_data_produktivitet')
-                .insert([{ user_id:user.id, dato:Dato, fokus:Fokus, kategori:localStorage.getItem("kategori"), varighet:localStorage.getItem("diff"), notat:Notat, fremgang:Innsats, xp:localStorage.getItem("totalxp"),}])
+                .insert([{ user_id:user.id, dato:Dato, fokus:Fokus, kategori:localStorage.getItem("kategori"), varighet:localStorage.getItem("diff"), notat:Notat, fremgang:Innsats, xp:localStorage.getItem("totalxp"), tittel:Tema}])
 
             if (error) {
                 Submit.innerText = "Noe gikk galt";
