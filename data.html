@@ -193,16 +193,31 @@
         }
 
         .content_card{
-            background:white;
-            border:1px solid #e7eaf1;
-            border-radius:14px;
-
-            padding:14px;
+            background-color: white;
+            border:1px solid #e8edf3;
+            border-radius:22px;
+            padding:20px;
             display:flex;
             flex-direction:column;
-            gap:14px;
+            gap:18px;
+            transition:.25s;
+            box-shadow:
+                0 8px 20px rgba(0,0,0,.04);
+        }
 
-            box-shadow:0 6px 18px rgba(17,24,39,.05);
+        .content_card:hover{
+            transform:translateY(-3px);
+
+            box-shadow:
+                0 14px 30px rgba(0,0,0,.08);
+        }
+
+        .utforming{
+            background-image: url(Bilder/utforming.png);
+            background-size: cover;
+            background-position: top;
+            width: 100%;
+            overflow: hidden;
         }
 
         p{
@@ -240,7 +255,7 @@
 
         .badge{
             background:#c7fcce;
-            color: #17727a;
+            color: #123d39;
 
             padding:8px 10px;
             border-radius:8px;
@@ -281,25 +296,6 @@
 
 
         /* -- Studie-card -- */
-            .content_card{
-                background: white;
-                border-radius: 22px;
-                padding: 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-
-                border: 1px solid #e8edf2;
-
-                box-shadow:
-                    0 6px 24px rgba(15,23,42,0.06);
-
-                transition: 0.2s;
-            }
-
-            .content_card:hover{
-                transform: translateY(-2px);
-            }
 
             .card_top{
                 display:flex;
@@ -359,37 +355,10 @@
 
             /* -- Journal-card -- */
             .journal_container{
-                display:flex;
                 flex-direction:column;
                 gap:18px;
                 padding:16px;
                 margin-bottom:90px;
-            }
-
-            .content_card{
-                background:white;
-                border:1px solid #e8edf3;
-
-                border-radius:22px;
-
-                padding:20px;
-
-                display:flex;
-                flex-direction:column;
-
-                gap:18px;
-
-                box-shadow:
-                    0 8px 20px rgba(0,0,0,0.04);
-
-                transition:0.25s;
-            }
-
-            .content_card:hover{
-                transform:translateY(-2px);
-
-                box-shadow:
-                    0 14px 28px rgba(0,0,0,0.08);
             }
 
             .card_header{
@@ -406,19 +375,40 @@
             }
 
             .journal_category{
-                font-weight:700;
+                font-weight:500;
                 border-radius:999px;
                 width:fit-content;
                 font-size:1rem;
                 display:flex;
                 flex-direction: row;
                 gap:10px;
+                align-items:center;
+                border-bottom: 1px solid #eef1f5;
+                padding-bottom: 5px;
+            }
+
+            .journal_badge{
+                background: #c7fcce;
+                color: #123d39;
+                padding: 5px 10px;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 700;
+                text-decoration: none;
             }
 
             .journal_date{
                 color:#7a8596;
+                font-size:0.8rem;
+                text-decoration: none;
+                font-weight: lighter;
+            }
 
-                font-size:0.95rem;
+            .journal_title{
+                color:#010101;
+                font-size:1.2rem;
+                line-height:1.2;
+                width:80%;
             }
 
             .journal_score{
@@ -470,17 +460,10 @@
 
             .journal_footer{
                 display:flex;
-
                 justify-content:space-between;
-
                 align-items:center;
-
                 border-top:1px solid #eef1f5;
-
                 padding-top:14px;
-
-                color:#7b8594;
-
                 font-size:0.92rem;
             }
 
@@ -497,7 +480,6 @@
 
             /* -- Work-card -- */
             .work_container{
-                display:flex;
                 flex-direction:column;
 
                 gap:18px;
@@ -507,44 +489,22 @@
                 margin-bottom:90px;
             }
 
-            .content_card{
-                background:white;
-
-                border-radius:22px;
-
-                padding:20px;
-
-                border:1px solid #e8edf3;
-
-                display:flex;
-
-                flex-direction:column;
-
-                gap:18px;
-
-                transition:.25s;
-
-                box-shadow:
-                    0 8px 20px rgba(0,0,0,.04);
-            }
-
-            .content_card:hover{
-                transform:translateY(-3px);
-
-                box-shadow:
-                    0 16px 34px rgba(0,0,0,.08);
-            }
-
             .work_header{
                 display:flex;
                 align-items:flex-start;
-                gap:40px;
+                justify-content: space-between;
             }
 
             .work_xp{
                 display:flex;
                 align-items: center;
                 gap:5px;
+            }
+
+            .work_xp div{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
             }
 
             .work_xp_value{
@@ -605,12 +565,11 @@
 
             .work_note{
                 color:#283343;
-
                 line-height:1.8;
-
                 font-size:0.8rem;
-
                 word-break:break-word;
+                padding-top:10px;
+                border-top: 1px solid #eef2f7;
             }
 
             .work_footer{
@@ -629,6 +588,47 @@
                 font-size:.92rem;
             }
 
+.progress-container{
+    position:relative;
+    width:90px;
+    height:90px;
+}
+
+svg{
+    width:100%;
+    height:100%;
+    transform:rotate(-90deg);
+}
+
+circle{
+    fill:none;
+    stroke-width:12;
+}
+
+.background{
+    stroke:#e4e7eb;
+}
+
+.progress{
+    stroke:var(--primary-color);
+    stroke-linecap:round;
+    transition:stroke-dashoffset .8s ease;
+}
+
+.content{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.content small{
+    font-weight:lighter;
+    font-size:0.8rem;
+}
+
             .work_focus{
                 font-weight:600;
             }
@@ -638,48 +638,32 @@
                 align-items:center;
                 gap:5px;
                 font-weight:700;
+                background-color: #f5f6fa;
+                border-radius: 10px;
+            }
+
+            .work_progress p{
+                font-size:.5rem;
+                color:white;
+                font-weight:600;
+                margin-left:5px;
+
+            }
+
+            .work_progress_bar{
+                width:40%;
+                height:10px;
+                background-color: var(--primary-color);
+                border-radius: 10px;
             }
 
 
             /* -- Habits-card -- */
             .habits_container{
-                display:flex;
-
                 flex-direction:column;
-
                 gap:18px;
-
                 padding:16px;
-
                 margin-bottom:90px;
-            }
-
-            .content_card{
-                background:white;
-
-                border:1px solid #e8edf3;
-
-                border-radius:22px;
-
-                padding:20px;
-
-                display:flex;
-
-                flex-direction:column;
-
-                gap:18px;
-
-                transition:.25s;
-
-                box-shadow:
-                    0 8px 20px rgba(0,0,0,.04);
-            }
-
-            .content_card:hover{
-                transform:translateY(-3px);
-
-                box-shadow:
-                    0 14px 30px rgba(0,0,0,.08);
             }
 
             .habit_header{
@@ -813,7 +797,7 @@
 
         data.forEach(element => {
             const card = document.createElement("div");
-            card.className = "content_card";
+            card.className = "content_card utforming";
 
             /*Funksjon som finner ukedag basert på dato*/
             const dato = new Date(element.dato);
@@ -867,13 +851,9 @@
 
                 <!-- NOTAT -->
                 <div>
-
-                    <p class="label">Notat</p>
-
                     <p class="note">
                         ${element.notat}
                     </p>
-
                 </div>
 
 
@@ -1049,11 +1029,6 @@
                     </div>
                 `
                 content_container.appendChild(card);
-
-
-                if (element.dato == new Date().toISOString().slice(0, 10)) {
-                    card.style.borderLeft = "2px solid var(--primærfarge)";
-                }
             });
         };
         hentData_studie()
@@ -1160,15 +1135,45 @@
 
                 card.innerHTML = `
                     <div class="card_header">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
                         <div style="display: flex; flex-direction: column; gap: 4px;">
                             <span class="journal_category">
-                                ${element.kategori} -
-                                <p>${element.tittel}</p>
+                                <u class="journal_badge">${element.kategori}</u>
+                                <u class="journal_date">${ukedag} • ${element.dato}</u>
                             </span>
 
-                            <span class="journal_date">
-                                ${ukedag} • ${element.dato}
+                            <span class="journal_title">
+                                <p>${element.tittel}</p>
                             </span>
+                        </div>
+
+
+                        <div class="work_focus" style="display:flex; flex:1;">
+                        <div class="progress-container">
+                            <svg viewBox="0 0 200 200">
+
+                                <circle
+                                    class="background"
+                                    cx="100"
+                                    cy="100"
+                                    r="80">
+                                </circle>
+
+                                <circle
+                                    class="progress"
+                                    cx="100"
+                                    cy="100"
+                                    r="80">
+                                </circle>
+                            </svg>
+
+                        <div class="content">
+                            <small>Energi</small>
+                            <div class="value" id="value">${element.energi || "-"}<u style="font-size: 0.8rem; margin-left: 2px; text-decoration: none; font-weight: lighter;">/10</u></div>
+                        </div>
+                        </div>
+                        </div>
+
                         </div>
                         
                         <div class="journal_text">
@@ -1194,15 +1199,33 @@
                 <div class="journal_footer">
 
                     <div class="energy">
-                        Energi: ${element.energi || "-"}
+                        Se statisikk fra dagen 
                     </div>
 
-                    <div class="xp">
-                        +${element.xp || 0} XP
+                    <div class="work_xp">
+                        <i class="fa-solid fa-bolt"></i>
+                        <div>
+                            <p class="work_duration_title">XP</p>
+                            <p class="work_xp_value">+${element.xp || 0}</p>
+                        </div>
                     </div>
 
                 </div>
                 `
+
+                const verdi = element.energi || 0;
+                const maks = 10;
+                const prosent = verdi / maks;
+                const radius = 80;
+                const circumference = 2 * Math.PI * radius;
+
+                // Hent progress-sirkelen i dette kortet
+                const progressCircle = card.querySelector(".progress");
+                progressCircle.style.strokeDasharray = circumference;
+                const offset = circumference * (1 - prosent);
+                progressCircle.style.strokeDashoffset = offset;
+
+                /* -- Ny Seksjon -- */
 
                 const journal = card.querySelector(".journal_text");
 
@@ -1255,6 +1278,34 @@
                     </div>
 
                 <div class="work_header">
+                    <div class="work_focus" style="display:flex; flex:1;">
+                        <div class="progress-container">
+                            <svg viewBox="0 0 200 200">
+
+                                <circle
+                                    class="background"
+                                    cx="100"
+                                    cy="100"
+                                    r="80">
+                                </circle>
+
+                                <circle
+                                    class="progress"
+                                    cx="100"
+                                    cy="100"
+                                    r="80">
+                                </circle>
+                            </svg>
+
+                            <div class="content">
+                                <small>Fokus</small>
+                                <div class="value" id="value">${element.fokus || "-"}<u style="font-size: 0.8rem; margin-left: 2px; text-decoration: none; font-weight: lighter;">/10</u></div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div style="display:flex; flex-direction:column; gap:15px; flex:2;">
+                <div style="display:flex; flex-direction:row; gap:20px;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <i class="fa-regular fa-clock"></i>
                         <div>
@@ -1274,24 +1325,43 @@
                         </div>
                     </div>
                 </div>
+                
+                    <div>
+                    <p style="margin-bottom: 5px;" class="work_duration_title">Fremgang: </p>
+                    <div class="work_progress">
+                        <div class="work_progress_bar">
+                        </div>
+                    </div>
+                    <div>
+                </div>
+
+            </div>
 
                 <div class="work_note">
-                    ${element.notat || "Ingen notat skrevet"}
-                </div>
-
-                <div class="work_footer">
-
-                    <div class="work_focus">
-                        Fokus: ${element.fokus || "-"}
-                    </div>
-
-                    <div class="work_progress">
-                        <p class="work_progress_title">Fremgang:</p>
-                        <p>${element.fremgang || 0}0 %</p>
-                    </div>
-
+                    ${element.notat}
                 </div>
             `
+
+                if (element.notat === "") {
+                    card.querySelector(".work_note").style.display = "none";
+                }
+
+                const work_progress_bar = card.querySelector(".work_progress_bar");
+                work_progress_bar.style.width = `${element.fremgang || 0}0%`;
+
+
+                const verdi = element.fokus || 0;
+                const maks = 10;
+                const prosent = verdi / maks;
+                const radius = 80;
+                const circumference = 2 * Math.PI * radius;
+
+                // Hent progress-sirkelen i dette kortet
+                const progressCircle = card.querySelector(".progress");
+                progressCircle.style.strokeDasharray = circumference;
+                const offset = circumference * (1 - prosent);
+                progressCircle.style.strokeDashoffset = offset;
+
                 content_container.appendChild(card);
             });
         };

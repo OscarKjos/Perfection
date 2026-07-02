@@ -132,22 +132,28 @@ async function updateProgress(tabell) {
 
 
     function xpForDate(number, prog, numb) {
-    const date = new Date();
-    let todayXP = 0;
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() - number);
 
-    allData.forEach(element => {
-        const datoSB = new Date(element.dato);
-        if(datoSB.getDate() == date.getDate()-number){
-            const xp = Number(element.xp)
-            todayXP += xp
+        let todayXP = 0;
 
-            const progress = document.getElementById(prog)
-            progress.style.height = `${todayXP}%`
+        allData.forEach(element => {
+            const datoSB = new Date(element.dato);
 
-            const lable = document.getElementById(numb)
-            lable.innerText = todayXP
-        }
-    });
+            if (
+                datoSB.getFullYear() === targetDate.getFullYear() &&
+                datoSB.getMonth() === targetDate.getMonth() &&
+                datoSB.getDate() === targetDate.getDate()
+            ) {
+                todayXP += Number(element.xp);
+            }
+        });
+
+        const progress = document.getElementById(prog);
+        progress.style.height = `${todayXP}%`;
+
+        const label = document.getElementById(numb);
+        label.innerText = todayXP;
     }
     //* Lager en XP profil fra de 7 siste dagene
     xpForDate(0, "prog1", "one_lable"); /* Dagens XP */

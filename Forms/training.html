@@ -466,19 +466,19 @@
         };
         aktivitet.addEventListener("change", () => {
             if (aktivitet.value === "Løping")
-                oppdaterAlternativ("Løping","Rolig økt","Intervall","Langtur","Oppvarming","Nedjogg","Konkurranse");
+                oppdaterAlternativ("Løping","Rolig økt","Intervall","Langtur","Oppvarming","Nedjogg","Stevne");
 
             else if (aktivitet.value === "Styrke")
                 oppdaterAlternativ("Styrke","Underkropp","Overkropp","Fullkropp","empty","empty","empty");
 
             else if (aktivitet.value === "Sykling")
-                oppdaterAlternativ("Sykling","Intervaller","Langtur","Tempoøkt","Konkurranse","Transport","empty");
+                oppdaterAlternativ("Sykling","Intervaller","Langtur","Tempoøkt","Stevne","Transport","empty");
 
             else if (aktivitet.value === "Svømming")
                 oppdaterAlternativ("Svømming","Aquajogg","Kråling","Bryst","Rygg","empty","empty");
 
             else if (aktivitet.value === "Langrenn")
-                oppdaterAlternativ("Langrenn","Rolig økt","Intervall","Langøkt","Tempoøkt","Konkurranse","empty");
+                oppdaterAlternativ("Langrenn","Rolig økt","Intervall","Langøkt","Tempoøkt","Stevne","empty");
 
             else if (aktivitet.value === "Forebyggende")
                 oppdaterAlternativ("Forebyggende","Mobilitet","Uttøying","Foam Roler","Øvelser","empty","empty");
