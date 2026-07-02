@@ -1199,7 +1199,7 @@ circle{
 
         const row = document.createElement("tr");
         row.innerHTML = `
-                <td>${element.dato}</td>
+                <td class="nameDate">${element.dato}</td>
                 <td class="aktivitet_extra">${element.aktivitet}</td>
                 <td>${element.type}</td>
                 <td>${element.varighet} min</td>
@@ -1212,6 +1212,11 @@ circle{
                 <td>${element.xp}</td>
         `;
 
+        if (element.dato == new Date().toISOString().split("T")[0]) {
+            const nameDate = row.querySelector(".nameDate");
+            nameDate.innerHTML = "Today";
+        }
+    
         function changeActivityColor(aktivitet_value, bakgrunnsfarge, textfarge) {
             if (element.aktivitet == aktivitet_value) {
                 const aktivitet_extra = row.querySelector(".aktivitet_extra");
@@ -1223,9 +1228,9 @@ circle{
         changeActivityColor("Sykling", "rgb(250, 229, 211)", "brown");
         changeActivityColor("Forebyggende", "#f9ffb5", "#8a6b0f");
         changeActivityColor("Styrke", "#ebdff7", "#581c94");
-        changeActivityColor("Romaskin", "#fcc7d6", "#d12c42");
+        changeActivityColor("Romaskin", "#ffe3bf", "#b45309");   // Lys rav/oransje
+        changeActivityColor("Langrenn", "#dbeafe", "#1d4ed8");
         changeActivityColor("Svømming", "#c5f6fa", "#17727a");
-        changeActivityColor("Langrenn", "#eef2ff", "#4f46e5");
         changeActivityColor("Ellipse", "#e9fac8", "#5c940d");
         changeActivityColor("Annet", "#eef1f6", "#4b5563");
         changeActivityColor("Gåtur", "#eef1f6", "#4b5563");
@@ -1335,8 +1340,8 @@ circle{
 
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                        <td>${element.dato}</td>
-                         <td>${element.fagområde}</td>
+                        <td class="nameDate">${element.dato}</td>
+                        <td>${element.fagområde}</td>
                         <td>${element.studiemetode}</td>
                         <td>${element.varighet} min</td>
                         <td>${element.fokus}/10</td>
@@ -1344,6 +1349,11 @@ circle{
                         <td>${element.xp}</td>
                 `;
                 dynamic.appendChild(row);
+
+                if (element.dato == new Date().toISOString().split("T")[0]) {
+                    const nameDate = row.querySelector(".nameDate");
+                    nameDate.innerHTML = "Today";
+                }
             });
         };
         hentData_studie()
@@ -1428,7 +1438,7 @@ circle{
 
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                        <td>${element.dato}</td>
+                        <td class="nameDate">${element.dato}</td>
                         <td class="aktivitet_extra">${element.vane}</td>
                         <td>${element.verdi}</td>
                         <td>${element.enhet || "-"}</td>
@@ -1436,11 +1446,29 @@ circle{
                 `;
                 dynamic.appendChild(row);
 
-                if (element.vane == "Kalddusj") {
-                    const aktivitet_extra = row.querySelector(".aktivitet_extra");
-                    aktivitet_extra.style.backgroundColor = "#baf5f7";
-                    aktivitet_extra.style.color = "#0f4142";
+                if (element.dato == new Date().toISOString().split("T")[0]) {
+                    const nameDate = row.querySelector(".nameDate");
+                    nameDate.innerHTML = "Today";
                 }
+
+                function getHabitDetailValues(vane, bakgrunnsfarge, textfarge) {
+                    if (element.vane == vane) {
+                        const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                        aktivitet_extra.style.backgroundColor = bakgrunnsfarge;
+                        aktivitet_extra.style.color = textfarge;
+                    }
+                }
+                getHabitDetailValues("Kalddusj", "#baf5f7", "#0f4142");
+                getHabitDetailValues("Resengen", "#92d050", "white");
+                getHabitDetailValues("Vitaminer", "#f7b5b5", "white");
+                getHabitDetailValues("Skrittmål", "#f7c8a1", "#0f4142");
+                getHabitDetailValues("Søvn", "#dda1f7", "#0f4142");
+                getHabitDetailValues("Meditasjon", "#f7c8a1", "#0f4142");
+                getHabitDetailValues("Vanntilførsel", "#f7c8a1", "#0f4142");
+                getHabitDetailValues("Kaloriinntak", "#f7c8a1", "#0f4142");
+                getHabitDetailValues("Mealpreap", "#f7c8a1", "#0f4142");
+                getHabitDetailValues("Proteintilskudd", "#f7c8a1", "#0f4142");
+                getHabitDetailValues("BodyBattery", "#f7c8a1", "#0f4142");
             });
         };
         hentData_vaner()
@@ -1577,7 +1605,7 @@ circle{
 
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                        <td>${element.dato}</td>
+                        <td class="nameDate">${element.dato}</td>
                         <td>${element.kategori}</td>
                         <td>${element.tittel}</td>
                         <td>${element.energi}</td>
@@ -1587,6 +1615,11 @@ circle{
                         <td>${element.xp}</td>
                 `;
                 dynamic.appendChild(row);
+
+                if (element.dato == new Date().toISOString().split("T")[0]) {
+                    const nameDate = row.querySelector(".nameDate");
+                    nameDate.innerHTML = "Today";
+                }
             });
         };
         hentData_journal()
@@ -1724,7 +1757,7 @@ circle{
 
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                        <td>${element.dato}</td>
+                        <td class="nameDate">${element.dato}</td>
                         <td class="aktivitet_extra">${element.kategori}</td>
                         <td>${element.tittel}</td>
                         <td>${element.varighet}</td>
@@ -1733,18 +1766,29 @@ circle{
                         <td>${element.xp}</td>
                 `;
 
-                if (element.kategori === "Kode / Bygg") {
-                    const aktivitet_extra = row.querySelector(".aktivitet_extra");
-                    aktivitet_extra.style.backgroundColor = "#b9d158";
-                    aktivitet_extra.style.color = "white";
+                if (element.dato == new Date().toISOString().split("T")[0]) {
+                    const nameDate = row.querySelector(".nameDate");
+                    nameDate.innerHTML = "Today";
                 }
 
-                else if (element.kategori === "Lesing") {
-                    const aktivitet_extra = row.querySelector(".aktivitet_extra");
-                    aktivitet_extra.style.backgroundColor = "#d15858";
-                    aktivitet_extra.style.color = "white";
+                 function changeColorOfProductivity(aktivitet_value, bakgrunnsfarge, textfarge) {
+                    if (element.kategori == aktivitet_value) {
+                        const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                        aktivitet_extra.style.backgroundColor = bakgrunnsfarge;
+                        aktivitet_extra.style.color = textfarge;
+                    }
                 }
-
+                changeColorOfProductivity("Kode / Bygg", "#b9d158", "white"); 
+                changeColorOfProductivity("Lesing", "#d15858", "white");
+                changeColorOfProductivity("Språk", "#FF9800", "white");            // Oransje
+                changeColorOfProductivity("Dyp fokus", "#6A1B9A", "white");        // Mørk lilla
+                changeColorOfProductivity("Planlegging", "#009688", "white");      // Teal
+                changeColorOfProductivity("Skriving", "#795548", "white");         // Brun
+                changeColorOfProductivity("Prosjekt", "#E91E63", "white");         // Rosa
+                changeColorOfProductivity("Video / Kurs", "#F44336", "white");     // Rød
+                changeColorOfProductivity("Instrument", "#FFC107", "black");       // Gul
+                changeColorOfProductivity("Kreativt", "#9C27B0", "white");         // Lilla
+                changeColorOfProductivity("Research", "#2196F3", "white");         // Blå
 
                 dynamic.appendChild(row);
             });
@@ -1752,6 +1796,22 @@ circle{
         hentData_produktvitet()
 
     </script>
+
+    <style>
+        @media (min-width:450px){
+            .contDisp{
+                width:100%;
+                display:flex;
+                flex-direction:row;
+                gap:15px;
+                flex-wrap:wrap;
+            }
+
+            .utforming{
+                width:32.3%;
+            }
+        }
+    </style>
     <script src="navigator.js" defer></script>
     <script type="module" src="../progress.js"></script>
 </body>
