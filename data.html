@@ -67,7 +67,7 @@
             padding:0 42px 0 40px;
             background-color: #f6f8fb;
             border:#e7eaf1 solid 1px;
-            border-radius: 10px;
+            border-radius: 14px 0px 0px 14px;
             width:100%;
             font-size: 16px;
             box-sizing: border-box;
@@ -152,6 +152,16 @@
             border-color:var(--primary-color);
             outline:none;
         }
+
+        .nanobtn{
+            padding:13.4px;
+            border-radius:0px 10px 10px 0px;
+            background-color: #f8fafc;
+            border:solid 1px #e2e6f0;
+            color:#374151;
+            cursor:pointer;
+            transition:background 0.16s, border-color 0.16s, color 0.16s;
+        }
     </style>
 
 </head>
@@ -159,12 +169,16 @@
 
     <section id="section_part">
         <div id="search_top_bar">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="search_relative">
                 <input id="søksfelt" type="search" placeholder="Søk i aktiviteter">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <button id="clear_search" type="button" aria-label="Tøm søkefelt">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
+            </div>
+            <i id="filter_btn" class="fa-solid fa-table-list nanobtn"></i>
+            <i id="layer_btn" class="fa-solid fa-layer-group nanobtn"></i>
             </div>
             
             <div id="top_bar_alternative" aria-label="Filtrer aktiviteter">
@@ -728,14 +742,231 @@ circle{
 
                 font-weight:700;
             }
+
+            .tableGroup{
+                display:none;
+                flex-direction: column;
+                width:100%;
+                padding:12px;
+                margin-bottom:85px;
+                overflow-x:auto;
+                scrollbar-width:thin;
+            }
+
+            .main_table{
+                border-collapse:separate;
+                border-spacing:0;
+                background:white;
+                border:1px solid #e8edf3;
+                border-radius:14px;
+                overflow:hidden;
+                box-shadow:0 8px 24px rgba(17,24,39,0.06);
+                font-size:13px;
+
+                width: max-content;
+                min-width: 100%;
+                border-collapse: separate;
+                border-spacing:7px;
+                table-layout:auto;
+            }
+
+            .main_table thead{
+                background:#f6f8fb;
+            }
+
+            .main_table th,
+            .main_table td{
+                padding:10px;
+                text-align:left;
+                border-bottom:1px solid #edf1f6;
+                white-space:nowrap;
+            }
+
+            .main_table th{
+                color:#667085;
+                font-size:11px;
+                font-weight:700;
+                text-transform:uppercase;
+            }
+
+            .main_table td{
+                color:#273142;
+                font-weight:500;
+            }
+
+            .main_table tbody tr:hover{
+                background:#f9fbfd;
+            }
+
+            .main_table tbody tr:last-child td{
+                border-bottom:none;
+            }
+
+            .main_table td:last-child{
+                color:#2fca87;
+                font-weight:800;
+            }
+
+            #layer_btn{
+                display:none;
+            }
+
+            .aktivitet_extra{
+                border-radius: 10px;
+            }
 </style>
 
 
 <main class="content_container contDisp"></main>
+    <main class="content_table tableGroup contDisp">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Dato</th>
+                    <th>Aktivitet</th>
+                    <th>Type</th>
+                    <th>Varighet</th>
+                    <th>Distanse</th>
+                    <th>Tempo</th>
+                    <th>Gj. Puls</th>
+                    <th>Maks Puls</th>
+                    <th>Innsats</th>
+                    <th>Ukedag</th>
+                    <th>XP</th>
+                </tr>
+            </thead>
+            <tbody class="dynamic_training_table">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+<!-- -- Study Container -- -->
 <main class="study_container contDisp"></main>
+    <main class="study_table tableGroup contDisp">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Dato</th>
+                    <th>Fagområde</th>
+                    <th>Studiemetode</th>
+                    <th>Varighet</th>
+                    <th>Sted</th>
+                    <th>Fokus</th>
+                    <th>XP</th>
+                </tr>
+            </thead>
+            <tbody class="dynamic_study_table">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+
+<!-- -- Productivity Container -- -->
 <main class="work_container contDisp"></main>
+    <main class="work_table tableGroup contDisp">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Dato</th>
+                    <th>Kategori</th>
+                    <th>Tittel</th>
+                    <th>Varighet</th>
+                    <th>Fremgang</th>
+                    <th>Fokus</th>
+                    <th>XP</th>
+                </tr>
+            </thead>
+            <tbody class="dynamic_work_table">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+
+<!-- -- Habits Container -- -->
 <main class="habits_container contDisp"></main>
+    <main class="habits_table tableGroup contDisp">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Dato</th>
+                    <th>Aktivitet</th>
+                    <th>Verdi</th>
+                    <th>Enhet</th>
+                    <th>XP</th>
+                </tr>
+            </thead>
+            <tbody class="dynamic_habits_table">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+
+<!-- -- Journal Container -- -->
 <main class="journal_container contDisp"></main>
+    <main class="journal_table tableGroup contDisp">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Dato</th>
+                    <th>Aktivitet</th>
+                    <th>Tittel</th>
+                    <th>Energi</th>
+                    <th>1.</th>
+                    <th>2.</th>
+                    <th>3.</th>
+                    <th>XP</th>
+                </tr>
+            </thead>
+            <tbody class="dynamic_journal_table">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        const filter = document.getElementById("filter_btn");
+        const layer = document.getElementById("layer_btn");
+
+        if (localStorage.getItem("filter") === "true") {
+            document.querySelectorAll(".contDisp").forEach(cont => {
+                cont.style.display = "none";
+            });
+
+            document.querySelector(".content_table").style.display = "flex";
+            layer.style.display = "flex";
+            filter.style.display = "none";
+        }
+
+        filter.addEventListener("click", () => {
+            localStorage.setItem("filter", "true");
+
+            document.querySelectorAll(".contDisp").forEach(cont => {
+                cont.style.display = "none";
+            });
+
+            document.querySelector(".content_table").style.display = "flex";
+
+            layer.style.display = "flex";
+            filter.style.display = "none";
+        })
+
+        layer.addEventListener("click", () => {
+            localStorage.setItem("filter", "false");
+
+            document.querySelectorAll(".contDisp").forEach(cont => {
+                cont.style.display = "none";
+            });
+
+            document.querySelector(".content_container").style.display = "flex";
+
+            layer.style.display = "none";
+            filter.style.display = "flex";
+        })
+    </script>
 
 
     <script>
@@ -759,15 +990,43 @@ circle{
 
                 if (button.classList.contains("active")) {
                     if (button.innerText === "Trening") {
-                        showCont(document.querySelector(".content_container"));
+                        if (localStorage.getItem("filter") === "true") {
+                            showCont(document.querySelector(".content_table"));
+                        }
+                        else {
+                            showCont(document.querySelector(".content_container"));
+                        }
                     } else if (button.innerText === "Studie") {
-                        showCont(document.querySelector(".study_container"));
+                        if (localStorage.getItem("filter") === "true") {
+                            showCont(document.querySelector(".study_table"));
+                        }
+                        else {
+                            showCont(document.querySelector(".study_container"));
+                        }
                     } else if (button.innerText === "Arbeid") {
-                        showCont(document.querySelector(".work_container"));
+                        
+                        if (localStorage.getItem("filter") === "true") {
+                            showCont(document.querySelector(".work_table"));
+                        }
+                        else {
+                            showCont(document.querySelector(".work_container"));
+                        }
                     } else if (button.innerText === "Vaner") {
-                        showCont(document.querySelector(".habits_container"));
+
+                        if (localStorage.getItem("filter") === "true") {
+                            showCont(document.querySelector(".habits_table"));
+                        }
+                        else {
+                            showCont(document.querySelector(".habits_container"));
+                        }
                     } else if (button.innerText === "Journal") {
-                        showCont(document.querySelector(".journal_container"));
+
+                        if (localStorage.getItem("filter") === "true") {
+                            showCont(document.querySelector(".journal_table"));
+                        }
+                        else {
+                            showCont(document.querySelector(".journal_container"));
+                        }
                     }
                 }
             });
@@ -932,6 +1191,46 @@ circle{
             badge.style.color = "#4b5563";
             aktivitet_label.style.color = "#4b5563";
         }
+
+
+        /* --- Danner tabell-struktur for alternativ visning --- */
+
+        const dynamic = document.querySelector(".dynamic_training_table");
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${element.dato}</td>
+                <td class="aktivitet_extra">${element.aktivitet}</td>
+                <td>${element.type}</td>
+                <td>${element.varighet} min</td>
+                <td>${element.distanse} km</td>
+                <td>${hastighet} min/km</td>
+                <td>${element.gj_snitt_puls}</td>
+                <td>${element.maks_puls}</td>
+                <td>${element.innsats}/10</td>
+                <td>${ukedag}</td>
+                <td>${element.xp}</td>
+        `;
+
+        function changeActivityColor(aktivitet_value, bakgrunnsfarge, textfarge) {
+            if (element.aktivitet == aktivitet_value) {
+                const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                aktivitet_extra.style.backgroundColor = bakgrunnsfarge;
+                aktivitet_extra.style.color = textfarge;
+            }
+        }
+        changeActivityColor("Løping", "#58d19d", "white");
+        changeActivityColor("Sykling", "rgb(250, 229, 211)", "brown");
+        changeActivityColor("Forebyggende", "#f9ffb5", "#8a6b0f");
+        changeActivityColor("Styrke", "#ebdff7", "#581c94");
+        changeActivityColor("Romaskin", "#fcc7d6", "#d12c42");
+        changeActivityColor("Svømming", "#c5f6fa", "#17727a");
+        changeActivityColor("Langrenn", "#eef2ff", "#4f46e5");
+        changeActivityColor("Ellipse", "#e9fac8", "#5c940d");
+        changeActivityColor("Annet", "#eef1f6", "#4b5563");
+        changeActivityColor("Gåtur", "#eef1f6", "#4b5563");
+       
+        dynamic.appendChild(row);
         });
         }
         hentData()
@@ -951,7 +1250,7 @@ circle{
 
             data.forEach(element => {
                 const card = document.createElement("div");
-                card.className = "content_card";
+                card.className = "content_card utforming";
 
                 /*Funksjon som finner ukedag basert på dato*/
                 const dato = new Date(element.dato);
@@ -1029,6 +1328,22 @@ circle{
                     </div>
                 `
                 content_container.appendChild(card);
+                
+                /* --- Danner tabell-struktur for alternativ visning --- */
+
+                const dynamic = document.querySelector(".dynamic_study_table");
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${element.dato}</td>
+                         <td>${element.fagområde}</td>
+                        <td>${element.studiemetode}</td>
+                        <td>${element.varighet} min</td>
+                        <td>${element.fokus}/10</td>
+                        <td>${element.sted}</td>
+                        <td>${element.xp}</td>
+                `;
+                dynamic.appendChild(row);
             });
         };
         hentData_studie()
@@ -1048,7 +1363,7 @@ circle{
 
             data.forEach(element => {
                 const card = document.createElement("div");
-                card.className = "content_card";
+                card.className = "content_card utforming";
 
                 /*Funksjon som finner ukedag basert på dato*/
                 const dato = new Date(element.dato);
@@ -1105,7 +1420,27 @@ circle{
                 }
 
                 content_container.appendChild(card);
-            
+
+
+                /* --- Danner tabell-struktur for alternativ visning --- */
+
+                const dynamic = document.querySelector(".dynamic_habits_table");
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${element.dato}</td>
+                        <td class="aktivitet_extra">${element.vane}</td>
+                        <td>${element.verdi}</td>
+                        <td>${element.enhet || "-"}</td>
+                        <td>${element.xp}</td>
+                `;
+                dynamic.appendChild(row);
+
+                if (element.vane == "Kalddusj") {
+                    const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                    aktivitet_extra.style.backgroundColor = "#baf5f7";
+                    aktivitet_extra.style.color = "#0f4142";
+                }
             });
         };
         hentData_vaner()
@@ -1124,7 +1459,7 @@ circle{
 
             data.forEach(element => {
                 const card = document.createElement("div");
-                card.className = "content_card";
+                card.className = "content_card utforming";
 
                 /*Funksjon som finner ukedag basert på dato*/
                 const dato = new Date(element.dato);
@@ -1234,6 +1569,24 @@ circle{
                 });
 
                 content_container.appendChild(card);
+
+
+                /* --- Danner tabell-struktur for alternativ visning --- */
+
+                const dynamic = document.querySelector(".dynamic_journal_table");
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${element.dato}</td>
+                        <td>${element.kategori}</td>
+                        <td>${element.tittel}</td>
+                        <td>${element.energi}</td>
+                        <td>${element.takknemlig_1}</td>
+                        <td>${element.takknemlig_2}</td>
+                        <td>${element.takknemlig_3}</td>
+                        <td>${element.xp}</td>
+                `;
+                dynamic.appendChild(row);
             });
         };
         hentData_journal()
@@ -1252,7 +1605,7 @@ circle{
 
             data.forEach(element => {
                 const card = document.createElement("div");
-                card.className = "content_card";
+                card.className = "content_card utforming";
 
                 /*Funksjon som finner ukedag basert på dato*/
                 const dato = new Date(element.dato);
@@ -1363,6 +1716,37 @@ circle{
                 progressCircle.style.strokeDashoffset = offset;
 
                 content_container.appendChild(card);
+
+
+                /* --- Danner tabell-struktur for alternativ visning --- */
+
+                const dynamic = document.querySelector(".dynamic_work_table");
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${element.dato}</td>
+                        <td class="aktivitet_extra">${element.kategori}</td>
+                        <td>${element.tittel}</td>
+                        <td>${element.varighet}</td>
+                        <td>${element.fremgang}</td>
+                        <td>${element.fokus}</td>
+                        <td>${element.xp}</td>
+                `;
+
+                if (element.kategori === "Kode / Bygg") {
+                    const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                    aktivitet_extra.style.backgroundColor = "#b9d158";
+                    aktivitet_extra.style.color = "white";
+                }
+
+                else if (element.kategori === "Lesing") {
+                    const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                    aktivitet_extra.style.backgroundColor = "#d15858";
+                    aktivitet_extra.style.color = "white";
+                }
+
+
+                dynamic.appendChild(row);
             });
         };
         hentData_produktvitet()
