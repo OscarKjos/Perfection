@@ -14,9 +14,9 @@
     <meta name="robots" content="index, follow">
 
     <!-- Ikoner for ulike enheter -->
-    <link rel="icon" type="image/png" sizes="32x32" href="logo_webb.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="logo_webb.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="logo_webb.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="Bilder/ikoner/logo_webb.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="Bilder/ikoner/logo_webb.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Bilder/ikoner/logo_webb.png">
 
     <!-- PWA / mobil optimalisering -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -336,8 +336,8 @@
             display: flex;
             flex-direction: column;
             width:100%;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             background-color: white;
             border-radius: 16px;
             padding:12px;
@@ -396,21 +396,27 @@
             text-overflow:ellipsis;
         }
 
-        #diagram_input{
-            width:70px;
-            height:25px;
+        .diagram_select{
+            min-width:118px;
+            height:32px;
+            padding:0 30px 0 10px;
             border:1px solid #e4e4ec;
             border-radius:10px;
-            background:var(--white);
+            background:
+                linear-gradient(45deg, transparent 50%, var(--primary-color) 50%) right 13px center / 6px 6px no-repeat,
+                linear-gradient(135deg, var(--primary-color) 50%, transparent 50%) right 8px center / 6px 6px no-repeat,
+                var(--white);
             color:var(--text-color);
-            font-size:.85rem;
+            font-size:.78rem;
             font-weight:600;
-            text-align:center;
             outline:none;
             box-shadow:0 2px 6px rgba(0,0,0,0.03);
+            appearance:none;
+            -webkit-appearance:none;
+            cursor:pointer;
         }
 
-        #diagram_input:focus{
+        .diagram_select:focus{
             border-color:var(--primary-color);
             box-shadow:0 0 0 3px rgba(0,176,121,0.12);
         }
@@ -450,7 +456,7 @@
             background-color: var(--primary-color);
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
-            width:100%;
+            width:110%;
         }
 
         #prog1{
@@ -492,7 +498,11 @@
                 <div class="diagram-title-icon"><i class="fa-solid fa-chart-simple"></i></div>
                 <p>XP-utvikling</p>
             </div>
-            <input id="diagram_input" type="number" placeholder="Dager" min="1" max="7" value="7">
+            <select class="diagram_select">
+                <option value="week">Siste 7 dager</option>
+                <option value="month">Siste 30 dager</option>
+                <option value="year">Siste 365 dager</option>
+            </select>
         </div>
         <div id="diagram_card">
             <div class="rutenett">
@@ -547,15 +557,121 @@
         </div>
     </section>
 
+
+    <style>
+        .picture_grid{
+            width:100%;
+            padding:14px;
+            background:var(--white);
+            border-radius:16px 16px 0px 0px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            margin-top:15px;
+        }
+
+        .picture_grid__header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            margin-bottom:12px;
+        }
+
+        .picture_grid__title{
+            color:var(--text-color);
+            font-size:.95rem;
+            font-weight:700;
+            margin:0;
+        }
+
+        .picture_grid__link{
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            color:var(--primary-color);
+            font-size:.76rem;
+            font-weight:700;
+            margin:0;
+        }
+
+        .picture_grid__items{
+            display:grid;
+            grid-template-columns:repeat(4, minmax(0, 1fr));
+            gap:4px;
+            overflow:hidden;
+            border-radius:10px;
+        }
+
+        .picture_grid__items img,
+        .picture_grid__upload{
+            width:100%;
+            aspect-ratio:1 / 1;
+            border:0;
+            padding:0;
+            border-radius:0;
+            display:block;
+            background:#f1f1f6;
+        }
+
+        .picture_grid__items img{
+            object-fit:cover;
+        }
+
+        .picture_grid__upload{
+            cursor:pointer;
+            color:var(--primary-color);
+            background:#f4fbf8;
+            border:1px dashed rgba(0,176,121,0.35);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+        }
+
+        .picture_grid__upload i{
+            width:30px;
+            height:30px;
+            border-radius:50%;
+            background:#e6f9ef;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.95rem;
+        }
+
+        .picture_grid__upload span{
+            color:var(--primary-color);
+            font-size:.68rem;
+            font-weight:700;
+        }
+
+    </style>
+
+    <section class="picture_grid">
+        <div class="picture_grid__header">
+            <p class="picture_grid__title">Opplastet media</p>
+            <p class="picture_grid__link">Vis alle <i class="fa-solid fa-arrow-right"></i></p>
+        </div>
+
+        <div class="picture_grid__items">
+            <img src="Bilder/Image.jpg">
+            <img src="Bilder/Image2.jpg">
+            <img src="Bilder/image3.png">
+            <button class="picture_grid__upload" type="button" aria-label="Last opp bilde">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Last opp</span>
+            </button>
+        </div>
+    </section>
+
     <!-- --------------------------- Life Card (Antall dager igjen) -------------------------------- -->
     <style>
         .life-card{
             width:100%;
             padding:14px;
             background:var(--white);
-            border-radius:16px;
+            border-radius:0px 0px 16px 16px;
             box-shadow:0 4px 10px rgba(0,0,0,0.05);
-            margin-top:20px;
             display:flex;
             align-items:center;
             justify-content:space-between;
@@ -643,11 +759,629 @@
         </div>
     </section>
 
+
+    <style>
+        .area_of_life{
+            width:100%;
+            padding:10px;
+            background:var(--white);
+            border-radius:14px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            margin-top:15px;
+            display:grid;
+            grid-template-columns:repeat(6, minmax(0, 1fr));
+            gap:8px;
+        }
+
+        .area_of_life__card{
+            min-height:72px;
+            padding:8px;
+            border:1px solid #f0f0f4;
+            border-radius:10px;
+            background:#fbfbfd;
+            display:grid;
+            grid-template-rows:auto 1fr;
+            gap:6px;
+        }
+
+        .area_of_life__top > i{
+            width:26px;
+            height:26px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.78rem;
+        }
+
+        .area_of_life__card:nth-of-type(1) .area_of_life__top > i{
+            background:#e6f9ef;
+            color:var(--primary-color);
+        }
+
+        .area_of_life__card:nth-of-type(1),
+        .area_of_life__card:nth-of-type(2){
+            grid-column:span 3;
+        }
+
+        .area_of_life__card:nth-of-type(2) .area_of_life__top > i{
+            background:#e8f4ff;
+            color:#3382c8;
+        }
+
+        .area_of_life__card:nth-of-type(3) .area_of_life__top > i{
+            background:#fff6d8;
+            color:#d9a51f;
+        }
+
+        .area_of_life__card:nth-of-type(4) .area_of_life__top > i{
+            background:#f0e9ff;
+            color:#7b55d9;
+        }
+
+        .area_of_life__card:nth-of-type(5){
+            min-height:68px;
+        }
+
+        .area_of_life__card:nth-of-type(3),
+        .area_of_life__card:nth-of-type(4),
+        .area_of_life__card:nth-of-type(5){
+            grid-column:span 2;
+        }
+
+        .area_of_life__card:nth-of-type(5) .area_of_life__top > i{
+            background:#e6f9ef;
+            color:var(--primary-color);
+        }
+
+        .area_of_life span{
+            display:flex;
+            flex-direction:column;
+            gap:2px;
+            min-width:0;
+        }
+
+        .area_of_life p{
+            margin:0;
+        }
+
+        .area_of_life span p:first-child{
+            color:var(--text-color);
+            font-size:.72rem;
+            font-weight:700;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .area_of_life span p:last-child{
+            color:var(--subtext-color);
+            font-size:.58rem;
+            font-weight:600;
+        }
+
+        .area_of_life__top{
+            display:flex;
+            align-items:center;
+            gap:7px;
+        }
+
+        .area_of_life__count{
+            align-self:end;
+            justify-self:end;
+            color:var(--text-color);
+            font-size:1.35rem;
+            line-height:1;
+            font-weight:800;
+            letter-spacing:0;
+        }
+
+        .area_of_life__card:nth-of-type(1) .area_of_life__count{
+            color:var(--primary-color);
+        }
+
+        .area_of_life__card:nth-of-type(2) .area_of_life__count{
+            color:#3382c8;
+        }
+
+        .area_of_life__card:nth-of-type(3) .area_of_life__count{
+            color:#d9a51f;
+        }
+
+        .area_of_life__card:nth-of-type(4) .area_of_life__count{
+            color:#7b55d9;
+        }
+
+        .area_of_life__card:nth-of-type(5) .area_of_life__count{
+            color:var(--primary-color);
+        }
+
+        .area_of_life__total{
+            grid-column:1 / -1;
+            min-height:28px;
+            padding:6px 8px;
+            border:1px solid rgba(0,176,121,0.12);
+            border-radius:999px;
+            background:#e6f9ef;
+            display:flex;
+            flex-direction:row;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+        }
+
+        .area_of_life__total-label{
+            color:var(--primary-color);
+            font-size:.66rem;
+            font-weight:700;
+            white-space:nowrap;
+        }
+
+        .area_of_life__total-track{
+            flex:1;
+            height:4px;
+            border-radius:999px;
+            background:rgba(0,176,121,0.16);
+            overflow:hidden;
+        }
+
+        .area_of_life__total-fill{
+            display:block;
+            width:0%;
+            height:100%;
+            border-radius:inherit;
+            background:var(--primary-color);
+        }
+
+        .area_of_life__total-count{
+            color:var(--primary-color);
+            font-size:.78rem;
+            line-height:1;
+            font-weight:800;
+            white-space:nowrap;
+        }
+    </style>
+
+
+    <section class="area_of_life">
+        <div class="area_of_life__card">
+            <div class="area_of_life__top">
+                <i class="fa-solid fa-running"></i>
+                <span>
+                    <p>Trening</p>
+                    <p>aktiviteter</p>
+                </span>
+            </div>
+            <p class="area_of_life__count" id="training_counter">0</p>
+        </div>
+
+        <div class="area_of_life__card">
+            <div class="area_of_life__top">
+                <i class="fa-solid fa-pen"></i>
+                <span>
+                    <p>Journal</p>
+                    <p>aktiviteter</p>
+                </span>
+            </div>
+            <p class="area_of_life__count" id="journal_counter">0</p>
+        </div>
+
+        <div class="area_of_life__card">
+            <div class="area_of_life__top">
+                <i class="fa-solid fa-book-open"></i>
+                <span>
+                    <p>Studietimer</p>
+                    <p>aktiviteter</p>
+                </span>
+            </div>
+            <p class="area_of_life__count" id="study_counter">0</p>
+        </div>
+
+        <div class="area_of_life__card">
+            <div class="area_of_life__top">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>
+                    <p>Arbeidstid</p>
+                    <p>aktiviteter</p>
+                </span>
+            </div>
+            <p class="area_of_life__count" id="work_counter">0</p>
+        </div>
+
+        <div class="area_of_life__card">
+            <div class="area_of_life__top">
+                <i class="fa-solid fa-list-check"></i>
+                <span>
+                    <p>Vaner</p>
+                    <p>aktiviteter</p>
+                </span>
+            </div>
+            <p class="area_of_life__count" id="habit_counter">0</p>
+        </div>
+
+        <div class="area_of_life__total">
+            <p class="area_of_life__total-label">Totalt registrert</p>
+            <div class="area_of_life__total-track">
+                <span class="area_of_life__total-fill"></span>
+            </div>
+            <p class="area_of_life__total-count" id="total_counter">0</p>
+        </div>
+    </section>
+
+    <style>
+        .dagsrapport{
+            width:100%;
+            padding:14px;
+            background:var(--white);
+            border-radius:16px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            margin-top:20px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+        }
+
+        .dagsrapport__content{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            min-width:0;
+        }
+
+        .dagsrapport__icon{
+            width:34px;
+            height:34px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.95rem;
+            flex-shrink:0;
+        }
+
+        .dagsrapport__text{
+            min-width:0;
+        }
+
+        .dagsrapport__title{
+            color:var(--text-color);
+            font-size:.9rem;
+            font-weight:700;
+            margin:0;
+        }
+
+        .dagsrapport__description{
+            color:var(--subtext-color);
+            font-size:.72rem;
+            line-height:1.35;
+            margin:3px 0 0 0;
+        }
+
+        .dagsrapport__button{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+            min-height:34px;
+            padding:0 12px;
+            border-radius:999px;
+            background:var(--primary-color);
+            color:white;
+            font-size:.78rem;
+            font-weight:700;
+            text-decoration:none;
+            flex-shrink:0;
+            box-shadow:0 4px 10px rgba(0,176,121,0.18);
+        }
+
+        .dagsrapport__button:active{
+            transform:scale(.98);
+        }
+    </style>
+
+    <section class="dagsrapport">
+        <div class="dagsrapport__content">
+            <div class="dagsrapport__icon"><i class="fa-solid fa-clipboard-list"></i></div>
+            <div class="dagsrapport__text">
+                <p class="dagsrapport__title">Dagens rapport</p>
+                <p class="dagsrapport__description">Se status for dagens registreringer.</p>
+            </div>
+        </div>
+
+        <a id="half_filter" class="dagsrapport__button">Åpne<i class="fa-solid fa-arrow-right"></i></a>
+    </section>
+
+    <style>
+        #open_filter{
+            position: fixed;
+            inset:0;
+            left:0;
+            z-index:500;
+            display:flex;
+            align-items:flex-end;
+            justify-content:center;
+            background:rgba(17,24,39,0.32);
+            opacity:0;
+            pointer-events: none;
+            transition:opacity .22s ease;
+        }
+
+        #open_filter.open_now{
+            pointer-events: all;
+            opacity:1;
+        }
+
+        .open_filter__sheet{
+            width:100%;
+            max-width:520px;
+            max-height:82dvh;
+            padding:10px 14px 40px 14px;
+            background:var(--white);
+            border-radius:20px 20px 0 0;
+            box-shadow:0 -10px 30px rgba(0,0,0,0.14);
+            transform:translateY(105%);
+            transition:transform .28s cubic-bezier(.22,.9,.24,1);
+            overflow:auto;
+        }
+
+        #open_filter.open_now .open_filter__sheet{
+            transform:translateY(0);
+        }
+
+        .open_filter__handle{
+            width:42px;
+            height:4px;
+            border-radius:999px;
+            background:#d8d8df;
+            margin:0 auto 14px auto;
+        }
+
+        .open_filter__header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            margin-bottom:12px;
+            margin-left:15px;
+        }
+
+        .open_filter__title{
+            display:flex;
+            flex-direction:column;
+            gap:2px;
+            min-width:0;
+        }
+
+        .open_filter__title h3{
+            color:var(--text-color);
+            font-size:1rem;
+            font-weight:700;
+            margin:0;
+        }
+
+        .open_filter__title p{
+            color:var(--subtext-color);
+            font-size:.74rem;
+            line-height:1.35;
+            margin:0;
+        }
+
+        .open_filter__close{
+            width:34px;
+            height:34px;
+            border:0;
+            border-radius:50%;
+            background:#f3f3f7;
+            color:var(--text-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            flex-shrink:0;
+        }
+
+        .open_filter__close:active{
+            transform:scale(.96);
+        }
+
+         .todolist{
+            width:100%;
+            padding:14px;
+            background:var(--white);
+            border-radius:16px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            margin-top:20px;
+        }
+
+        .open_filter__sheet .todolist{
+            margin-top:0;
+        }
+
+        .todolist h4{
+            color:var(--text-color);
+            font-size:.95rem;
+            font-weight:700;
+            margin:0 0 12px 0;
+        }
+
+        .todolist > div{
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+        }
+
+        .todolist > div > div{
+            display:grid;
+            grid-template-columns:32px minmax(0, 1fr) auto;
+            align-items:center;
+            gap:10px;
+            min-height:44px;
+            padding:8px 0;
+            border-top:1px solid #f0f0f4;
+        }
+
+        .todolist > div > div:first-child{
+            border-top:0;
+        }
+
+        .todolist > div > div > i{
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.9rem;
+        }
+
+        .todolist p{
+            margin:0;
+        }
+
+        .todolist > div > div > p:first-of-type{
+            color:var(--text-color);
+            font-size:.86rem;
+            font-weight:600;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .todolist > div > div > p:last-child{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:5px;
+            min-width:76px;
+            padding:5px 8px;
+            border-radius:999px;
+            background:#fff6eb;
+            color:#ecac66;
+            font-size:.72rem;
+            font-weight:700;
+        }
+
+        .todolist > div > div > p:last-child .fa-check{
+            font-size:.72rem;
+        }
+
+        .todolist > div > div > p:last-child .fa-circle{
+            font-size:.62rem;
+        }
+    </style>
+
+    <section id="open_filter">
+        <div class="open_filter__sheet">
+            <div class="open_filter__handle"></div>
+
+            <div class="open_filter__header">
+                <div class="open_filter__title">
+                    <h3>Dagens rapport</h3>
+                    <p>Se status for dagens registreringer.</p>
+                </div>
+                <button id="close_filter" class="open_filter__close" type="button" aria-label="Lukk rapport">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <section class="todolist">
+            <div style="height: 45vh; overflow-y: scroll;">
+                <div>
+                    <i class="fa-solid fa-dumbbell" style="background:#D9F7E8; color:#198754;"></i>
+                    <p>Trening registrert</p>
+                    <p id="training_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-bed" style="background:#F2F3F5; color:#6C757D;"></i>
+                    <p>Sengen redd opp</p>
+                    <p id="re_sengen_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-capsules" style="background:#FFF4CC; color:#B8860B;"></i>
+                    <p>Vitaminer tatt</p>
+                    <p id="vitaminer_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-glass-water" style="background:#D8F4FF; color:#0D6EFD;"></i>
+                    <p>Vanntilførsel</p>
+                    <p id="water_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-moon" style="background:#E8E1FF; color:#6F42C1;"></i>
+                    <p>Søvn registrert</p>
+                    <p id="søvn_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-book-open" style="background:#FFE8CC; color:#D97706;"></i>
+                    <p>Journal skrevet</p>
+                    <p id="journal_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-spa" style="background:#DDF8F0; color:#0F766E;"></i>
+                    <p>Meditasjon utført</p>
+                    <p id="meditasjon_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-bottle-droplet" style="background:#FFE5E5; color:#DC3545;"></i>
+                    <p>Proteintilskudd</p>
+                    <p id="protein_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-briefcase" style="background:#E3F2FD; color:#1565C0;"></i>
+                    <p>Arbeid registrert</p>
+                    <p id="work_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-graduation-cap" style="background:#F3E8FF; color:#7E22CE;"></i>
+                    <p>Studie registrert</p>
+                    <p id="study_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+            </div>
+            </section>
+        </div>
+    </section>
+
+    <script>
+        const half_filter = document.getElementById("half_filter");
+        const close_filter = document.getElementById("close_filter");
+        const open_filter = document.getElementById("open_filter");
+
+        half_filter.addEventListener("click", () => {
+            open_filter.classList.toggle("open_now");
+        });
+
+        close_filter.addEventListener("click", () => {
+            open_filter.classList.remove("open_now");
+        });
+
+        open_filter.addEventListener("click", (event) => {
+            if (event.target === open_filter) {
+                open_filter.classList.remove("open_now");
+            }
+        });
+    </script>
+
     </main>
 </body>
 
     <script src="navigator.js" defer></script>
     <script type="module" src="progress.js"></script>
+    <script type="module" src="module.js"></script>
+
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
     

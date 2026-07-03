@@ -239,3 +239,12 @@ async function updateProgress(tabell) {
 
     };
     hentBruker();
+
+
+
+    async function hentXP() {
+        const { data, error } = await supabase
+        .from('bruker_data')
+        .select('xp');
+    }
+    hentXP();
