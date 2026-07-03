@@ -137,10 +137,11 @@
         body{
             background:var(--background-color);
             font-family:Arial,sans-serif;
-            min-height:100vh;
+            min-height:100dvh;
             margin:0px;
             display:grid;
             grid-template-rows:50px fit-content(100%) auto;
+            padding-bottom: 100px;
         }
 
         .card{
@@ -159,8 +160,8 @@
         .circle{
             --progress:0%;     /* Denne må byttes ut med dynmisk verdi */
 
-            width:100px;
-            height:100px;
+            width:102px;
+            height:102px;
             border-radius:50%;
             background:conic-gradient(
                 var(--primary-color) 0% var(--progress),
@@ -323,7 +324,7 @@
         <div class="stat-section">
             <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
             <div class="stat-info">
-                <div class="stat-value">0%</div>
+                <div class="stat-value" id="dynamic_progress">0 %</div>
                 <div class="stat-label">Progress</div>
             </div>
         </div>
@@ -333,26 +334,85 @@
     <style>
         #diagram_grid{
             display: flex;
+            flex-direction: column;
             width:100%;
-            gap:16px;
             margin-top: 20px;
             margin-bottom: 20px;
+            background-color: white;
+            border-radius: 16px;
+            padding:12px;
+            gap:5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         #diagram_card{
             width:100%;
-            min-height: 160px;
-            height: auto;
+            min-height: 170px;
+            height: 170px;
             background: white;
             border-radius: 16px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 
             display:flex;
             justify-content: space-evenly;
             transform: rotate(180deg);
-            z-index: -100;
             position: relative;
+        }
+
+        .diagram-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            width:100%;
+        }
+
+        .diagram-title{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            min-width:0;
+        }
+
+        .diagram-title-icon{
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.85rem;
+            flex-shrink:0;
+        }
+
+        .diagram-title p{
+            color:var(--text-color);
+            font-size:.9rem;
+            font-weight:700;
+            margin:0;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        #diagram_input{
+            width:70px;
+            height:25px;
+            border:1px solid #e4e4ec;
+            border-radius:10px;
+            background:var(--white);
+            color:var(--text-color);
+            font-size:.85rem;
+            font-weight:600;
+            text-align:center;
+            outline:none;
+            box-shadow:0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        #diagram_input:focus{
+            border-color:var(--primary-color);
+            box-shadow:0 0 0 3px rgba(0,176,121,0.12);
         }
 
         .rutenett{
@@ -427,6 +487,13 @@
     <!-- -------------------------------- Diagram (Km per uke) ------------------------------------- -->
 
     <section id="diagram_grid">
+        <div class="diagram-header">
+            <div class="diagram-title">
+                <div class="diagram-title-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                <p>XP-utvikling</p>
+            </div>
+            <input id="diagram_input" type="number" placeholder="Dager" min="1" max="7" value="7">
+        </div>
         <div id="diagram_card">
             <div class="rutenett">
                 <div class="line"></div>
@@ -437,39 +504,142 @@
             </div>
 
             <div class="progress_max">
+                <p id="first_day_lable">Today</p>
                 <div id="prog1" class="progress_true"></div>
                 <p id="one_lable">0</p>
             </div>
 
             <div class="progress_max">
+                <p id="second_day_lable">-</p>
                 <div id="prog2" class="progress_true"></div>
                 <p id="two_lable">0</p>
             </div>
 
             <div class="progress_max">
+                <p id="third_day_lable">-</p>
                 <div id="prog3" class="progress_true"></div>
                 <p id="three_lable">0</p>
             </div>
 
             <div class="progress_max">
+                <p id="fourth_day_lable">-</p>
                 <div id="prog4" class="progress_true"></div>
                 <p id="four_lable">0</p>
             </div>
 
             <div class="progress_max">
+                <p id="fifth_day_lable">-</p>
                 <div id="prog5" class="progress_true"></div>
                 <p id="five_lable">0</p>
             </div>
 
             <div class="progress_max">
+                <p id="sixth_day_lable">-</p>
                 <div id="prog6" class="progress_true"></div>
                 <p id="six_lable">0</p>
             </div>
 
             <div class="progress_max">
+                <p id="seventh_day_lable">-</p>
                 <div id="prog7" class="progress_true"></div>
                 <p id="seven_lable">0</p>
             </div>
+        </div>
+    </section>
+
+    <!-- --------------------------- Life Card (Antall dager igjen) -------------------------------- -->
+    <style>
+        .life-card{
+            width:100%;
+            padding:14px;
+            background:var(--white);
+            border-radius:16px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            margin-top:20px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+        }
+
+        .life-card__content{
+            display:flex;
+            flex-direction:column;
+            gap:5px;
+            min-width:0;
+        }
+
+        .life-card__header{
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .life-icon{
+            width:26px;
+            height:26px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.85rem;
+        }
+
+        .life-card:hover{
+            box-shadow:0 6px 14px rgba(0,0,0,0.07);
+        }
+
+        .life-title{
+            font-size:.9rem;
+            color:var(--text-color);
+            margin:0;
+            font-weight:700;
+        }
+
+        .life-description{
+            color:var(--subtext-color);
+            font-size:.72rem;
+            line-height:1.35;
+            margin:0;
+        }
+
+        .dynamic_dead{
+            font-size:1.7rem;
+            font-weight:700;
+            color:var(--text-color);
+            line-height:1;
+            margin:0;
+        }
+
+        .days-label{
+            margin:2px 0 0 0;
+            color:var(--subtext-color);
+            font-size:.7rem;
+            text-align:right;
+        }
+
+        .life-card__number{
+            display:flex;
+            flex-direction:column;
+            align-items:flex-end;
+            flex-shrink:0;
+        }
+    </style>
+
+    <section class="life-card">
+        <div class="life-card__content">
+            <div class="life-card__header">
+                <div class="life-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <h2 class="life-title">Dager igjen</h2>
+            </div>
+            <p class="life-description">Basert på en forventet levealder på <strong id="dynamic_levealder">- år</strong>.</p>
+        </div>
+
+        <div class="life-card__number">
+            <p class="dynamic_dead">-- ---</p>
+            <p class="days-label">dager</p>
         </div>
     </section>
 

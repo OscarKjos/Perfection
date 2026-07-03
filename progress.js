@@ -60,6 +60,7 @@ async function updateProgress(tabell) {
 
     //*Formel for å beregne prosentandel til neste nivå
     const xp_prosent = Math.round((nåværende_xp / xp_differanse) * 100)
+    document.getElementById("dynamic_progress").innerHTML = xp_prosent+" %";
     console.log("Prosentandel: "+xp_prosent +" %")
 
 
@@ -131,11 +132,14 @@ async function updateProgress(tabell) {
 
 
 
-    function xpForDate(number, prog, numb) {
+    function xpForDate(number, prog, numb, weekday) {
         const targetDate = new Date();
         targetDate.setDate(targetDate.getDate() - number);
 
         let todayXP = 0;
+
+        const dager = ["Søn","Man","Tir","Ons","Tor","Fre","Lør"];
+        let ukedag_per_søyle = dager[targetDate.getDay()];
 
         allData.forEach(element => {
             const datoSB = new Date(element.dato);
@@ -149,6 +153,10 @@ async function updateProgress(tabell) {
             }
         });
 
+        if (weekday) {
+            document.getElementById(weekday).innerText = ukedag_per_søyle;
+        }
+
         const progress = document.getElementById(prog);
         progress.style.height = `${todayXP}%`;
 
@@ -156,13 +164,13 @@ async function updateProgress(tabell) {
         label.innerText = todayXP;
     }
     //* Lager en XP profil fra de 7 siste dagene
-    xpForDate(0, "prog1", "one_lable"); /* Dagens XP */
-    xpForDate(1, "prog2", "two_lable"); /* Gårsdagens XP */
-    xpForDate(2, "prog3", "three_lable"); /* XP for 2 dager siden*/
-    xpForDate(3, "prog4", "four_lable"); /* XP for 3 dager siden*/
-    xpForDate(4, "prog5", "five_lable"); /* XP for 4 dager siden*/
-    xpForDate(5, "prog6", "six_lable"); /* XP for 5 dager siden*/
-    xpForDate(6, "prog7", "seven_lable"); /* XP for 6 dager siden*/
+    xpForDate(0, "prog1", "one_lable", null); /* Dagens XP */
+    xpForDate(1, "prog2", "two_lable", "second_day_lable"); /* Gårsdagens XP */
+    xpForDate(2, "prog3", "three_lable", "third_day_lable"); /* XP for 2 dager siden*/
+    xpForDate(3, "prog4", "four_lable", "fourth_day_lable"); /* XP for 3 dager siden*/
+    xpForDate(4, "prog5", "five_lable", "fifth_day_lable"); /* XP for 4 dager siden*/
+    xpForDate(5, "prog6", "six_lable", "sixth_day_lable"); /* XP for 5 dager siden*/
+    xpForDate(6, "prog7", "seven_lable", "seventh_day_lable"); /* XP for 6 dager siden*/
 
 
 
@@ -184,7 +192,7 @@ async function updateProgress(tabell) {
     async function hentBruker() {
     const { data, error } = await supabase
         .from('bruker_data')
-        .select('user_id, navn, fødselsdato, status');
+        .select('user_id, navn, fødselsdato, status, kjønn');
 
         data.forEach((element) => {
             const navn = document.querySelectorAll(".dynamic_name");
@@ -202,6 +210,31 @@ async function updateProgress(tabell) {
             fødselsdato.forEach((date) => {
                 date.innerText = element.fødselsdato;
             })
+
+            /* Beregne levealder basert på kjønn */
+            let levealder = null;
+
+            if (element.kjønn === "Mann") {
+                levealder = 82;
+            }
+            else if (element.kjønn === "Kvinne") {
+                levealder = 85;
+            }
+
+            /* Beregne dødsdato basert på fødselsdato og levealder */
+            const dødsdom = document.querySelectorAll(".dynamic_dead");
+            dødsdom.forEach((dead) => {
+                const nyDato = new Date(element.fødselsdato);
+                nyDato.setFullYear(nyDato.getFullYear() + levealder);
+                const dødsdato = Math.ceil((new Date(nyDato) - new Date())/ (1000 * 60 * 60 * 24))
+
+                dead.innerText = dødsdato.toLocaleString("no-NO")
+            })
+
+            /* Lagre levealder i local storage og oppdatere html */
+            localStorage.setItem("levealder", levealder);
+            document.getElementById("dynamic_levealder").innerText = levealder+" år";
+            
         });
 
     };

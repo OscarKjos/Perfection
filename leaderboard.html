@@ -242,11 +242,14 @@
                 data.forEach((user, index) => {
                     const row = document.createElement('tr');
 
+                    /* Formel for å beregne level */
+                    const level = (Math.floor((user.total_xp / 100) ** (1/1.6)))+1
+
                     row.innerHTML = `
                         <td>${index + 1}</td>
                         <td>${user.navn}</td>
                         <td>${user.total_xp}</td>
-                        <td>${Math.floor(user.total_xp / 100)}</td>
+                        <td>${level}</td>
                     `;
                     tableBody.appendChild(row);
 

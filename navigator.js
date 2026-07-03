@@ -43,16 +43,18 @@ style.textContent = `
         .bottomnav {
             position: fixed;
             left: 0;
+            right: 0;
             bottom: 0;
-            width: 100vw;
-            height: 80px;
+            width: 100%;
+            height: calc(80px + env(safe-area-inset-bottom));
+            box-sizing: border-box;
             background: var(--white);
             box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
             display: flex;
             align-items: flex-end;
             justify-content: space-around;
             z-index: 200;
-            padding-bottom: 12px;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
         }
         
         .bottomnav-btn {
