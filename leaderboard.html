@@ -34,16 +34,248 @@
 </head>
 <body>
     <style>
-        .construction {
-            text-align: center;
-            margin-top: 50px;
-            color: rgb(34, 34, 34);
-            font-weight: lighter;
+
+        .table {
+            width: min(100% - 24px, 900px);
+            margin: 0px auto 90px;
+            overflow-x: auto;
+            padding: 4px;
+        }
+
+        .main_table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--surface-color);
+            border: 1px solid #e8edf3;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+        }
+
+        .main_table th,
+        .main_table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #edf1f6;
+            white-space: nowrap;
+        }
+
+        .main_table thead {
+            background: #f6f8fb;
+        }
+
+        .main_table th {
+            color: #667085;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .main_table td {
+            color: #273142;
+            font-weight: 500;
+        }
+
+        .main_table tbody tr:hover {
+            background: #f9fbfd;
+        }
+
+        .main_table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .main_table td:first-child {
+            color: var(--primærfarge);
+            font-weight: 800;
+        }
+
+        .main_table td:nth-child(3),
+        .main_table td:nth-child(4) {
+            font-weight: 700;
+        }
+
+        @media (max-width: 600px) {
+            .table {
+                width: calc(100% - 16px);
+                margin-top: 8px;
+            }
+
+            .main_table th,
+            .main_table td {
+                padding: 12px;
+            }
         }
     </style>
 
-    <h2 class="construction">Leaderboard - Denne siden er under konstruksjon</h2>
+    <style>
 
+        #section_part{
+            display:flex;
+            flex-direction: column;
+            gap:12px;
+            position: relative;
+            width:100%;
+            overflow: hidden;
+            padding:12px;
+            box-sizing:border-box;
+            height: fit-content;
+        }
+
+
+         #search_top_bar{
+            background-color: white;
+            padding:12px;
+            border-radius: 14px;
+            display:flex;
+            flex-direction: column;
+            gap:12px;
+            border:1px solid #e7eaf1;
+            box-shadow:0 8px 24px rgba(17,24,39,0.06);
+        }
+
+        #search_relative{
+            position: relative;
+            width:100%;
+            display:flex;
+            align-items:center;
+        }
+
+        #search_top_bar input{
+            height:44px;
+            padding:0 42px 0 40px;
+            background-color: #f6f8fb;
+            border:#e7eaf1 solid 1px;
+            border-radius: 14px;
+            width:100%;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline:none;
+            transition:border-color 0.16s, box-shadow 0.16s, background 0.16s;
+        }
+
+        #search_top_bar input:focus{
+            background:white;
+            border-color:var(--primary-color);
+            box-shadow:0 0 0 3px rgba(0,176,121,0.12);
+        }
+
+        .search-icon{
+            position: absolute;
+            top:50%;
+            left:14px;
+            transform: translateY(-50%);
+            color:#6b7280;
+            pointer-events:none;
+        }
+
+        #clear_search{
+            position:absolute;
+            right:8px;
+            width:30px;
+            height:30px;
+            border:none;
+            border-radius:8px;
+            background:transparent;
+            color:#6b7280;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        #clear_search:hover{
+            background:#eef0f8;
+            color:#111827;
+        }
+    </style>
+
+    <section id="section_part">
+        <div id="search_top_bar">
+            <div id="search_relative">
+                <input id="søksfelt" type="search" placeholder="Søk etter brukere">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <button id="clear_search" type="button" aria-label="Tøm søkefelt">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main class="table">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Place</th>
+                    <th>Navn</th>
+                    <th>XP</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody class="tableBody">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+        const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+        const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        async function updateLeaderboard() {              
+            const { data, error } = await supabase 
+                .from('public_leaderboard')
+                .select('navn, total_xp')
+                .limit(100)
+                .order('total_xp', { ascending: false });
+            
+            const tableBody = document.querySelector('.tableBody');
+
+            if (error) {
+                console.error(error);
+            } 
+            
+            else {
+                data.forEach((user, index) => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${user.navn}</td>
+                        <td>${user.total_xp}</td>
+                        <td>${Math.floor(user.total_xp / 100)}</td>
+                    `;
+                    tableBody.appendChild(row);
+
+                    if (user.navn === localStorage.getItem("navn")) {
+                        row.classList.add('current_user');
+                        row.style.backgroundColor = '#e4f0eb';
+                    }
+                });
+
+                /* --- Søkefunksjonalitet --- */
+                const søksfelt = document.getElementById('søksfelt');
+                søksfelt.addEventListener('input', () => {
+                    const searchTerm = søksfelt.value.toLowerCase();
+                    const rows = document.querySelectorAll('tbody tr');
+                    rows.forEach(row => {
+                        const navn = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                        if (navn.includes(searchTerm)) {
+                            row.style.display = 'table-row';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            
+        };
+        updateLeaderboard();
+    </script>
 
     <script src="navigator.js" defer></script>
     <script type="module" src="../progress.js"></script>

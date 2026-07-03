@@ -190,6 +190,7 @@ async function updateProgress(tabell) {
             const navn = document.querySelectorAll(".dynamic_name");
             navn.forEach((names) => {
                 names.innerText = element.navn;
+                localStorage.setItem("navn", element.navn);
             })
 
             const status = document.querySelectorAll(".dynamic_status");
