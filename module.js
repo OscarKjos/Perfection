@@ -12,13 +12,20 @@ async function countRows(tabell, relevant_id) {
 
         const idbrikke = document.getElementById(relevant_id);
         idbrikke.textContent = count;
-}
-countRows('bruker_data_trening', "training_counter");
-countRows('bruker_data_produktivitet', "work_counter");
-countRows('bruker_data_journal', "journal_counter");
-countRows('bruker_data_studie', "study_counter");
-countRows('bruker_data_vaner', "habit_counter");
 
+        localStorage.setItem(relevant_id, count);
+}
+const rowCountPromises = Promise.all([
+    countRows('bruker_data_trening', "training_counter"),
+    countRows('bruker_data_produktivitet', "work_counter"),
+    countRows('bruker_data_journal', "journal_counter"),
+    countRows('bruker_data_studie', "study_counter"),
+    countRows('bruker_data_vaner', "habit_counter")
+]);
+
+const total_antall_aktiviteter = Number(localStorage.getItem("training_counter")) + Number(localStorage.getItem("habit_counter")) + Number(localStorage.getItem("work_counter")) + Number(localStorage.getItem("journal_counter")) + Number(localStorage.getItem("study_counter")); //localStorage.getItem("work_counter") + localStorage.getItem("journal_counter") + localStorage.getItem("study_counter");
+localStorage.setItem("total_aktiviteter", total_antall_aktiviteter);
+document.getElementById("total_counter").textContent = total_antall_aktiviteter;
 
 
 async function validation(tabell, relevant_id) {
@@ -61,3 +68,80 @@ validation_habits("Vitaminer", "vitaminer_validation");
 validation_habits("Vanntilførsel", "water_validation");
 validation_habits("Proteintilskudd", "protein_validation");
 validation_habits("Meditasjon", "meditasjon_validation");
+
+
+
+/* - - - - - Segmenter - - - - - */
+/* PS: Det er viktig at jeg ikke importerer informasjon fra databasen, men henter fra eksisterende funksjoner med local storage  */
+
+    async function segmentDisplay() {              
+            const { data, error } = await supabase 
+                .from('function_segments')
+                .select('id, navn, type, krav, xp_bonus, ikon, backgroundColor, color')
+                .order('id', { ascending: false })
+
+            const segments_grid = document.querySelector('.segments_grid');
+            segments_grid.innerHTML = "";
+
+            let fullførtAntall = 0;
+
+            data.forEach(element => {
+                const card = document.createElement("article");
+                card.className = "segments_grid__card";
+
+                let Antall = 0;
+                let erFullført = false;
+                let progress = 0;
+
+                function antall_registreringer(supabase_type, counter_id){
+                if (element.type === supabase_type) {
+                        Antall = Math.round(localStorage.getItem(counter_id));
+                        progress = Antall / element.krav
+                            if(progress > 1)    {
+                                progress = 1;
+                            }
+                            
+
+                            if (Antall > element.krav) {
+                                Antall = element.krav;
+                            }
+                           
+                        if(localStorage.getItem(counter_id) >= element.krav) {
+                            erFullført = true;
+                        }
+                }
+                }
+                /* Alle funksjoner for antall registreringer (Antall treningsøkter, xp ...)*/
+                antall_registreringer("trening_antall_registreringer", "training_counter");
+                antall_registreringer("xp_grind", "xp_point");
+                antall_registreringer("journal_antall_registreringer", "journal_counter");
+                antall_registreringer("studie_antall_registreringer", "study_counter");
+                antall_registreringer("vaner_antall_registreringer", "habit_counter");
+                antall_registreringer("arbeid_antall_registreringer", "work_counter");
+                antall_registreringer("total_aktiviteter", "total_aktiviteter");
+
+                if (erFullført) {
+                    fullførtAntall++;
+                }
+
+                const dynamic_segment = document.getElementById('dynamic_segment');
+                dynamic_segment.textContent = fullførtAntall;
+
+                card.classList.add(erFullført ? 'fullført' : 'pågående');
+
+                card.innerHTML = `
+                        <div style="background-color: ${element.backgroundColor}; color: ${element.color};" class="segments_grid__icon"><i class="${element.ikon}"></i></div>
+                        <div class="segments_grid__content">
+                            <div class="segments_grid__top">
+                                <p class="segments_grid__title">${element.navn}</p>
+                                <span class="segments_grid__value">${Antall} / ${element.krav}</span>
+                            </div>
+                            <div class="segments_grid__track">
+                                <span style="width: ${progress * 100}%" class="segments_grid__fill"></span>
+                            </div>
+                        </div>
+                `
+                segments_grid.appendChild(card);
+            });
+        }
+    rowCountPromises.then(segmentDisplay);

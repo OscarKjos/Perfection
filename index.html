@@ -407,7 +407,194 @@
 
     <main class="container profile_container" style="display:none">Profil</main>
 
-    <main class="container segments_container" style="display:none">Segmenter</main>
+    <main class="container segments_container" style="display:none">
+        <style>
+            .segments_section{
+                display:flex;
+                flex-direction:column;
+                gap:14px;
+                min-height: 60vh;
+            }
+
+            .segments_buttons{
+                display:grid;
+                grid-template-columns:repeat(3, minmax(0, 1fr));
+                gap:6px;
+                padding-bottom:10px;
+                border-bottom: 1px solid rgba(0,0,0,0.04);
+            }
+
+            .segments_buttons button,
+            .segments_buttons__item{
+                min-width:0;
+                padding:10px;
+                border:0;
+                border-radius:10px;
+                background:transparent;
+                color:var(--subtext-color);
+                font:inherit;
+                font-size:.66rem;
+                font-weight:800;
+                line-height:1.1;
+                cursor:pointer;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                gap:5px;
+                overflow:hidden;
+                text-align:center;
+                white-space:normal;
+                overflow-wrap:anywhere;
+            }
+
+            .segments_buttons button:first-child::before,
+            .segments_buttons__item--active::before{
+                background:#e6f9ef;
+            }
+
+            .segments_grid{
+                display:grid;
+                grid-template-columns:1fr;
+                gap:9px;
+            }
+
+            .segments_grid__card{
+                display:grid;
+                grid-template-columns:38px minmax(0, 1fr) auto;
+                align-items:center;
+                gap:10px;
+                padding:11px;
+                background:var(--white);
+                border:1px solid rgba(0,0,0,0.05);
+                border-radius:13px;
+                box-shadow:0 2px 8px rgba(0,0,0,0.04);
+            }
+
+            .segments_grid__icon{
+                width:38px;
+                height:38px;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#e6f9ef;
+                color:var(--primary-color);
+                font-size:.95rem;
+            }
+
+            .segments_grid__card:nth-child(2) .segments_grid__icon{
+                background:#fff8e6;
+                color:#dfb44e;
+            }
+
+            .segments_grid__card:nth-child(3) .segments_grid__icon{
+                background:#eef7fd;
+                color:#4f8fe8;
+            }
+
+            .segments_grid__content{
+                min-width:0;
+                display:flex;
+                flex-direction:column;
+                gap:6px;
+            }
+
+            .segments_grid__top{
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:8px;
+            }
+
+            .segments_grid__title{
+                margin:0;
+                color:var(--text-color);
+                font-size:.82rem;
+                font-weight:600;
+                line-height:1.1;
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+            }
+
+            .segments_grid__value{
+                color:var(--primary-color);
+                font-size:.68rem;
+                font-weight:800;
+                white-space:nowrap;
+            }
+
+            .segments_grid__track{
+                width:100%;
+                height:6px;
+                border-radius:999px;
+                overflow:hidden;
+                background:#e9ebf2;
+            }
+
+            .segments_grid__fill{
+                display:block;
+                height:100%;
+                width:0%;
+                border-radius:inherit;
+                background:var(--primary-color);
+            }
+
+            .fullført{
+                display:none;
+            }
+
+            #pågåendeBate{
+                background:var(--primary-color);
+                color:var(--white);
+            }
+        </style>
+
+        <section class="segments_section picture_grid">
+            <div class="segments_buttons">
+                <button id="fullførtBate">Fullførte</button>
+                <button id="pågåendeBate">Pågående</button>
+                <button id="egendefinertBate">Egendefinert</button>
+            </div>
+
+            <div class="segments_grid">
+                <! -- Her kommer tabellinnholdet (importert fra supabase) --!>
+            </div>
+        </section>
+
+        <script>
+
+            function filterStatus(knapp_id, status_id) {
+                const knapp = document.getElementById(knapp_id);
+                const all_knapper = document.querySelectorAll(".segments_buttons button");
+
+                knapp.addEventListener('click', () => {
+                    const status = document.querySelectorAll(status_id);
+                    const all_segments = document.querySelectorAll(".segments_grid__card");
+
+                    all_knapper.forEach(knapp => {
+                        knapp.style.color = "var(--subtext-color)";
+                        knapp.style.backgroundColor = "var(--white)";
+                    })
+
+                    knapp.style.color = "var(--white)";
+                    knapp.style.backgroundColor = "var(--primary-color)";
+
+                    all_segments.forEach(segment => {
+                        segment.style.display = "none";
+                    })
+
+                    status.forEach(status => {
+                        status.style.display = "grid";
+                    })
+                })
+            }
+            filterStatus('fullførtBate', '.fullført');
+            filterStatus('pågåendeBate', '.pågående');
+            filterStatus('egendefinertBate', '.egendefinert');
+        </script>
+    </main>
 
     <main class="container media_container" style="display:none">
         <style>
@@ -681,7 +868,7 @@
         <div class="stat-section">
             <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
             <div class="stat-info">
-                <div class="stat-value">0</div>
+                <div class="stat-value" id="dynamic_segment">0</div>
                 <div class="stat-label">Segment</div>
             </div>
         </div>
