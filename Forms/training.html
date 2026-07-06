@@ -511,7 +511,9 @@
         function calculateDuration(type) {
             type.addEventListener("input", (() => {
                 totalDuration = (Number(min.value) + Number(sek.value) / 60);
-                localStorage.setItem("duration", totalDuration);
+                
+                const rounded_duration = Number(totalDuration.toFixed(2));
+                localStorage.setItem("duration", rounded_duration);
             }))
         }
         calculateDuration(min);
