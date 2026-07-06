@@ -264,10 +264,23 @@
         </div>
     </div>
 
+    <style>
+        #varighet_min_value{
+            border-radius: 10px 0 0 10px;
+        }
+
+        #varighet_sek_value{
+            border-radius: 0 10px 10px 0;
+        }
+    </style>
+
     <div class="wrappingbox">
         <div class="field">
-            <label>Varighet (min)</label>
-            <input id="varighet_value" type="number" step="0.1" min="0" placeholder="60" required>
+            <label>Varighet (min : sek)</label>
+            <div style="display:flex; gap:5px;">
+                <input class="dobbel_duration" id="varighet_min_value" type="number" step="1" min="0" placeholder="60" required>
+                <input class="dobbel_duration" id="varighet_sek_value" type="number" step="1" min="0" placeholder="35" required>
+            </div>
         </div>
 
         <div class="field">
@@ -489,6 +502,22 @@
     </script>
 
     <script>
+        // Placeholder for Duration calculation (min + sek) omgjort til desimaltall (50 min, 36 sek = 50.6)
+        const min = document.getElementById("varighet_min_value");
+        const sek = document.getElementById("varighet_sek_value");
+        let totalDuration = 0;
+
+
+        function calculateDuration(type) {
+            type.addEventListener("input", (() => {
+                totalDuration = (Number(min.value) + Number(sek.value) / 60);
+                localStorage.setItem("duration", totalDuration);
+            }))
+        }
+        calculateDuration(min);
+        calculateDuration(sek);
+       
+
         // Placeholder for form submission logic
         const form = document.getElementById("training_form");
         const Submit = document.getElementById("send_data");
@@ -509,13 +538,18 @@
 
         // Placeholder for Tempo calculation
         const distanse_input_field = document.getElementById("distanse_value");
-        const varighet_input_field = document.getElementById("varighet_value");
         const tempo = document.getElementById("active_tempo");
 
         function calculateTempo(type) {
             type.addEventListener("input", (() => {
-                const calculatedTempo = (varighet_input_field.value / distanse_input_field.value).toFixed(2);
-                tempo.innerText = calculatedTempo;
+                const totalSeconds = (totalDuration * 60)
+                const secondsPerKm = totalSeconds / distanse_input_field.value;
+
+                const calculatedTempo = (secondsPerKm / 60).toFixed(2);
+                const minutter = Math.floor(calculatedTempo);
+                const sekunder = ((calculatedTempo - minutter) * 60).toFixed(0);
+
+                tempo.innerText = `${minutter}:${String(sekunder).padStart(2, "0")}`;
 
                 if(isNaN(calculatedTempo) || !isFinite(calculatedTempo)) {
                     tempo.innerText = "-";
@@ -523,20 +557,20 @@
             }));
         }
         calculateTempo(distanse_input_field);
-        calculateTempo(varighet_input_field);
+        calculateTempo(min);
+        calculateTempo(sek);
 
 
         // Placeholder for Belastning calculation
         const puls_numb = document.getElementById("puls_value");
         const maxpuls_numb = document.getElementById("maxpuls_value");  
-        const duration = document.getElementById("varighet_value");
 
-        let calculated = duration.value * ((puls_numb.value-60) / (maxpuls_numb.value-60))
+        let calculated = totalDuration * ((puls_numb.value-60) / (maxpuls_numb.value-60))
         const belastning = document.getElementById("active_belastning");
         
         function calculateBelastning(type) {
             type.addEventListener("input", (() => {
-                calculated = duration.value * ((puls_numb.value-60) / (maxpuls_numb.value-60))
+                calculated = totalDuration * ((puls_numb.value-60) / (maxpuls_numb.value-60))
                 belastning.innerText = calculated.toFixed(0);
 
                 if(isNaN(calculated) || !isFinite(calculated)) {
@@ -546,7 +580,8 @@
         }
         calculateBelastning(puls_numb);
         calculateBelastning(maxpuls_numb);
-        calculateBelastning(duration);
+        calculateBelastning(min);
+        calculateBelastning(sek);
 
 
 /* =============================================== XP Calculation Logic =============================================== */
@@ -653,7 +688,7 @@
             localStorage.setItem("point", count.toFixed(1));
         }
 
-        [aktivitet,distanse_input_field, varighet_input_field, puls_numb, maxpuls_numb, innsats].forEach(el => el.addEventListener("input", updateStats));
+        [aktivitet,distanse_input_field, sek, min, puls_numb, maxpuls_numb, innsats].forEach(el => el.addEventListener("input", updateStats));
 
     </script>
 
@@ -677,16 +712,15 @@
         const Type = document.getElementById("type_value").value;
         const Aktivitet = document.getElementById("aktivitet_value").value;
         const Dato = document.getElementById("dato_value").value;
-        const Varighet = document.getElementById("varighet_value").value;
         const Distanse = document.getElementById("distanse_value").value;
         const Puls = document.getElementById("puls_value").value;
         const MaxPuls = document.getElementById("maxpuls_value").value;
         const Notat = document.getElementById("notat_value").value;
         const Innsats = document.getElementById("innsats_value").value;
-            
+        
         const { error } = await supabase
                 .from('bruker_data_trening')
-                .insert([{ user_id:user.id, type:Type, aktivitet:Aktivitet, dato:Dato, varighet:Varighet, distanse:Distanse, gj_snitt_puls:Puls, maks_puls:MaxPuls, innsats:Innsats, notat:Notat, xp:localStorage.getItem("point") }])
+                .insert([{ user_id:user.id, type:Type, aktivitet:Aktivitet, dato:Dato, varighet:localStorage.getItem("duration"), distanse:Distanse, gj_snitt_puls:Puls, maks_puls:MaxPuls, innsats:Innsats, notat:Notat, xp:localStorage.getItem("point") }])
 
             if (error) {
                 Submit.innerText = "Noe gikk galt";

@@ -1065,10 +1065,25 @@ circle{
                 weekday: "long"
             });
 
+            
+            /* Funksjon som beregner minutter og sekunder basert på varighet (desimaltall). 40.5 = 40min og 30s */
+            const minutter = Math.floor(element.varighet);
+            const desimalSekund = element.varighet - minutter;
+            const sekunder = Math.round(desimalSekund * 60);
+
 
             /* Funksjon som beregner hastighet min/km */
-            const hastighet = (element.varighet / element.distanse).toFixed(2);
+            const totalSeconds = (element.varighet * 60)
+            const secondsPerKm = totalSeconds / element.distanse;
 
+            const calculatedTempo = (secondsPerKm / 60).toFixed(2);
+            const min = Math.floor(calculatedTempo);
+            const sek = ((calculatedTempo - min) * 60).toFixed(0);
+
+            const hastighet = `${min}:${String(sek).padStart(2, "0")}`;
+
+
+            /* Dynamisk utforming av kort*/
             card.innerHTML = `
 
                 <!-- HEADER -->
@@ -1097,12 +1112,12 @@ circle{
 
                     <div>
                         <p class="label">Tempo</p>
-                        <p class="value">${hastighet} min/km</p>
+                        <p class="value">${hastighet} /km</p>
                     </div>
 
                     <div>
                         <p class="label">Varighet</p>
-                        <p class="value">${element.varighet} min</p>
+                        <p class="value">${minutter + " min " + sekunder + " s"}</p>
                     </div>
 
                 </div>
@@ -1202,7 +1217,7 @@ circle{
                 <td class="nameDate">${element.dato}</td>
                 <td class="aktivitet_extra">${element.aktivitet}</td>
                 <td>${element.type}</td>
-                <td>${element.varighet} min</td>
+                <td>${minutter + " min " + sekunder + " s"}</td>
                 <td>${element.distanse} km</td>
                 <td>${hastighet} min/km</td>
                 <td>${element.gj_snitt_puls}</td>
