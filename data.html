@@ -210,7 +210,7 @@
             background-color: white;
             border:1px solid #e8edf3;
             border-radius:22px;
-            padding:20px;
+            padding:20px 15px 20px 15px;
             display:flex;
             flex-direction:column;
             gap:18px;
@@ -246,7 +246,7 @@
         }
 
         .value{
-            font-size:14px;
+            font-size:13px;
             font-weight:700;
         }
 
@@ -268,37 +268,49 @@
         }
 
         .badge{
-            background:#c7fcce;
-            color: #123d39;
+            background:var(--primary-color);
+            color: white;
+            display:flex;
+            align-items: center;
+            gap:8px;
 
-            padding:8px 10px;
-            border-radius:8px;
+            padding: 9px 18px 9px 18px;
+            border-radius:22px;
 
-            font-size:15px;
+            font-size:13px;
             font-weight:700;
         }
 
-        .aktivitet_label{
-            font-size:10px;
-            color:#7b8190;
-            text-transform:uppercase;
-            margin-bottom:2px;
-            font-weight: lighter;
-            color:#17727a;
+        .iconStyle{
+            width:22px;
+            height:22px;
+            border-radius:50%;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.1rem;
+        }
+
+        .icon_flex{
+            display:flex;
+            flex-direction: row;
+            align-items:center;
+            gap:8px;
         }
 
         .highlight{
             display:grid;
-            grid-template-columns:repeat(3,1fr);
+            grid-template-columns: 6fr 1fr 6fr 1fr 6fr;
             gap:10px;
         }
 
         .stats{
             display:grid;
             grid-template-columns:repeat(3,1fr);
-            gap:10px;
+            gap:33px;
 
-            padding-top:10px;
+            padding-top:15px;
             border-top:1px solid #eef1f6;
         }
 
@@ -1089,14 +1101,17 @@ circle{
                 <!-- HEADER -->
                 <div class="top">
 
-                    <div>
-                        <p class="label">Dato</p>
-                        <p class="value">${element.dato} • ${ukedag}</p>
+                    <div class="icon_flex">
+                        <i class="fa-regular fa-calendar iconStyle"></i>
+                        <div>
+                            <p class="label">${ukedag}</p>
+                            <p class="value">${element.dato}</p>
+                        </div>
                     </div>
 
                     <div class="badge">
-                        <p class="aktivitet_label">Aktivitet</p>
-                        <p>${element.aktivitet} - ${element.type}</p>
+                        <i class="fas fa-running iconSwapper"></i>
+                        <p> ${element.aktivitet}</p>
                     </div>
 
                 </div>
@@ -1110,10 +1125,14 @@ circle{
                         <p class="value">${element.distanse} km</p>
                     </div>
 
+                    <div style="height: 100%; width: 1px; background-color: #E5E5E5;"></div>
+
                     <div>
                         <p class="label">Tempo</p>
                         <p class="value">${hastighet} /km</p>
                     </div>
+
+                    <div style="height: 100%; width: 1px; background-color: #E5E5E5;"></div>
 
                     <div>
                         <p class="label">Varighet</p>
@@ -1134,19 +1153,28 @@ circle{
                 <!-- STATS -->
                 <div class="stats">
 
-                    <div>
-                        <p class="label">Puls</p>
-                        <p class="value">${element.gj_snitt_puls} / ${element.maks_puls}</p>
+                    <div class="icon_flex">
+                        <i class="fa-regular fa-heart iconStyle"></i>
+                        <div>
+                            <p class="label">Puls</p>
+                            <p class="value">${element.gj_snitt_puls} / ${element.maks_puls}</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <p class="label">Innsats</p>
-                        <p class="value">${element.innsats}/10</p>
+                    <div class="icon_flex" style="margin-left:10px;">
+                        <i class="fa-solid fa-chart-column iconStyle"></i>
+                        <div>
+                            <p class="label">Innsats</p>
+                            <p class="value">${element.innsats}/10</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <p class="label">XP</p>
-                        <p class="value">${element.xp}</p>
+                    <div class="icon_flex">
+                        <i class="fa-solid fa-bolt iconStyle"></i>
+                        <div>
+                            <p class="label">XP</p>
+                            <p class="value">${element.xp}</p>
+                        </div>
                     </div>
 
                 </div>
@@ -1157,54 +1185,54 @@ circle{
         /* --- Legger til stil på kortene basert på informasjon --- */
 
         const badge = card.querySelector(".badge");
-        const aktivitet_label = card.querySelector(".aktivitet_label");
+        const icon = card.querySelector(".iconSwapper");
 
         if (element.aktivitet == "Sykling") {
-            badge.style.backgroundColor = "rgb(250, 229, 211)";
-            badge.style.color = "brown";
-            aktivitet_label.style.color = "brown";
+            badge.style.backgroundColor = "#f7bf9a";
+            badge.style.color = "#992a10";
+            icon.classList = "fas fa-bicycle";
         }
 
         else if (element.aktivitet == "Forebyggende") {
             badge.style.backgroundColor = "#f9ffb5";
             badge.style.color = "#8a6b0f";
-            aktivitet_label.style.color = "#8a6b0f";
+            icon.className = "fas fa-heartbeat";
         }
 
         else if (element.aktivitet == "Styrke") {
             badge.style.backgroundColor = "#ebdff7";
             badge.style.color = "#581c94";
-            aktivitet_label.style.color = "#581c94";
+            icon.className = "fas fa-dumbbell";
         }
 
         else if (element.aktivitet == "Romaskin") {
             badge.style.backgroundColor = "#fcc7d6";
             badge.style.color = "#d12c42";
-            aktivitet_label.style.color = "#d12c42";
+            icon.className = "fas fa-rowing-boat";
         }
 
         else if (element.aktivitet == "Svømming") {
             badge.style.backgroundColor = "#c5f6fa";
             badge.style.color = "#17727a";
-            aktivitet_label.style.color = "#17727a";
+            icon.className = "fas fa-swimmer";
         }
 
         else if (element.aktivitet == "Langrenn") {
             badge.style.backgroundColor = "#eef2ff";
             badge.style.color = "#4f46e5";
-            aktivitet_label.style.color = "#4f46e5";
+            icon.className = "fas fa-skiing";
         }
 
         else if (element.aktivitet == "Ellipse") {
             badge.style.backgroundColor = "#e9fac8";
             badge.style.color = "#5c940d";
-            aktivitet_label.style.color = "#5c940d";
+            icon.className = "fas fa-person-running";
         }
 
         else if (element.aktivitet == "Annet" || element.aktivitet == "Gåtur") {
             badge.style.backgroundColor = "#eef1f6";
             badge.style.color = "#4b5563";
-            aktivitet_label.style.color = "#4b5563";
+            icon.className = element.aktivitet == "Gåtur" ? "fas fa-walking" : "fas fa-running";
         }
 
 
