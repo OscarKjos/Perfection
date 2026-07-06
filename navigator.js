@@ -154,9 +154,9 @@ style.textContent = `
             background:var(--background-color);
             font-family:Arial,sans-serif;
             min-height:100vh;
-            margin:0px;
-            display:grid;
-            grid-template-rows:50px fit-content(100%) auto;
+            margin:0;
+            padding-top:50px;
+            padding-bottom:calc(80px + env(safe-area-inset-bottom));
         }
 
         .sidebar__profile{
