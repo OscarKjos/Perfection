@@ -223,6 +223,11 @@
             gap:14px;
         }
 
+        #dynamic_inputs.sleep-fields{
+            display:grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
         .dynamic-title{
             display:flex;
             align-items:center;
@@ -450,32 +455,35 @@
             kald_dusj: {
                 navn: "Kald dusj",
                 icon: "fa-shower",
-                hint: "Registrer hvor lenge du stod i kaldt vann og hvor kaldt det f&oslash;ltes.",
+                hint: "Marker at vanen er gjennomført",
                 fields: [
-                    { id: "varighet", label: "Varighet (min)", type: "number", min: "0", step: "0.5", placeholder: "3", required: true, unit: "min" },
-                    { id: "intensitet", label: "Intensitet", type: "select", required: true, options: ["Lett", "Middels", "Kaldt", "Iskaldt"] }
+                    { id: "fullfort", label: "Fullført", type: "checkbox", min: "0", step: "0.5", placeholder: "3", required: true, unit: "min" },
                 ],
-                xp: values => 4 + Math.min(Number(values.varighet || 0), 10)
+                xp: values => values.fullfort ? 2 : 0
             },
             meditasjon: {
                 navn: "Meditasjon",
                 icon: "fa-heart",
-                hint: "Legg inn antall minutter og hvor rolig/fokusert &oslash;kten var.",
+                hint: "Skriv inn antall minutter",
                 fields: [
                     { id: "minutter", label: "Minutter", type: "number", min: "1", step: "1", placeholder: "10", required: true, unit: "min" },
-                    { id: "fokus", label: "Fokus", type: "range", min: "1", max: "10", value: "5", required: true, unit: "/10" }
                 ],
-                xp: values => 3 + Math.min(Number(values.minutter || 0) / 2, 12) + Number(values.fokus || 0) / 3
+                xp: values => 1 + Math.min(Number(values.minutter || 0) / 5, 4)
             },
             sovn: {
                 navn: "S&oslash;vn",
                 icon: "fa-moon",
-                hint: "Registrer timer sovet og opplevd kvalitet.",
+                hint: "Registrer timer og minutter sovet.",
                 fields: [
-                    { id: "timer", label: "Timer s&oslash;vn", type: "number", min: "0", step: "0.25", placeholder: "7.5", required: true, unit: "t" },
-                    { id: "kvalitet", label: "S&oslash;vnkvalitet", type: "range", min: "1", max: "10", value: "5", required: true, unit: "/10" }
+                    { id: "timer", label: "Timer s&oslash;vn", type: "number", min: "0", step: "1", placeholder: "7", required: true, unit: "t" },
+                    { id: "minutter", label: "Minutter s&oslash;vn", type: "number", min: "0", max: "59", step: "1", placeholder: "30", required: true },
                 ],
-                xp: values => 4 + Math.min(Number(values.timer || 0), 9) + Number(values.kvalitet || 0) / 2
+                xp: values => {
+                    const timer = Number(values.timer || 0);
+                    if (timer <= 0) return 0;
+                    if (timer <= 7) return 0.5;
+                    return Math.min(0.5 + ((timer - 7) / 3) * 4.5, 5);
+                }
             },
             vann: {
                 navn: "Vanntilf&oslash;rsel",
@@ -484,17 +492,16 @@
                 fields: [
                     { id: "mengde", label: "Vann drukket (dl)", type: "number", min: "0", step: "1", placeholder: "20", required: true, unit: "dl" }
                 ],
-                xp: values => 2 + Math.min(Number(values.mengde || 0) / 3, 10)
+                xp: values => 1 + Math.min(Number(values.mengde || 0) / 8, 4)
             },
             kalorier: {
                 navn: "Kaloriinntak",
                 icon: "fa-fire",
-                hint: "Registrer ca. kaloriinntak og om du traff m&aring;let ditt.",
+                hint: "Registrer ca. kaloriinntak",
                 fields: [
                     { id: "kcal", label: "Kalorier (kcal)", type: "number", min: "0", step: "10", placeholder: "2400", required: true, unit: "kcal" },
-                    { id: "mal", label: "Traff m&aring;let?", type: "select", required: true, options: ["Ja", "Nesten", "Nei"] }
                 ],
-                xp: values => values.mal === "Ja" ? 12 : values.mal === "Nesten" ? 8 : 4
+                xp: values => Number(values.kcal || 0) > 0 ? 2 : 0
             },
             re_sengen: {
                 navn: "Re sengen",
@@ -503,7 +510,7 @@
                 fields: [
                     { id: "fullfort", label: "Sengen er redd", type: "checkbox", required: true }
                 ],
-                xp: values => values.fullfort ? 5 : 0
+                xp: values => values.fullfort ? 2 : 0
             },
             meal_prep: {
                 navn: "Meal prep",
@@ -512,7 +519,7 @@
                 fields: [
                     { id: "maltider", label: "Antall m&aring;ltider", type: "number", min: "1", step: "1", placeholder: "3", required: true, unit: "stk" }
                 ],
-                xp: values => 4 + Math.min(Number(values.maltider || 0) * 2, 12)
+                xp: values => 1 + Math.min(Number(values.maltider || 0), 4)
             },
             vitaminer: {
                 navn: "Vitaminer",
@@ -520,9 +527,8 @@
                 hint: "Registrer hvilke vitaminer eller tilskudd du tok.",
                 fields: [
                     { id: "type", label: "Type", type: "text", placeholder: "D-vitamin, omega-3", required: true },
-                    { id: "fullfort", label: "Tatt i dag", type: "checkbox", required: true }
                 ],
-                xp: values => values.fullfort ? 5 : 0
+                xp: values => values.type ? 2 : 0
             },
             protein: {
                 navn: "Proteintilskudd",
@@ -531,21 +537,18 @@
                 fields: [
                     { id: "gram", label: "Protein (g)", type: "number", min: "0", step: "1", placeholder: "30", required: true, unit: "g" }
                 ],
-                xp: values => 3 + Math.min(Number(values.gram || 0) / 5, 8)
+                xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
             },
             skritt: {
                 navn: "Skrittm&aring;l",
                 icon: "fa-shoe-prints",
-                hint: "Registrer antall skritt og dagens m&aring;l.",
+                hint: "Registrer antall skritt.",
                 fields: [
                     { id: "skritt", label: "Skritt", type: "number", min: "0", step: "100", placeholder: "10000", required: true, unit: "skritt" },
-                    { id: "mal", label: "M&aring;l", type: "number", min: "0", step: "100", placeholder: "10000", required: true, unit: "skritt" }
                 ],
                 xp: values => {
                     const skritt = Number(values.skritt || 0);
-                    const mal = Number(values.mal || 0);
-                    const bonus = mal > 0 && skritt >= mal ? 5 : 0;
-                    return 3 + Math.min(skritt / 1000, 12) + bonus;
+                    return 1 + Math.min(skritt / 4000, 3);
                 }
             },
             energi: {
@@ -554,9 +557,9 @@
                 hint: "Registrer energiniv&aring;et ditt, gjerne morgen eller kveld.",
                 fields: [
                     { id: "energi", label: "Energi", type: "range", min: "1", max: "100", value: "50", required: true, unit: "/100" },
-                    { id: "tidspunkt", label: "Tidspunkt", type: "select", required: true, options: ["Morgen", "Midt p&aring; dagen", "Kveld"] }
+                    { id: "tidspunkt", label: "Tidspunkt", type: "select", required: true, options: ["Morgen", "Kveld"] }
                 ],
-                xp: values => 3 + Number(values.energi || 0) / 20
+                xp: values => 1 + Number(values.energi || 0) / 50
             }
         };
 
@@ -569,8 +572,8 @@
         const dynamicInputs = document.getElementById("dynamic_inputs");
         const rating = document.getElementById("active_rating_value");
         const point = document.getElementById("active_point");
-        const pointButton = document.getElementById("active_point_2");
 
+        const pointButton = document.getElementById("active_point_2");
         document.getElementById("dato_value").valueAsDate = new Date();
 
         function makeField(field) {
@@ -653,6 +656,13 @@
             dynamicInputs.querySelectorAll("[data-detail-id]").forEach(input => {
                 values[input.dataset.detailId] = input.type === "checkbox" ? input.checked : input.value;
             });
+
+            if (habitInput.value === "sovn") {
+                const hours = Number(values.timer || 0);
+                const minutes = Number(values.minutter || 0);
+                values.timer = Number((hours + minutes / 60).toFixed(2));
+            }
+
             return values;
         }
 
@@ -683,6 +693,7 @@
             });
 
             dynamicInputs.innerHTML = "";
+            dynamicInputs.classList.toggle("sleep-fields", habitKey === "sovn");
             dynamicTitle.innerHTML = `<i class="fa-solid ${habit.icon}"></i>${habit.navn}`;
             dynamicHint.innerHTML = habit.hint;
             habit.fields.forEach(field => dynamicInputs.append(makeField(field)));
@@ -729,13 +740,19 @@
                 return
             }
 
+            const habit = window.habitDefinitions[selectedHabit]
+            const habitValues = window.getHabitDetailValues()
+            const primaryField = habit.fields[0]
+            const primaryValue = habitValues[primaryField.id]
+
+            if (primaryField.required && (primaryValue === "" || primaryValue === false || primaryValue === undefined)) {
+                alert('Fyll ut valgt vane f\u00f8r du lagrer')
+                return
+            }
+
             submitButton.disabled = true
             submitButton.innerText = "Sender..."
 
-            const habit = window.habitDefinitions[selectedHabit]
-            const details = window.getHabitDetailValues()
-            const primaryField = habit.fields[0]
-            const primaryValue = details[primaryField.id]
             const habitName = document.querySelector(".habit-option.active").innerText.trim()
 
             const { error } = await supabase
@@ -746,7 +763,6 @@
                     vane: habitName,
                     verdi: primaryValue,
                     enhet: primaryField.unit || "",
-                    detaljer: details,
                     notat: document.getElementById("notat_value").value,
                     xp: localStorage.getItem("habit_xp") || 0
                 }])

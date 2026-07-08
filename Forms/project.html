@@ -579,11 +579,17 @@
          // Placeholder for XP calculation logic
         function calculateXP() {
             const point = document.getElementById("active_point");
+            const point2 = document.getElementById("active_point_2");
             const tidsanslag = localStorage.getItem("diff");
 
-            const totalxp = (tidsanslag / 5).toFixed(1);
+            let totalxp = (tidsanslag / 8).toFixed(1);
+
+            if (totalxp > 30) {
+                totalxp = 30;
+            }
 
             point.innerHTML = totalxp;
+            point2.innerHTML = totalxp;
             localStorage.setItem("totalxp", totalxp);
         }
         [start_tid, slutt_tid].forEach((input) => {
