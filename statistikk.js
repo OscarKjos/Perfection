@@ -50,9 +50,9 @@ async function hentTrening() {
         }
     });
 
-    document.getElementById("total_distanse").innerText = totaldistanse;
-    document.getElementById("års_distanse").innerText = årsdistanse;
-    document.getElementById("måneds_distanse").innerText = månedsdistanse;
+    document.getElementById("total_distanse").innerText = Math.round(totaldistanse)+" km";
+    document.getElementById("års_distanse").innerText = Math.round(årsdistanse)+" km";
+    document.getElementById("måneds_distanse").innerText = Math.round(månedsdistanse)+" km";
 }
 // Beregner årstall i år
 let date = new Date();
@@ -158,3 +158,40 @@ KmCount(`${year}-01-01`, `${year}-${månedString}-01`, akt_type);
     });
 }
 hentTrening();
+
+
+
+
+
+/* ======== Funksjoner for re opp sengen - Siste 7 dager ======== */
+
+async function hentSeng(dato_id, check_id) {
+    const { data, error } = await supabase
+        .from('bruker_data_vaner')
+        .select('dato, vane')
+
+    data.forEach((element) => {
+        if (element.vane === "Resengen" && element.dato === dato_id) {
+            const seng = document.getElementById(check_id);
+            seng.innerHTML = "<i class='fa-solid fa-check'></i>";
+            seng.style.backgroundColor = "var(--primary-color)";
+        }
+
+    })
+} 
+
+const today = new Date().toISOString().split('T')[0];
+const yesterday = new Date(Date.now() - (86400000*1)).toISOString().split('T')[0];
+const day3 = new Date(Date.now() - (86400000*2)).toISOString().split('T')[0];
+const day4 = new Date(Date.now() - (86400000*3)).toISOString().split('T')[0];
+const day5 = new Date(Date.now() - (86400000*4)).toISOString().split('T')[0];
+const day6 = new Date(Date.now() - (86400000*5)).toISOString().split('T')[0];
+const day7 = new Date(Date.now() - (86400000*6)).toISOString().split('T')[0];
+
+hentSeng(day7, "fill_7_bed");
+hentSeng(day6, "fill_6_bed");
+hentSeng(day5, "fill_5_bed");
+hentSeng(day4, "fill_4_bed");
+hentSeng(day3, "fill_3_bed");
+hentSeng(yesterday, "fill_2_bed");
+hentSeng(today, "fill_1_bed");

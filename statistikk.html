@@ -333,7 +333,7 @@
         }
     </style>
 
-    <main>
+    <main style="padding-bottom: 90px;">
         <section class="diagram_grid">
             <div class="diagram-header">
                 <div class="diagram-title">
@@ -468,6 +468,141 @@
                 <span>Åpne</span>
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
+        </section>
+
+
+        <style>
+            .circle_group {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .circle_group span{
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .circle_group p{
+                margin: 0;
+                margin-top:5px;
+                font-size: 12px;
+                color: var(--text-color);
+            }
+
+            .circle_layout{
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                border: 1px solid #e1e2e4;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .circle_fill {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background-color: #f2f3f3;
+                margin: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                color:white;
+            }
+
+            .circle_fill.active{
+                background-color: var(--primary-color);
+            }
+
+            .bed_header{
+                display:flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .bed_header small{
+                font-size: 11px;
+                color: #737b82;
+            }
+
+            .bed_header p{
+                margin:0;
+                margin-bottom:2px;
+            }
+
+            #ikon_av_seng{
+                height: 90px;
+            }
+        </style>
+
+
+        <section class="diagram_grid" id="bed_section">
+            <div class="bed_header">
+                <span>
+                    <p>Re opp sengen</p>
+                    <small>De siste 7 dagene</small>
+                </span>
+
+                <img id="ikon_av_seng" src="Bilder/ikoner/bed.png" alt="Bilde av seng">
+            </div>
+
+            <div class="circle_group">
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_7_bed"></div>
+                    </div>
+                    <p>Man</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_6_bed"></div>
+                    </div>
+                    <p>Tir</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_5_bed"></div>
+                    </div>
+                    <p>Ons</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_4_bed"></div>
+                    </div>
+                    <p>Tor</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_3_bed"></div>
+                    </div>
+                    <p>Fre</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_2_bed"></div>
+                    </div>
+                    <p>Lør</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="fill_1_bed"></div>
+                    </div>
+                    <p>Søn</p>
+                </span>
+            </div>
         </section>
 
     </main>
