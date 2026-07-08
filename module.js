@@ -4,30 +4,6 @@ const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
 const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-/* Teller antall aktiviteter per kategori */
-async function countRows(tabell, relevant_id) {
-    const { count, error } = await supabase
-        .from(tabell)
-        .select('*', { count: 'exact', head: true });
-
-        const idbrikke = document.getElementById(relevant_id);
-        idbrikke.textContent = count;
-
-        localStorage.setItem(relevant_id, count);
-}
-const rowCountPromises = Promise.all([
-    countRows('bruker_data_trening', "training_counter"),
-    countRows('bruker_data_produktivitet', "work_counter"),
-    countRows('bruker_data_journal', "journal_counter"),
-    countRows('bruker_data_studie', "study_counter"),
-    countRows('bruker_data_vaner', "habit_counter")
-]);
-
-const total_antall_aktiviteter = Number(localStorage.getItem("training_counter")) + Number(localStorage.getItem("habit_counter")) + Number(localStorage.getItem("work_counter")) + Number(localStorage.getItem("journal_counter")) + Number(localStorage.getItem("study_counter")); //localStorage.getItem("work_counter") + localStorage.getItem("journal_counter") + localStorage.getItem("study_counter");
-localStorage.setItem("total_aktiviteter", total_antall_aktiviteter);
-document.getElementById("total_counter").textContent = total_antall_aktiviteter;
-
-
 async function validation(tabell, relevant_id) {
     const { data, error } = await supabase
     .from(tabell)
@@ -144,4 +120,4 @@ validation_habits("Meditasjon", "meditasjon_validation");
                 segments_grid.appendChild(card);
             });
         }
-    rowCountPromises.then(segmentDisplay);
+    segmentDisplay();

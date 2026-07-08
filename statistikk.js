@@ -177,7 +177,7 @@ async function hentSeng(dato_id, check_id) {
             seng.style.backgroundColor = "var(--primary-color)";
 
             const bilde = document.getElementById("ikon_av_seng");
-            bilde.src = "Bilder/Ikoner/bed.png";
+            bilde.src = "Bilder/ikoner/bed.png";
         }
 
     })
@@ -198,3 +198,28 @@ hentSeng(day4, "fill_4_bed");
 hentSeng(day3, "fill_3_bed");
 hentSeng(yesterday, "fill_2_bed");
 hentSeng(today, "fill_1_bed");
+
+
+
+/* Teller antall aktiviteter per kategori */
+async function countRows(tabell, relevant_id) {
+    const { count, error } = await supabase
+        .from(tabell)
+        .select('*', { count: 'exact', head: true });
+
+        const idbrikke = document.getElementById(relevant_id);
+        idbrikke.textContent = count;
+
+        localStorage.setItem(relevant_id, count);
+}
+const rowCountPromises = Promise.all([
+    countRows('bruker_data_trening', "training_counter"),
+    countRows('bruker_data_produktivitet', "work_counter"),
+    countRows('bruker_data_journal', "journal_counter"),
+    countRows('bruker_data_studie', "study_counter"),
+    countRows('bruker_data_vaner', "habit_counter")
+]);
+
+const total_antall_aktiviteter = Number(localStorage.getItem("training_counter")) + Number(localStorage.getItem("habit_counter")) + Number(localStorage.getItem("work_counter")) + Number(localStorage.getItem("journal_counter")) + Number(localStorage.getItem("study_counter")); //localStorage.getItem("work_counter") + localStorage.getItem("journal_counter") + localStorage.getItem("study_counter");
+localStorage.setItem("total_aktiviteter", total_antall_aktiviteter);
+document.getElementById("total_counter").textContent = total_antall_aktiviteter;

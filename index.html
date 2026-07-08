@@ -37,6 +37,7 @@
             display:grid;
             grid-template-columns:repeat(4, minmax(0, 1fr));
             gap:6px;
+            margin-top:12px;
         }
 
         .stat-section {
@@ -998,656 +999,6 @@
 
     <main class="container dashboard_container">
 
-    <div class="stats-card">
-        <div class="stat-section">
-            <div class="stat-icon"><i class="fa-solid fa-fire"></i></div>
-            <div class="stat-info">
-                <div class="stat-value">0</div>
-                <div class="stat-label">Streak</div>
-            </div>
-        </div>
-        <div class="stat-section">
-            <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
-            <div class="stat-info">
-                <div class="stat-value dynamic_xp">0</div>
-                <div class="stat-label">Total XP</div>
-            </div>
-        </div>
-        <div class="stat-section">
-            <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
-            <div class="stat-info">
-                <div class="stat-value" id="dynamic_segment">0</div>
-                <div class="stat-label">Segment</div>
-            </div>
-        </div>
-        <div class="stat-section">
-            <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
-            <div class="stat-info">
-                <div class="stat-value" id="dynamic_progress">0 %</div>
-                <div class="stat-label">Fremgang</div>
-            </div>
-        </div>
-    </div>
-
-
-    <style>
-        #diagram_grid{
-            display: flex;
-            flex-direction: column;
-            width:100%;
-            margin-top: 15px;
-            margin-bottom: 15px;
-            background-color: white;
-            border-radius: 16px;
-            padding:12px;
-            gap:5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-
-        #diagram_card{
-            width:100%;
-            min-height: 170px;
-            height: 170px;
-            background: white;
-            border-radius: 16px;
-
-            display:flex;
-            justify-content: space-evenly;
-            transform: rotate(180deg);
-            position: relative;
-        }
-
-        .diagram-header{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-            width:100%;
-        }
-
-        .diagram-title{
-            display:flex;
-            align-items:center;
-            gap:8px;
-            min-width:0;
-        }
-
-        .diagram-title-icon{
-            width:28px;
-            height:28px;
-            border-radius:50%;
-            background:#e6f9ef;
-            color:var(--primary-color);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:.85rem;
-            flex-shrink:0;
-        }
-
-        .diagram-title p{
-            color:var(--text-color);
-            font-size:.9rem;
-            font-weight:700;
-            margin:0;
-            white-space:nowrap;
-            overflow:hidden;
-            text-overflow:ellipsis;
-        }
-
-        .diagram_select{
-            min-width:118px;
-            height:32px;
-            padding:0 30px 0 10px;
-            border:1px solid #e4e4ec;
-            border-radius:10px;
-            background:
-                linear-gradient(45deg, transparent 50%, var(--primary-color) 50%) right 13px center / 6px 6px no-repeat,
-                linear-gradient(135deg, var(--primary-color) 50%, transparent 50%) right 8px center / 6px 6px no-repeat,
-                var(--white);
-            color:var(--text-color);
-            font-size:.78rem;
-            font-weight:600;
-            outline:none;
-            box-shadow:0 2px 6px rgba(0,0,0,0.03);
-            appearance:none;
-            -webkit-appearance:none;
-            cursor:pointer;
-        }
-
-        .diagram_select:focus{
-            border-color:var(--primary-color);
-            box-shadow:0 0 0 3px rgba(0,176,121,0.12);
-        }
-
-        .rutenett{
-            position:absolute;
-            display:flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            width:85%;
-            height: 100%;
-        }
-
-        .line{
-            height: 0.1px;
-            width:100%;
-            border-bottom:dashed rgba(128, 128, 128, 0.173) 1px;
-        }
-
-        .progress_max{
-            width:35px;
-            height: 100%;
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .progress_max p{
-            color: #777;
-            transform: rotate(180deg);
-            font-size: 10px;
-            margin:2px;
-        }
-
-        .progress_true{
-            border:var(--XP-background) solid 1.3px;
-            background-color: var(--primary-color);
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            width:90%;
-        }
-
-    </style>
-
-
-    <!-- -------------------------------- Diagram (Km per uke) ------------------------------------- -->
-
-    <section id="diagram_grid">
-        <div class="diagram-header">
-            <div class="diagram-title">
-                <div class="diagram-title-icon"><i class="fa-solid fa-chart-simple"></i></div>
-                <p>XP-utvikling</p>
-            </div>
-            <select class="diagram_select">
-                <option value="week">Siste 7 dager</option>
-                <option value="month">Siste 30 dager</option>
-                <option value="year">Siste 365 dager</option>
-            </select>
-        </div>
-        <div id="diagram_card">
-            <div class="rutenett">
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-            </div>
-            
-            <div class="progress_max">
-                <p id="first_day_lable">Today</p>
-                <div id="prog1" class="progress_true"></div>
-                <p id="one_lable">0</p>
-            </div>
-
-            <div class="progress_max">
-                <p id="second_day_lable">-</p>
-                <div id="prog2" class="progress_true"></div>
-                <p id="two_lable">0</p>
-            </div>
-
-            <div class="progress_max">
-                <p id="third_day_lable">-</p>
-                <div id="prog3" class="progress_true"></div>
-                <p id="three_lable">0</p>
-            </div>
-
-            <div class="progress_max">
-                <p id="fourth_day_lable">-</p>
-                <div id="prog4" class="progress_true"></div>
-                <p id="four_lable">0</p>
-            </div>
-
-            <div class="progress_max">
-                <p id="fifth_day_lable">-</p>
-                <div id="prog5" class="progress_true"></div>
-                <p id="five_lable">0</p>
-            </div>
-
-            <div class="progress_max">
-                <p id="sixth_day_lable">-</p>
-                <div id="prog6" class="progress_true"></div>
-                <p id="six_lable">0</p>
-            </div>
-
-            <div class="progress_max">
-                <p id="seventh_day_lable">-</p>
-                <div id="prog7" class="progress_true"></div>
-                <p id="seven_lable">0</p>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- --------------------------- Life Card (Antall dager igjen) -------------------------------- -->
-    <style>
-        .life-card{
-            width:100%;
-            padding:14px;
-            background:var(--white);
-            border-radius:16px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.05);
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:14px;
-        }
-
-        .life-card__content{
-            display:flex;
-            flex-direction:column;
-            gap:5px;
-            min-width:0;
-        }
-
-        .life-card__header{
-            display:flex;
-            align-items:center;
-            gap:8px;
-        }
-
-        .life-icon{
-            width:26px;
-            height:26px;
-            border-radius:50%;
-            background:#e6f9ef;
-            color:var(--primary-color);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:.85rem;
-        }
-
-        .life-card:hover{
-            box-shadow:0 6px 14px rgba(0,0,0,0.07);
-        }
-
-        .life-title{
-            font-size:.9rem;
-            color:var(--text-color);
-            margin:0;
-            font-weight:700;
-        }
-
-        .life-description{
-            color:var(--subtext-color);
-            font-size:.72rem;
-            line-height:1.35;
-            margin:0;
-        }
-
-        .dynamic_dead{
-            font-size:1.7rem;
-            font-weight:700;
-            color:var(--text-color);
-            line-height:1;
-            margin:0;
-        }
-
-        .days-label{
-            margin:2px 0 0 0;
-            color:var(--subtext-color);
-            font-size:.7rem;
-            text-align:right;
-        }
-
-        .life-card__number{
-            display:flex;
-            flex-direction:column;
-            align-items:flex-end;
-            flex-shrink:0;
-        }
-    </style>
-
-    <section class="life-card">
-        <div class="life-card__content">
-            <div class="life-card__header">
-                <div class="life-icon"><i class="fa-solid fa-hourglass-half"></i></div>
-                <h2 class="life-title">Dager igjen</h2>
-            </div>
-            <p class="life-description">Basert på en forventet levealder på <strong id="dynamic_levealder">- år</strong>.</p>
-        </div>
-
-        <div class="life-card__number">
-            <p class="dynamic_dead">-- ---</p>
-            <p class="days-label">dager</p>
-        </div>
-    </section>
-
-
-    <style>
-        .area_of_life{
-            width:100%;
-            padding:10px;
-            background:var(--white);
-            border-radius:14px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.05);
-            margin-top:15px;
-            display:grid;
-            grid-template-columns:repeat(6, minmax(0, 1fr));
-            gap:8px;
-        }
-
-        .area_of_life__card{
-            min-height:72px;
-            padding:8px;
-            border:1px solid #f0f0f4;
-            border-radius:10px;
-            background:#fbfbfd;
-            display:grid;
-            grid-template-rows:auto 1fr;
-            gap:6px;
-        }
-
-        .area_of_life__top > i{
-            width:26px;
-            height:26px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:.78rem;
-        }
-
-        .area_of_life__card:nth-of-type(1) .area_of_life__top > i{
-            background:#e6f9ef;
-            color:var(--primary-color);
-        }
-
-        .area_of_life__card:nth-of-type(1),
-        .area_of_life__card:nth-of-type(2){
-            grid-column:span 3;
-        }
-
-        .area_of_life__card:nth-of-type(2) .area_of_life__top > i{
-            background:#e8f4ff;
-            color:#3382c8;
-        }
-
-        .area_of_life__card:nth-of-type(3) .area_of_life__top > i{
-            background:#fff6d8;
-            color:#d9a51f;
-        }
-
-        .area_of_life__card:nth-of-type(4) .area_of_life__top > i{
-            background:#f0e9ff;
-            color:#7b55d9;
-        }
-
-        .area_of_life__card:nth-of-type(5){
-            min-height:68px;
-        }
-
-        .area_of_life__card:nth-of-type(3),
-        .area_of_life__card:nth-of-type(4),
-        .area_of_life__card:nth-of-type(5){
-            grid-column:span 2;
-        }
-
-        .area_of_life__card:nth-of-type(5) .area_of_life__top > i{
-            background:#e6f9ef;
-            color:var(--primary-color);
-        }
-
-        .area_of_life span{
-            display:flex;
-            flex-direction:column;
-            gap:2px;
-            min-width:0;
-        }
-
-        .area_of_life p{
-            margin:0;
-        }
-
-        .area_of_life span p:first-child{
-            color:var(--text-color);
-            font-size:.72rem;
-            font-weight:700;
-            white-space:nowrap;
-            overflow:hidden;
-            text-overflow:ellipsis;
-        }
-
-        .area_of_life span p:last-child{
-            color:var(--subtext-color);
-            font-size:.58rem;
-            font-weight:600;
-        }
-
-        .area_of_life__top{
-            display:flex;
-            align-items:center;
-            gap:7px;
-        }
-
-        .area_of_life__count{
-            align-self:end;
-            justify-self:end;
-            color:var(--text-color);
-            font-size:1.35rem;
-            line-height:1;
-            font-weight:800;
-            letter-spacing:0;
-        }
-
-        .area_of_life__card:nth-of-type(1) .area_of_life__count{
-            color:var(--primary-color);
-        }
-
-        .area_of_life__card:nth-of-type(2) .area_of_life__count{
-            color:#3382c8;
-        }
-
-        .area_of_life__card:nth-of-type(3) .area_of_life__count{
-            color:#d9a51f;
-        }
-
-        .area_of_life__card:nth-of-type(4) .area_of_life__count{
-            color:#7b55d9;
-        }
-
-        .area_of_life__card:nth-of-type(5) .area_of_life__count{
-            color:var(--primary-color);
-        }
-
-        .area_of_life__total{
-            grid-column:1 / -1;
-            min-height:28px;
-            padding:6px 8px;
-            border:1px solid rgba(0,176,121,0.12);
-            border-radius:999px;
-            background:#e6f9ef;
-            display:flex;
-            flex-direction:row;
-            justify-content:space-between;
-            align-items:center;
-            gap:10px;
-        }
-
-        .area_of_life__total-label{
-            color:var(--primary-color);
-            font-size:.66rem;
-            font-weight:700;
-            white-space:nowrap;
-        }
-
-        .area_of_life__total-track{
-            flex:1;
-            height:4px;
-            border-radius:999px;
-            background:rgba(0,176,121,0.16);
-            overflow:hidden;
-        }
-
-        .area_of_life__total-fill{
-            display:block;
-            width:0%;
-            height:100%;
-            border-radius:inherit;
-            background:var(--primary-color);
-        }
-
-        .area_of_life__total-count{
-            color:var(--primary-color);
-            font-size:.78rem;
-            line-height:1;
-            font-weight:800;
-            white-space:nowrap;
-        }
-    </style>
-
-
-    <section class="area_of_life">
-        <div class="area_of_life__card">
-            <div class="area_of_life__top">
-                <i class="fa-solid fa-running"></i>
-                <span>
-                    <p>Trening</p>
-                    <p>aktiviteter</p>
-                </span>
-            </div>
-            <p class="area_of_life__count" id="training_counter">0</p>
-        </div>
-
-        <div class="area_of_life__card">
-            <div class="area_of_life__top">
-                <i class="fa-solid fa-pen"></i>
-                <span>
-                    <p>Journal</p>
-                    <p>aktiviteter</p>
-                </span>
-            </div>
-            <p class="area_of_life__count" id="journal_counter">0</p>
-        </div>
-
-        <div class="area_of_life__card">
-            <div class="area_of_life__top">
-                <i class="fa-solid fa-book-open"></i>
-                <span>
-                    <p>Studietimer</p>
-                    <p>aktiviteter</p>
-                </span>
-            </div>
-            <p class="area_of_life__count" id="study_counter">0</p>
-        </div>
-
-        <div class="area_of_life__card">
-            <div class="area_of_life__top">
-                <i class="fa-solid fa-briefcase"></i>
-                <span>
-                    <p>Arbeidstid</p>
-                    <p>aktiviteter</p>
-                </span>
-            </div>
-            <p class="area_of_life__count" id="work_counter">0</p>
-        </div>
-
-        <div class="area_of_life__card">
-            <div class="area_of_life__top">
-                <i class="fa-solid fa-list-check"></i>
-                <span>
-                    <p>Vaner</p>
-                    <p>aktiviteter</p>
-                </span>
-            </div>
-            <p class="area_of_life__count" id="habit_counter">0</p>
-        </div>
-
-        <div class="area_of_life__total">
-            <p class="area_of_life__total-label">Totalt registrert</p>
-            <div class="area_of_life__total-track">
-                <span class="area_of_life__total-fill"></span>
-            </div>
-            <p class="area_of_life__total-count" id="total_counter">0</p>
-        </div>
-    </section>
-
-    <style>
-        .dagsrapport{
-            width:100%;
-            padding:14px;
-            background:var(--white);
-            border-radius:16px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.05);
-            margin-top:20px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:14px;
-        }
-
-        .dagsrapport__content{
-            display:flex;
-            align-items:center;
-            gap:10px;
-            min-width:0;
-        }
-
-        .dagsrapport__icon{
-            width:34px;
-            height:34px;
-            border-radius:50%;
-            background:#e6f9ef;
-            color:var(--primary-color);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:.95rem;
-            flex-shrink:0;
-        }
-
-        .dagsrapport__text{
-            min-width:0;
-        }
-
-        .dagsrapport__title{
-            color:var(--text-color);
-            font-size:.9rem;
-            font-weight:700;
-            margin:0;
-        }
-
-        .dagsrapport__description{
-            color:var(--subtext-color);
-            font-size:.72rem;
-            line-height:1.35;
-            margin:3px 0 0 0;
-        }
-
-        .dagsrapport__button{
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            gap:6px;
-            min-height:34px;
-            padding:0 12px;
-            border-radius:999px;
-            background:var(--primary-color);
-            color:white;
-            font-size:.78rem;
-            font-weight:700;
-            text-decoration:none;
-            flex-shrink:0;
-            box-shadow:0 4px 10px rgba(0,176,121,0.18);
-        }
-
-        .dagsrapport__button:active{
-            transform:scale(.98);
-        }
-    </style>
-
     <section class="dagsrapport">
         <div class="dagsrapport__content">
             <div class="dagsrapport__icon"><i class="fa-solid fa-clipboard-list"></i></div>
@@ -1940,6 +1291,416 @@
             }
         });
     </script>
+
+
+    <div class="stats-card">
+        <div class="stat-section">
+            <div class="stat-info">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Streak</div>
+            </div>
+        </div>
+        <div class="stat-section">
+            <div class="stat-info">
+                <div class="stat-value dynamic_xp">0</div>
+                <div class="stat-label">Total XP</div>
+            </div>
+        </div>
+        <div class="stat-section">
+            <div class="stat-info">
+                <div class="stat-value" id="dynamic_segment">0</div>
+                <div class="stat-label">Segment</div>
+            </div>
+        </div>
+        <div class="stat-section">
+            <div class="stat-info">
+                <div class="stat-value" id="dynamic_progress">0 %</div>
+                <div class="stat-label">Fremgang</div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        #diagram_grid{
+            display: flex;
+            flex-direction: column;
+            width:100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 16px;
+            padding:12px;
+            gap:5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        #diagram_card{
+            width:100%;
+            min-height: 170px;
+            height: 170px;
+            background: white;
+            border-radius: 16px;
+
+            display:flex;
+            justify-content: space-evenly;
+            transform: rotate(180deg);
+            position: relative;
+        }
+
+        .diagram-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            width:100%;
+        }
+
+        .diagram-title{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            min-width:0;
+        }
+
+        .diagram-title-icon{
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.85rem;
+            flex-shrink:0;
+        }
+
+        .diagram-title p{
+            color:var(--text-color);
+            font-size:.9rem;
+            font-weight:700;
+            margin:0;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .diagram_select{
+            min-width:118px;
+            height:32px;
+            padding:0 30px 0 10px;
+            border:1px solid #e4e4ec;
+            border-radius:10px;
+            background:
+                linear-gradient(45deg, transparent 50%, var(--primary-color) 50%) right 13px center / 6px 6px no-repeat,
+                linear-gradient(135deg, var(--primary-color) 50%, transparent 50%) right 8px center / 6px 6px no-repeat,
+                var(--white);
+            color:var(--text-color);
+            font-size:.78rem;
+            font-weight:600;
+            outline:none;
+            box-shadow:0 2px 6px rgba(0,0,0,0.03);
+            appearance:none;
+            -webkit-appearance:none;
+            cursor:pointer;
+        }
+
+        .diagram_select:focus{
+            border-color:var(--primary-color);
+            box-shadow:0 0 0 3px rgba(0,176,121,0.12);
+        }
+
+        .rutenett{
+            position:absolute;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width:85%;
+            height: 100%;
+        }
+
+        .line{
+            height: 0.1px;
+            width:100%;
+            border-bottom:dashed rgba(128, 128, 128, 0.173) 1px;
+        }
+
+        .progress_max{
+            width:35px;
+            height: 100%;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress_max p{
+            color: #777;
+            transform: rotate(180deg);
+            font-size: 10px;
+            margin:2px;
+        }
+
+        .progress_true{
+             background:
+                repeating-linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.035) 0,
+                    rgba(255, 255, 255, 0.035) 2px,
+                    transparent 2px,
+                    transparent 6px
+                ),
+                linear-gradient(
+                    to top,
+                    #02a975,
+                    #34c097
+                );
+
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            width:90%;
+        }
+
+    </style>
+
+
+    <!-- -------------------------------- Diagram (Km per uke) ------------------------------------- -->
+
+    <section id="diagram_grid">
+        <div class="diagram-header">
+            <div class="diagram-title">
+                <div class="diagram-title-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                <p>XP-utvikling</p>
+            </div>
+            <select class="diagram_select">
+                <option value="week">Siste 7 dager</option>
+                <option value="month">Siste 30 dager</option>
+                <option value="year">Siste 365 dager</option>
+            </select>
+        </div>
+        <div id="diagram_card">
+            <div class="rutenett">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            
+            <div class="progress_max">
+                <p id="first_day_lable">Today</p>
+                <div id="prog1" class="progress_true"></div>
+                <p id="one_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <p id="second_day_lable">-</p>
+                <div id="prog2" class="progress_true"></div>
+                <p id="two_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <p id="third_day_lable">-</p>
+                <div id="prog3" class="progress_true"></div>
+                <p id="three_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <p id="fourth_day_lable">-</p>
+                <div id="prog4" class="progress_true"></div>
+                <p id="four_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <p id="fifth_day_lable">-</p>
+                <div id="prog5" class="progress_true"></div>
+                <p id="five_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <p id="sixth_day_lable">-</p>
+                <div id="prog6" class="progress_true"></div>
+                <p id="six_lable">0</p>
+            </div>
+
+            <div class="progress_max">
+                <p id="seventh_day_lable">-</p>
+                <div id="prog7" class="progress_true"></div>
+                <p id="seven_lable">0</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- --------------------------- Life Card (Antall dager igjen) -------------------------------- -->
+    <style>
+        .life-card{
+            width:100%;
+            padding:14px;
+            background:var(--white);
+            border-radius:16px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+        }
+
+        .life-card__content{
+            display:flex;
+            flex-direction:column;
+            gap:5px;
+            min-width:0;
+        }
+
+        .life-card__header{
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .life-icon{
+            width:26px;
+            height:26px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.85rem;
+        }
+
+        .life-card:hover{
+            box-shadow:0 6px 14px rgba(0,0,0,0.07);
+        }
+
+        .life-title{
+            font-size:.9rem;
+            color:var(--text-color);
+            margin:0;
+            font-weight:700;
+        }
+
+        .life-description{
+            color:var(--subtext-color);
+            font-size:.72rem;
+            line-height:1.35;
+            margin:0;
+        }
+
+        .dynamic_dead{
+            font-size:1.7rem;
+            font-weight:700;
+            color:var(--text-color);
+            line-height:1;
+            margin:0;
+        }
+
+        .days-label{
+            margin:2px 0 0 0;
+            color:var(--subtext-color);
+            font-size:.7rem;
+            text-align:right;
+        }
+
+        .life-card__number{
+            display:flex;
+            flex-direction:column;
+            align-items:flex-end;
+            flex-shrink:0;
+        }
+    </style>
+
+    <section class="life-card">
+        <div class="life-card__content">
+            <div class="life-card__header">
+                <div class="life-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <h2 class="life-title">Dager igjen</h2>
+            </div>
+            <p class="life-description">Basert på en forventet levealder på <strong id="dynamic_levealder">- år</strong>.</p>
+        </div>
+
+        <div class="life-card__number">
+            <p class="dynamic_dead">-- ---</p>
+            <p class="days-label">dager</p>
+        </div>
+    </section>
+
+    <style>
+        .dagsrapport{
+            width:100%;
+            padding:14px;
+            background:var(--white);
+            border-radius:16px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+            margin-top:5px;
+        }
+
+        .dagsrapport__content{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            min-width:0;
+        }
+
+        .dagsrapport__icon{
+            width:34px;
+            height:34px;
+            border-radius:50%;
+            background:#e6f9ef;
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.95rem;
+            flex-shrink:0;
+        }
+
+        .dagsrapport__text{
+            min-width:0;
+        }
+
+        .dagsrapport__title{
+            color:var(--text-color);
+            font-size:.9rem;
+            font-weight:700;
+            margin:0;
+        }
+
+        .dagsrapport__description{
+            color:var(--subtext-color);
+            font-size:.72rem;
+            line-height:1.35;
+            margin:3px 0 0 0;
+        }
+
+        .dagsrapport__button{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+            min-height:34px;
+            padding:0 12px;
+            border-radius:999px;
+            background:var(--primary-color);
+            color:white;
+            font-size:.78rem;
+            font-weight:700;
+            text-decoration:none;
+            flex-shrink:0;
+            box-shadow:0 4px 10px rgba(0,176,121,0.18);
+        }
+
+        .dagsrapport__button:active{
+            transform:scale(.98);
+        }
+    </style>
 
     </main>
 </body>

@@ -161,7 +161,7 @@ async function updateProgress(tabell) {
         progress.style.height = `${todayXP}%`;
 
         const label = document.getElementById(numb);
-        label.innerText = todayXP;
+        label.innerText = todayXP.toFixed(1);
     }
     //* Lager en XP profil fra de 7 siste dagene
     xpForDate(0, "prog1", "one_lable", null); /* Dagens XP */
