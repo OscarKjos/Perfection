@@ -606,6 +606,381 @@
         </section>
 
         <style>
+            .mikrookt-seksjon {
+                margin: 15px 10px;
+                padding: 16px 14px;
+                background: var(--white, #ffffff);
+                border-radius: 18px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            }
+
+            /* Overskrift */
+            .mikrookt-seksjon__header {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                padding:20px;
+                padding-left:15px;
+            }
+
+            .mikrookt-seksjon__icon {
+                width: 34px;
+                height: 34px;
+                flex-shrink: 0;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 50%;
+                background: #e9f9f3;
+                color: #00b77b;
+                font-size: 16px;
+            }
+
+            .mikrookt-seksjon__text {
+                min-width: 0;
+            }
+
+            .mikrookt-seksjon__title {
+                margin: 0;
+                color: #111827;
+                font-size: 14.4px;
+                font-weight: 750;
+                line-height: 1.2;
+            }
+
+            .mikrookt-seksjon__description {
+                margin: 3px 0 0;
+                color: #667085;
+                font-size: 11.5px;
+                line-height: 1.3;
+            }
+
+            /* Statistikkboksene */
+            .mikrookt-seksjon__stats {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 8px;
+                padding:8px;
+            }
+
+            .mikrookt-seksjon__stat {
+                min-width: 0;
+                padding: 10px 4px 9px;
+
+                text-align: center;
+                background: #fbfcfc;
+                border: 1px solid #edf0f2;
+                border-radius: 11px;
+                box-shadow: 0 2px 7px rgba(0, 0, 0, 0.025);
+            }
+
+            .mikrookt-seksjon__period {
+                margin: 0;
+                color: #68727d;
+                font-size: 9px;
+                font-weight: 600;
+                line-height: 1.2;
+                white-space: nowrap;
+            }
+
+            .mikrookt-seksjon__number {
+                margin: 5px 0 1px;
+                color: #111827;
+                font-size: 15px;
+                font-weight: 750;
+                line-height: 1.1;
+                white-space: nowrap;
+            }
+
+            .mikrookt-seksjon__unit {
+                margin: 0;
+                color: #68727d;
+                font-size: 10px;
+                line-height: 1.2;
+            }
+
+            /* Smalere skjermer */
+            @media (max-width: 360px) {
+                .mikrookt-seksjon {
+                    padding-inline: 10px;
+                }
+
+                .mikrookt-seksjon__stats {
+                    gap: 5px;
+                }
+
+                .mikrookt-seksjon__stat {
+                    padding-inline: 2px;
+                }
+
+                .mikrookt-seksjon__period,
+                .mikrookt-seksjon__unit {
+                    font-size: 9px;
+                }
+
+                .mikrookt-seksjon__number {
+                    font-size: 14px;
+                }
+            }
+        </style>
+
+    <section class="mikrookt-seksjon ovelser">
+        <header class="mikrookt-seksjon__header">
+            <div class="mikrookt-seksjon__icon">
+                <i class="fa-solid fa-dumbbell" aria-hidden="true"></i>
+            </div>
+
+            <div class="mikrookt-seksjon__text">
+                <h2 class="mikrookt-seksjon__title">Styrketrening</h2>
+                <p class="mikrookt-seksjon__description">
+                    Oversikt over antall repetisjoner
+                </p>
+            </div>
+        </header>
+
+        <div class="mikrookt-seksjon__stats">
+            <article class="mikrookt-seksjon__stat">
+                <p class="mikrookt-seksjon__period">Uke</p>
+                <p class="mikrookt-seksjon__number" id="antall-reps-uke">
+                    -
+                </p>
+                <p class="mikrookt-seksjon__unit">rep</p>
+            </article>
+
+            <article class="mikrookt-seksjon__stat">
+                <p class="mikrookt-seksjon__period">Måned</p>
+                <p class="mikrookt-seksjon__number" id="antall-reps-maned">
+                    -
+                </p>
+                <p class="mikrookt-seksjon__unit">rep</p>
+            </article>
+
+            <article class="mikrookt-seksjon__stat">
+                <p class="mikrookt-seksjon__period">År</p>
+                <p class="mikrookt-seksjon__number" id="antall-reps-ar">
+                    -
+                </p>
+                <p class="mikrookt-seksjon__unit">rep</p>
+            </article>
+
+            <article class="mikrookt-seksjon__stat">
+                <p class="mikrookt-seksjon__period">Totalt</p>
+                <p class="mikrookt-seksjon__number" id="antall-reps-totalt">
+                    -
+                </p>
+                <p class="mikrookt-seksjon__unit">rep</p>
+            </article>
+        </div>
+
+
+        <style>
+            .mikrookt-seksjon.ovelser {
+                margin: 15px 10px;
+                padding: 0;
+                overflow: hidden;
+
+                background: var(--white, #ffffff);
+                border: 1px solid #edf0f2;
+                border-radius: 16px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+            }
+
+            /* Søkefelt */
+            .ovelser__search {
+                position: relative;
+                padding: 12px;
+                background: #ffffff;
+                border-bottom: 1px solid #edf0f2;
+            }
+
+            .ovelser__search-icon {
+                position: absolute;
+                top: 50%;
+                left: 27px;
+                z-index: 1;
+
+                color: #a4abb4;
+                font-size: 14px;
+                pointer-events: none;
+
+                transform: translateY(-50%);
+            }
+
+            .ovelser__input {
+                width: 100%;
+                height: 42px;
+                box-sizing: border-box;
+                padding: 0 14px 0 40px;
+
+                color: #1f2937;
+                font-family: inherit;
+                font-size: 16px;
+
+                background: #ffffff;
+                border: 1px solid #e6e9ed;
+                border-radius: 11px;
+                outline: none;
+
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.035);
+                transition:
+                    border-color 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+
+            .ovelser__input::placeholder {
+                color: #737d88;
+            }
+
+            .ovelser__input:focus {
+                border-color: #00b77b;
+                box-shadow: 0 0 0 3px rgba(0, 183, 123, 0.12);
+            }
+
+            /* Liste */
+            .ovelser__liste {
+                width: 100%;
+            }
+
+            .ovelser__rad {
+                display: grid;
+                grid-template-columns:
+                    minmax(118px, 1.35fr)
+                    repeat(4, minmax(58px, 0.75fr));
+                align-items: center;
+
+                min-height: 78px;
+                padding: 0 12px;
+                box-sizing: border-box;
+
+                border-bottom: 1px solid #edf0f2;
+            }
+
+            .ovelser__rad:last-child {
+                border-bottom: none;
+            }
+
+            /* Navn og ikon */
+            .ovelser__navn {
+                display: flex;
+                align-items: center;
+                min-width: 0;
+                gap: 10px;
+            }
+
+            .ovelser__ikon {
+                width: 37px;
+                height: 37px;
+                flex: 0 0 37px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                color: #111827;
+                font-size: 15px;
+
+                background: #e8faf3;
+                border-radius: 50%;
+            }
+
+            .ovelser__navn p {
+                min-width: 0;
+                margin: 0;
+
+                color: #111827;
+                font-size: 12px;
+                font-weight: 700;
+
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            /* Statistikken i hver rad */
+            .ovelser__statistikk {
+                min-width: 0;
+                text-align: center;
+            }
+
+            .ovelser__statistikk small {
+                display: block;
+                margin-bottom: 5px;
+
+                color: #67717d;
+                font-size: 9px;
+                font-weight: 500;
+                line-height: 1.1;
+                white-space: nowrap;
+            }
+
+            .ovelser__statistikk p {
+                margin: 0;
+
+                color: #111827;
+                font-size: 13px;
+                font-weight: 700;
+                line-height: 1.2;
+                white-space: nowrap;
+            }
+
+            /* Små mobilskjermer */
+            @media (max-width: 390px) {
+                .ovelser__rad {
+                    grid-template-columns:
+                        minmax(105px, 1.25fr)
+                        repeat(4, minmax(53px, 0.7fr));
+
+                    padding-inline: 8px;
+                }
+
+                .ovelser__navn {
+                    gap: 7px;
+                }
+
+                .ovelser__ikon {
+                    width: 33px;
+                    height: 33px;
+                    flex-basis: 33px;
+                    font-size: 13px;
+                }
+
+                .ovelser__navn p {
+                    font-size: 13px;
+                }
+
+                .ovelser__statistikk small {
+                    font-size: 8px;
+                }
+
+                .ovelser__statistikk p {
+                    font-size: 12px;
+                }
+            }
+        </style>
+
+    <div class="ovelser__search">
+        <i
+            class="fa-solid fa-magnifying-glass ovelser__search-icon"
+            aria-hidden="true"
+        ></i>
+
+        <input
+            class="ovelser__input"
+            type="search"
+            placeholder="Søk øvelse"
+            aria-label="Søk etter styrkeøvelse"
+        >
+    </div>
+
+    <div class="ovelser__liste">
+        <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+    </div>
+</section>
+
+
+        <style>
         .area_of_life{
             width:100%-10px;
             padding:10px;
@@ -859,5 +1234,6 @@
     <script src="navigator.js" defer></script>
     <script type="module" src="progress.js"></script>
     <script type="module" src="statistikk.js"></script>
+    <script type="module" src="mikroøkt.js"></script>
 </body>
 </html>

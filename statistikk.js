@@ -225,3 +225,193 @@ const rowCountPromises = Promise.all([
 const total_antall_aktiviteter = Number(localStorage.getItem("training_counter")) + Number(localStorage.getItem("habit_counter")) + Number(localStorage.getItem("work_counter")) + Number(localStorage.getItem("journal_counter")) + Number(localStorage.getItem("study_counter")); //localStorage.getItem("work_counter") + localStorage.getItem("journal_counter") + localStorage.getItem("study_counter");
 localStorage.setItem("total_aktiviteter", total_antall_aktiviteter);
 document.getElementById("total_counter").textContent = total_antall_aktiviteter;
+
+
+
+/* ======== Funksjon som beregner antall reps per styrkeøvelse basert på dato ======== */
+
+let total_week_reps = 0;
+let total_month_reps = 0;
+let total_year_reps = 0;
+let totalreps = 0;
+
+
+// Sjekker dato 
+let date = new Date();
+let year = date.getFullYear();
+let måned = date.getMonth() + 1;
+
+
+async function mikro_training(base) {
+    const { data, error } = await supabase
+    .from('bruker_data_mikroøkt')
+    .select('dato, aktivitet');
+
+    let today = new Date();
+    const currentWeek = getWeekNumber(today);
+    const currentYear = today.getFullYear();
+
+    data.forEach(element => {
+
+        // Antall reps per styrkeøvelse (Totalt)
+        if (element.aktivitet.includes(base)) {
+            const øvelse_reps = element.aktivitet.split(", ");
+            
+            øvelse_reps.forEach(øvelse => {
+                const [navn, reps] = øvelse.split(": ");
+                if (navn === base) {
+                    totalreps += Number(reps)
+                }
+            });
+        }
+
+        // Antall reps per styrkeøvelse (Fra i år)
+        if (element.dato >= year + "-01-01" && element.aktivitet.includes(base)) {
+            const øvelse_reps = element.aktivitet.split(", ");
+            
+            øvelse_reps.forEach(øvelse => {
+                const [navn, reps] = øvelse.split(": ");
+                if (navn === base) {
+                    total_year_reps += Number(reps)
+                }
+        });
+        }
+
+        // Antall reps per styrkeøvelse (Fra denne måneden)
+        if (element.dato >= `${year}-${String(måned).padStart(2, "0")}-01` && element.aktivitet.includes(base)) {
+            const øvelse_reps = element.aktivitet.split(", ");
+            
+            øvelse_reps.forEach(øvelse => {
+                const [navn, reps] = øvelse.split(": ");
+                if (navn === base) {
+                    total_month_reps += Number(reps)
+                }
+        });
+        }
+
+        const elementDate = new Date(element.dato);
+        const weekNumber = getWeekNumber(elementDate);
+        const elementYear = elementDate.getFullYear();
+
+        // Antall reps per styrkeøvelse (Fra denne uken)
+        if (weekNumber === currentWeek && elementYear === currentYear) {
+            const øvelse_reps = element.aktivitet.split(", ");
+            
+            øvelse_reps.forEach(øvelse => {
+                const [navn, reps] = øvelse.split(": ");
+                if (navn === base) {
+                    total_week_reps += Number(reps)
+                }
+        });
+        }
+
+    });
+
+    // Oppretter html elementer for hver kategori
+        const ovelser__liste = document.querySelector(".ovelser__liste");
+        const ovelser__rad = document.createElement("article");
+        ovelser__rad.className = "ovelser__rad";
+
+        if (totalreps === 0) {
+            return
+        }
+
+        ovelser__rad.innerHTML = `
+            <div class="ovelser__navn">
+                <div class="ovelser__ikon">
+                    <i class="fa-solid fa-dumbbell" aria-hidden="true"></i>
+                </div>
+                <p>${base}</p>
+            </div>
+
+            <div class="ovelser__statistikk">
+                <small>Uke</small>
+                <p>${total_week_reps !== 0 ? total_week_reps : "-" }</p>
+            </div>
+
+            <div class="ovelser__statistikk">
+                <small>Måned</small>
+                <p>${total_month_reps !== 0 ? total_month_reps : "-" }</p>
+            </div>
+
+            <div class="ovelser__statistikk">
+                <small>År</small>
+                <p>${total_year_reps !== 0 ? total_year_reps : "-" }</p>
+            </div>
+
+            <div class="ovelser__statistikk">
+                <small>Totalt</small>
+                <p>${totalreps !== 0 ? totalreps : "-"}</p>
+            </div>
+        `;
+
+        ovelser__liste.appendChild(ovelser__rad);
+
+    totalreps = 0;
+    total_year_reps = 0;
+    total_month_reps = 0;
+    total_week_reps = 0;
+}
+mikro_training("Push-Ups");
+mikro_training("Sit-Ups");
+mikro_training("Planke");
+mikro_training("Triceps-Dips");
+mikro_training("Biceps Curls");
+
+mikro_training("Crunches");
+mikro_training("Beinhev");
+mikro_training("Rygghev");
+mikro_training("Supermann");
+mikro_training("Bird-dog");
+mikro_training("Russian Twist");
+mikro_training("Ankel-touch");
+mikro_training("Side-Planke");
+
+mikro_training("Knebøy");
+mikro_training("Utfall");
+mikro_training("Seteløft");
+mikro_training("Tåhev");
+mikro_training("Reverse Calf Raise");
+
+
+/* ======== Funksjon som beregner antall reps totalt/år/måned/uke ======== */
+
+async function reps_count() {
+    const { data, error } = await supabase
+    .from('bruker_data_mikroøkt')
+    .select('dato, repetisjoner');
+
+    let reps_total = 0;
+    let reps_year = 0;
+    let reps_month = 0;
+    let reps_week = 0;
+
+    let today = new Date();
+    const currentWeek = getWeekNumber(today);
+    const currentYear = today.getFullYear();
+
+    data.forEach(element => {
+        const elementDate = new Date(element.dato);
+        const weekNumber = getWeekNumber(elementDate);
+        const elementYear = elementDate.getFullYear();
+
+        reps_total += Number(element.repetisjoner);
+        document.getElementById("antall-reps-totalt").textContent = reps_total;
+
+        if (element.dato >= year + "-01-01") {
+            reps_year += Number(element.repetisjoner);
+            document.getElementById("antall-reps-ar").textContent = reps_year;
+        }
+
+        if (element.dato >= `${year}-${String(måned).padStart(2, "0")}-01`) {
+            reps_month += Number(element.repetisjoner);
+            document.getElementById("antall-reps-maned").textContent = reps_month;
+        }
+
+        if (weekNumber === currentWeek && elementYear === currentYear) {
+            reps_week += Number(element.repetisjoner);
+            document.getElementById("antall-reps-uke").textContent = reps_week;
+        }
+    });
+}
+reps_count();
