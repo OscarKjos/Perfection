@@ -176,8 +176,10 @@ async function hentSeng(dato_id, check_id) {
             seng.innerHTML = "<i class='fa-solid fa-check'></i>";
             seng.style.backgroundColor = "var(--primary-color)";
 
-            const bilde = document.getElementById("ikon_av_seng");
-            bilde.src = "Bilder/ikoner/bed.png";
+            if (element.dato === today) {
+                const bilde = document.getElementById("ikon_av_seng");
+                bilde.src = "Bilder/ikoner/bed.png";
+            }
         }
 
     })

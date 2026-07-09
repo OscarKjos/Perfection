@@ -502,6 +502,10 @@
     </script>
 
     <script>
+        // Forhåndsinstilling for dato i input field
+        document.getElementById("dato_value").valueAsDate = new Date();
+        
+
         // Placeholder for Duration calculation (min + sek) omgjort til desimaltall (50 min, 36 sek = 50.6)
         const min = document.getElementById("varighet_min_value");
         const sek = document.getElementById("varighet_sek_value");

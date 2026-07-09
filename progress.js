@@ -26,8 +26,9 @@ async function updateProgress(tabell) {
     const count3 = await updateProgress('bruker_data_vaner');
     const count4 = await updateProgress('bruker_data_journal');
     const count5 = await updateProgress('bruker_data_studie');
+    const count6 = await updateProgress('bruker_data_mikroøkt');
 
-    count = count1 + count2 + count3 + count4 + count5
+    count = count1 + count2 + count3 + count4 + count5 + count6
 
 
 
@@ -128,7 +129,8 @@ async function updateProgress(tabell) {
     const data3 = await hentXpData('bruker_data_vaner');
     const data4 = await hentXpData('bruker_data_journal');
     const data5 = await hentXpData('bruker_data_studie');
-    const allData = [...data1, ...data2, ...data3, ...data4, ...data5];
+    const data6 = await hentXpData('bruker_data_mikroøkt');
+    const allData = [...data1, ...data2, ...data3, ...data4, ...data5, ...data6];
 
 
 
