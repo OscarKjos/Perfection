@@ -218,7 +218,8 @@ style.textContent = `
         /* Footer */
         .sidebar__footer{
             border-top:1px solid #eee;
-            width:100%; 
+            width:100%;
+            padding-bottom:20px;
         }
 
         .sidebar__footer a{
@@ -266,11 +267,10 @@ style.textContent = `
         .overlay-hint {
             font-size: 0.72em;
             color: #b0b0b0;
-            margin: 10px 0 0 0;
             text-align: center;
             line-height: 1.5;
             font-weight: 400;
-            margin:30px 15px 30px 15px;
+            margin:15px 22px 23px 22px;
         }
 
         #splash_screen {
@@ -346,13 +346,17 @@ navContainer.innerHTML = `
                 <a href="Forms/project.html" id="action_treningsokt"><i class="fa-solid fa-chart-line"></i>Produktivitet</a>
                 <a href="Forms/habits.html" id="action_artikler"><i class="fa-solid fa-bed"></i>Vaner / Helse</a>
                 <a href="Forms/journal.html" id="action_treningsokt"><i class="fa-solid fa-journal-whills"></i>Journal</a>
-                <p class="overlay-hint">Registrer aktiviteter, få XP og bygg opp profilen din med nivåer, statistikk og funksjoner. <u>Les mer om hvordan appen fungerer</u></p>
             </div>
         </div>
 
         <div class="sidebar__footer">
+
+        <span style="display:flex; flex-direction:row; gap:10px; padding-top:15px; align-items:center; justify-content:space-between; padding:5px 25px 0px 15px;">
             <a><i class="fa-solid fa-shield-alt"></i>Personvern</a>
+            <p style="color:#b0b0b0" font-size:14px>|</p>
             <a class="logout_referrer"><i class="fa-solid fa-right-from-bracket"></i>Logg ut</a>
+        </span>
+            <p class="overlay-hint">Registrer aktiviteter, få XP og bygg opp profilen din med nivåer, statistikk og funksjoner. <u>Les mer om hvordan appen fungerer</u></p>
         </div>
     </div>
 
