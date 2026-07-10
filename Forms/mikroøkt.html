@@ -173,16 +173,15 @@
             flex-direction:column;
             gap:18px;
             padding:20px;
-            background: #e3f3ed;
+            background: #f2fbf8;
             border:1px solid rgba(29,184,116,0.16);
             border-radius: 14px;
         }
 
         .micro-row{
-            display:flex;
-            flex-direction:row;
+            display:grid;
+            grid-template-columns: 2fr 1fr;
             gap:16px;
-            align-items:flex-end;
         }
 
         .wrappingbox .field{
@@ -206,13 +205,6 @@
             color:var(--text);
             font-size:15px;
             cursor:pointer;
-            box-shadow:0 8px 18px rgba(29,184,116,0.20);
-            transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        .add-micro-btn:hover{
-            transform:translateY(-1px);
-            box-shadow:0 12px 24px rgba(29,184,116,0.28);
         }
 
         .add-micro-btn:active{
@@ -314,7 +306,7 @@
             display:flex;
             flex-direction:row;
             justify-content: space-between;
-            background-color: #d4ede36a;
+            background-color: #fbfbfd;
             padding:12px;
             border-radius: 14px;
         }

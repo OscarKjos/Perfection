@@ -364,7 +364,7 @@
 
         <button id="active_profile" class="profile_bar__item" type="button">
             <i class="fa-regular fa-user"></i>
-            <span>Om meg</span>
+            <span>Min side</span>
         </button>
     </nav>
 
@@ -412,10 +412,10 @@
             display:flex;
             flex-direction:column;
             gap:12px;
-            padding:14px;
+            padding:20px 14px 20px 14px;
             background:var(--white);
             border:1px solid rgba(0,0,0,0.06);
-            border-radius:8px;
+            border-radius:14px 14px 0px 0px;
             box-shadow:0 2px 8px rgba(0,0,0,0.05);
         }
 
@@ -460,7 +460,6 @@
         }
 
         .profile_information__list{
-            display:grid;
             gap:8px;
         }
 
@@ -474,6 +473,7 @@
             background:#fbfbfe;
             border:1px solid #f0f0f4;
             border-radius:8px;
+            width:100%;
         }
 
         .profile_information__row_icon{
@@ -519,6 +519,7 @@
             </div>
 
             <div class="profile_information__list">
+                <span style="display:flex; gap:5px; margin-bottom: 5px;">
                 <div class="profile_information__row">
                     <div class="profile_information__row_icon">
                         <i class="fa-solid fa-signature"></i>
@@ -538,6 +539,7 @@
                         <p class="profile_information__value dynamic_status"></p>
                     </div>
                 </div>
+                </span>
 
                 <div class="profile_information__row">
                     <div class="profile_information__row_icon">
@@ -550,6 +552,301 @@
                 </div>
             </div>
         </section>
+
+
+        <style>
+            .dokumenter{
+                padding: 20px 14px 20px 14px;
+                background:var(--surface-color);
+                border:1px solid rgba(0,0,0,0.06);
+                border-radius:0px;
+                box-shadow:0 3px 10px rgba(0,0,0,0.04);
+                display:flex;
+                flex-direction:column;
+                gap:12px;
+            }
+
+            .dokumenter__header{
+                display:flex;
+                align-items:center;
+                gap:10px;
+            }
+
+            .dokumenter__title{
+                margin:0;
+                color:var(--text-color);
+                font-size:.95rem;
+                font-weight:800;
+                line-height:1.2;
+            }
+
+            .dokumenter__subtitle{
+                margin:2px 0 0;
+                color:var(--subtext-color);
+                font-size:.72rem;
+                line-height:1.25;
+            }
+
+            .dokumenter__header_icon{
+                width:34px;
+                height:34px;
+                border-radius:10px;
+                background:#e6f9ef;
+                color:var(--primary-color);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-shrink:0;
+                font-size:.9rem;
+            }
+
+            .dokumenter__list{
+                display:flex;
+                flex-direction:row;
+                gap:5px;
+                width:100%;
+            }
+
+            .dokumenter__list span{
+                width:100%;
+                display:flex;
+                flex-direction:column;
+                gap:5px;
+            }
+
+            .dokumenter__card{
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:12px;
+                padding:12px;
+                border:1px solid #f0f0f4;
+                border-radius:10px;
+                background:#fbfbfe;
+            }
+
+            .dokumenter__content{
+                display:flex;
+                align-items:center;
+                gap:10px;
+                min-width:0;
+                flex:1;
+            }
+
+            .dokumenter__icon{
+                width:36px;
+                height:36px;
+                border-radius:10px;
+                background:#eef7fd;
+                color:#4f8fe8;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-shrink:0;
+                font-size:.95rem;
+            }
+
+            .dokumenter__text{
+                min-width:0;
+            }
+
+            .dokumenter__name{
+                margin:0;
+                color:var(--text-color);
+                font-size:.9rem;
+                font-weight:700;
+                line-height:1.2;
+            }
+
+            .dokumenter__description{
+                margin:3px 0 0;
+                color:var(--subtext-color);
+                font-size:.72rem;
+                line-height:1.35;
+            }
+        </style>
+
+        <section class="dokumenter" aria-labelledby="dokumenter_title">
+            <div class="dokumenter__header">
+                <div class="dokumenter__header_icon">
+                    <i class="fa-regular fa-folder-open"></i>
+                </div>
+                <div>
+                    <p id="dokumenter_title" class="dokumenter__title">Dokumenter</p>
+                    <p class="dokumenter__subtitle">Viktige filer samlet på ett sted.</p>
+                </div>
+            </div>
+
+            <div class="dokumenter__list">
+                <span>
+                <article class="dokumenter__card">
+                    <div class="dokumenter__content">
+                        <div class="dokumenter__text">
+                            <p class="dokumenter__name">Vitnemål</p>
+                            <p class="dokumenter__description">For Grunnskolen</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="dokumenter__card">
+                    <div class="dokumenter__content">
+                        <div class="dokumenter__text">
+                            <p class="dokumenter__name">Vitnemål</p>
+                            <p class="dokumenter__description">For Vidregående Opplæring</p>
+                        </div>
+                    </div>
+                </article>
+                </span>
+
+                <span>
+                <article class="dokumenter__card">
+                    <div class="dokumenter__content">
+                        <div class="dokumenter__text">
+                            <p class="dokumenter__name">Rekkordbevis</p>
+                            <p class="dokumenter__description">For friidrett og løping</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="dokumenter__card">
+                    <div class="dokumenter__content">
+                        <div class="dokumenter__text">
+                            <p class="dokumenter__name">Løpsprofil</p>
+                            <p class="dokumenter__description">For friidrett og løping</p>
+                        </div>
+                    </div>
+                </article>
+                </span>
+            </div>
+        </section>
+
+        <style>
+            .utvidelser{
+                padding: 20px 14px 20px 14px;
+                display:flex;
+                flex-direction:column;
+                gap:12px;
+                background:var(--surface-color);
+                border:1px solid rgba(0,0,0,0.06);
+                border-radius:0px 0px 14px 14px;
+                box-shadow:0 3px 10px rgba(0,0,0,0.04);
+            }
+
+            .utvidelser__header{
+                display:flex;
+                align-items:center;
+                gap:10px;
+            }
+
+            .utvidelser__header_icon{
+                width:34px;
+                height:34px;
+                border-radius:10px;
+                background:#e6f9ef;
+                color:var(--primary-color);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-shrink:0;
+                font-size:.9rem;
+            }
+
+            .utvidelser__title{
+                margin:0;
+                color:var(--text-color);
+                font-size:.95rem;
+                font-weight:800;
+                line-height:1.2;
+            }
+
+            .utvidelser__subtitle{
+                margin:2px 0 0;
+                color:var(--subtext-color);
+                font-size:.72rem;
+                line-height:1.25;
+            }
+
+            .utvidelser__grid{
+                display:flex;
+                flex-wrap:wrap;
+                gap:8px;
+            }
+
+            .utvidelser__card{
+                min-width:0;
+                padding:12px;
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
+                background:#fbfbfe;
+                border:1px solid #f0f0f4;
+                border-radius:10px;
+            }
+
+            .utvidelser__icon{
+                width:34px;
+                height:34px;
+                border-radius:10px;
+                background:#e6f9ef;
+                color:var(--primary-color);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:.9rem;
+            }
+
+
+            .utvidelser__name{
+                margin:0;
+                color:var(--text-color);
+                font-size:.86rem;
+                font-weight:700;
+                line-height:1.2;
+                overflow-wrap:anywhere;
+            }
+
+            .utvidelser__description{
+                margin:3px 0 0;
+                color:var(--subtext-color);
+                font-size:.7rem;
+                line-height:1.3;
+            }
+        </style>
+
+        <section class="utvidelser" aria-labelledby="utvidelser_title">
+            <div class="utvidelser__header">
+                <div class="utvidelser__header_icon">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+                <div>
+                    <p id="utvidelser_title" class="utvidelser__title">Utvidelser</p>
+                    <p class="utvidelser__subtitle">Verktøy og ekstra funksjoner</p>
+                </div>
+            </div>
+
+            <div class="utvidelser__grid">
+                <article class="utvidelser__card">
+                        <p class="utvidelser__name">Løpskalkulator</p>
+                        <p class="utvidelser__description">Beregn hastighet</p>
+                </article>
+
+                <article class="utvidelser__card">
+                        <p class="utvidelser__name">Notater</p>
+                        <p class="utvidelser__description">Tanker og ideer</p>
+                </article>
+
+                <article class="utvidelser__card">
+                        <p class="utvidelser__name">Counter</p>
+                        <p class="utvidelser__description">Nedtelling</p>
+                </article>
+
+                <article class="utvidelser__card">
+                        <p class="utvidelser__name">Day Since</p>
+                        <p class="utvidelser__description">Opptelling</p>
+                </article>
+            </div>
+        </section>
+
     </main>
 
     <main class="container segments_container" style="display:none">
@@ -899,95 +1196,6 @@
                 <span>Last opp</span>
                 <small>Bilde eller video</small>
             </button>
-
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/Image.jpg" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/Image2.jpg" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image3.png" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image4.PNG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image5.JPG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image6.JPG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image7.JPG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image8.JPG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image9.JPG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image10.JPG" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
-
-            <figure class="picture_grid__item">
-                <img src="Bilder/image11.jpeg" alt="Opplastet media">
-                <figcaption class="picture_grid__meta">
-                    <span class="picture_grid__tag">Bilde</span>
-                    <i class="fa-regular fa-image"></i>
-                </figcaption>
-            </figure>
         </div>
     </section>
     </main>
