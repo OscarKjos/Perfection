@@ -109,7 +109,7 @@ style.textContent = `
             align-items: center;
             justify-content: space-between;
             background: var(--white);
-            padding: 0 24px;
+            padding: 0px 24px 0px 12px;
             height: 50px;
             gap: 18px;
         }
@@ -120,6 +120,10 @@ style.textContent = `
             color: #111;
             margin-right: 12px;
             letter-spacing: 1px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
         }
 
         .topnav .icon-btn {
@@ -283,6 +287,7 @@ style.textContent = `
             z-index: 9999;
         }
 
+    
         /* Center container */
         .splash_content {
             display: flex;
@@ -296,7 +301,7 @@ style.textContent = `
         .splash_logo {
             font-size: 72px;
             color: white;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
+            width:150px;
         }
 
         /* App name */
@@ -364,7 +369,7 @@ navContainer.innerHTML = `
 
     <div class="topnav">
         <a class="link_with_no_decoration" href="index.html">
-            <span class="brand"><i class="fa-solid fa-bolt"></i> perfection</span>
+            <span class="brand"><img style="width:30px;" src="Bilder/ikoner/logo_light.png" alt="Logo"> Plyzaro</span>
         </a>
         <div>
             <button class="icon-btn" title="Varsler"><i class="fa-regular fa-bell"></i></button>
@@ -396,8 +401,8 @@ navContainer.innerHTML = `
 
     <div id="splash_screen">
         <div class="splash_content">
-            <i class="fa-solid fa-bolt splash_logo"></i>
-            <div class="splash_title">Perfection</div>
+            <img class="splash_logo" src="Bilder/ikoner/splash_screen.png" alt="Logo">
+            <div class="splash_title">PLYZARO</div>
         </div>
     </div>
 `;
