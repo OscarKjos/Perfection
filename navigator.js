@@ -1,5 +1,7 @@
 const style = document.createElement("style");
 
+const splashAlreadyShown = sessionStorage.getItem("splash_vist") === "true";
+
 style.textContent = `
         .overlay {
             position: fixed;
@@ -7,7 +9,7 @@ style.textContent = `
             left: 0;
             width: 100vw;
             height: 95vh;
-            background: white;
+            background: var(--surface-color);
             z-index: 9999;
             align-items: center;
             justify-content: center;
@@ -48,7 +50,7 @@ style.textContent = `
             width: 100%;
             height: calc(80px + env(safe-area-inset-bottom));
             box-sizing: border-box;
-            background: var(--white);
+            background: var(--surface-color);
             box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
             display: flex;
             align-items: flex-end;
@@ -63,7 +65,7 @@ style.textContent = `
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #222;
+            color: var(--text-color);
             font-size: 1.25em;
             text-decoration: none;
             height: 100%;
@@ -96,7 +98,7 @@ style.textContent = `
             position: relative;
             top: -22px;
             z-index: 2;
-            border: 4px solid var(--white);
+            border: 4px solid white;
         }
 
         .topnav {
@@ -108,18 +110,17 @@ style.textContent = `
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: var(--white);
+            background: var(--surface-color);
             padding: 0px 24px 0px 12px;
             height: 50px;
             gap: 18px;
         }
 
         .topnav .brand {
-            font-weight: bold;
             font-size: 1.1em;
-            color: #111;
+            color: var(--text-color);
             margin-right: 12px;
-            letter-spacing: 1px;
+            letter-spacing: 3px;
 
             display:flex;
             align-items:center;
@@ -133,20 +134,12 @@ style.textContent = `
             padding: 4px;
             margin: 0 2px;
             font-size: 1.1em;
-            color: #111;
+            color: var(--text-color);
             transition: color 0.2s;
         }
 
         .topnav .icon-btn:hover {
             color: #444;
-        }
-
-        :root{
-            --primary-color:#00b079;
-            --background-color:#f6f5fb;
-            --text-color:#222;
-            --subtext-color:#666;
-            --white:white;
         }
 
         *{
@@ -155,7 +148,7 @@ style.textContent = `
         }
 
         body{
-            background:var(--background-color);
+            background: var(--bg-color);
             font-family:Arial,sans-serif;
             min-height:100vh;
             margin:0px;
@@ -280,7 +273,7 @@ style.textContent = `
         #splash_screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #1DB874, #0f6b47);
+            background: linear-gradient(135deg, var(--splash-color), var(--splash-color2));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -307,9 +300,16 @@ style.textContent = `
         /* App name */
         .splash_title {
             font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 2px;
+            letter-spacing: 10px;
             color: rgba(255,255,255,0.95);
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
+        }
+
+        #name_value1{
+            color:var(--text-color);
         }
 `;
 
@@ -369,7 +369,7 @@ navContainer.innerHTML = `
 
     <div class="topnav">
         <a class="link_with_no_decoration" href="index.html">
-            <span class="brand"><img style="width:30px;" src="Bilder/ikoner/logo_light.png" alt="Logo"> Plyzaro</span>
+            <span class="brand"><img style="width:30px;" src="Bilder/ikoner/logo_light.png" alt="Logo"> KVADOR</span>
         </a>
         <div>
             <button class="icon-btn" title="Varsler"><i class="fa-regular fa-bell"></i></button>
@@ -399,10 +399,10 @@ navContainer.innerHTML = `
         </button>
     </nav>
 
-    <div id="splash_screen">
+    <div id="splash_screen" style="${splashAlreadyShown ? 'display: none;' : ''}">
         <div class="splash_content">
             <img class="splash_logo" src="Bilder/ikoner/splash_screen.png" alt="Logo">
-            <div class="splash_title">PLYZARO</div>
+            <div class="splash_title">KVADOR</div>
         </div>
     </div>
 `;
@@ -461,19 +461,33 @@ function settThemeColor(farge) {
 }
 
 
+
 /* ==================== Splash screen ====================== */
- window.addEventListener("load", () => {
+
+    window.addEventListener("load", () => {
         if (sessionStorage.getItem("splash_vist") === "true") {
             document.getElementById("splash_screen").style.display = "none";
-            settThemeColor('white');
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                settThemeColor('#0b0f14');
+            } else{
+                settThemeColor('white');
+            }
             return
         }
-
-    settThemeColor('#1DB874');
+    
+     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        settThemeColor('black');
+    } else{
+        settThemeColor('#1DB874');
+    }
 
     setTimeout(() => {
         document.getElementById("splash_screen").style.display = "none";
-        settThemeColor('white');
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            settThemeColor('#0b0f14');
+        } else{
+            settThemeColor('white');
+        }
         sessionStorage.setItem("splash_vist", "true");
     }, 3000); // 3 sekunder
 });

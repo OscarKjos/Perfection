@@ -6,24 +6,38 @@
     --font-size-small: 16px;
 
     /* Colors */
-    --top-color: #333333;
-    --text-color: #555555;
+    --text-color: #222;
+    --subtext-color:#666;
 
-    --bg-color: #f3f4fa;
+    --splash-color: #00b079;
+    --splash-color2: #0f6b47;
+
+    --bg-color: #f6f5fb;
     --surface-color: white;
     --white:white;
     --black:black;
 
-    --primærfarge:#00b079;
+    --primary-color:#00b079;
     --sekundærfarge:none;
     --eksternfarge:none;
 
     --hoverfarge:rgb(100, 100, 100);
     --marked:#ffcc00;
+}
 
-    /* Layout */
-    --shadow-small: 0 0 5px rgb(192, 209, 207);
-    --shadow-medium: 0 4px 10px rgba(0,0,0,0.1);
-    --overlay:rgba(0, 0, 0, 0.45);
-    --border-radius: 8px;
+@media (prefers-color-scheme: dark) {
+    :root {
+        --splash-color: black;
+        --splash-color2: black;
+
+        --primary-color:#0db163;
+        --bg-color: #020509;
+        --surface-color: #0b0f14;
+        --text-color: white;
+        --subtext-color:white;
+
+
+        --hoverfarge:rgb(100, 100, 100);
+        --marked:#ffcc00;
+    }
 }

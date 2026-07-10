@@ -7,6 +7,7 @@
     <!-- Ekstern CSS for global stil og ikoner -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="global.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Robots: Tillat søkemotorer å indeksere -->
@@ -26,8 +27,8 @@
     
     
     <!-- Tittel og beskrivelse (SEO) -->
-    <title>Plyzaro</title>
-    <meta name="description" content="Plyzaro er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Plyzaro det lettere enn noen gang å nå dine mål og forbedre deg selv.">
+    <title>Kvador</title>
+    <meta name="description" content="Kvador er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Kvador det lettere enn noen gang å nå dine mål og forbedre deg selv.">
 
 
     <style>
@@ -48,7 +49,7 @@
             justify-content:center;
             gap:4px;
             padding:5px;
-            background:var(--white);
+            background:var(--surface-color);
             border:1px solid rgba(0,0,0,0.06);
             border-radius:8px;
             box-shadow:0 2px 8px rgba(0,0,0,0.05);
@@ -133,16 +134,12 @@
         }
 
         :root{
-            --primary-color:#00b079;
-            --background-color:#f6f5fb;
-            --text-color:#222;
-            --subtext-color:#666;
             --white:white;
             --XP-background:#f1f1f9;
         }
 
         body{
-            background:var(--background-color);
+            background: var(--bg-color);
             font-family:Arial,sans-serif;
             min-height:100dvh;
             margin:0px;
@@ -152,7 +149,7 @@
         }
 
         .card{
-            background:var(--white);
+            background:var(--surface-color);
             border-radius:0px;
             display:flex;
             align-items:center;
@@ -186,7 +183,7 @@
             position:absolute;
             width:90px;
             height:90px;
-            background:var(--white);
+            background:var(--surface-color);
             border-radius:50%;
         }
 
@@ -271,7 +268,7 @@
             grid-template-columns:repeat(4, minmax(0, 1fr));
             gap:8px;
             padding:6px;
-            background:var(--white);
+            background:var(--surface-color);
             border-top: 1px solid #f0f0f4;
             height: fit-content;
         }
@@ -328,7 +325,7 @@
             <div class="name dynamic_name">
                 <!-- Her kommer navnet til brukeren (importert fra supabase) -->
             </div>
-            <div class="quote"><i class="fa-solid fa-star"></i>One day - Or day one</div>
+            <div class="quote"><i class="fa-solid fa-star"></i>Historien skapes i dag</div>
             <div class="xp">
                 <p class="dynamic_xp_current_level">0</p> <!-- XP value for nåværende level -->
                 <p>/</p>
@@ -613,7 +610,7 @@
                 align-items:center;
                 gap:10px;
                 padding:11px;
-                background:var(--white);
+                background:var(--surface-color);
                 border:1px solid rgba(0,0,0,0.05);
                 border-radius:13px;
                 box-shadow:0 2px 8px rgba(0,0,0,0.04);
@@ -749,7 +746,7 @@
             .picture_grid{
                 width:100%;
                 padding:15px;
-                background:var(--white);
+                background:var(--surface-color);
                 border:1px solid rgba(0,0,0,0.04);
                 box-shadow:0 4px 10px rgba(0,0,0,0.05);
             }
@@ -1035,7 +1032,7 @@
             max-width:520px;
             max-height:82dvh;
             padding:10px 14px 40px 14px;
-            background:var(--white);
+            background:var(--bg-color);
             border-radius:20px 20px 0 0;
             box-shadow:0 -10px 30px rgba(0,0,0,0.14);
             transform:translateY(105%);
@@ -1106,7 +1103,7 @@
          .todolist{
             width:100%;
             padding:14px;
-            background:var(--white);
+            background:var(--bg-color);
             border-radius:16px;
             box-shadow:0 4px 10px rgba(0,0,0,0.05);
             margin-top:20px;
@@ -1327,7 +1324,7 @@
             width:100%;
             margin-top: 15px;
             margin-bottom: 15px;
-            background-color: white;
+            background-color: var(--surface-color);
             border-radius: 16px;
             padding:12px;
             gap:5px;
@@ -1338,7 +1335,7 @@
             width:100%;
             min-height: 170px;
             height: 170px;
-            background: white;
+            background: var(--surface-color);
             border-radius: 16px;
 
             display:flex;
@@ -1391,10 +1388,7 @@
             padding:0 30px 0 10px;
             border:1px solid #e4e4ec;
             border-radius:10px;
-            background:
-                linear-gradient(45deg, transparent 50%, var(--primary-color) 50%) right 13px center / 6px 6px no-repeat,
-                linear-gradient(135deg, var(--primary-color) 50%, transparent 50%) right 8px center / 6px 6px no-repeat,
-                var(--white);
+            background: var(--surface-color);
             color:var(--text-color);
             font-size:.78rem;
             font-weight:600;
@@ -1537,7 +1531,7 @@
         .life-card{
             width:100%;
             padding:14px;
-            background:var(--white);
+            background:var(--surface-color);
             border-radius:16px;
             box-shadow:0 4px 10px rgba(0,0,0,0.05);
             display:flex;
@@ -1631,7 +1625,7 @@
         .dagsrapport{
             width:100%;
             padding:14px;
-            background:var(--white);
+            background:var(--surface-color);
             border-radius:16px;
             box-shadow:0 4px 10px rgba(0,0,0,0.05);
             display:flex;

@@ -1,7 +1,7 @@
 {
-  "name": "Plyzaro",
-  "short_name": "Plyzaro",
-  "description": "Plyzaro er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Plyzaro det lettere enn noen gang å nå dine mål og forbedre deg selv.",
+  "name": "Kvador",
+  "short_name": "Kvador",
+  "description": "Kvador er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Plyzaro det lettere enn noen gang å nå dine mål og forbedre deg selv.",
   "start_url": "login.html",
   "scope": "/",
   "display": "standalone",

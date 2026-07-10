@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plyzaro – Logg inn</title>
+<title>Kvador – Logg inn</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -32,6 +32,24 @@
             --input-bg: #f8fbf9;
             --radius: 16px;
             --radius-sm: 10px;
+
+            --splash-color: #00b079;
+            --splash-color2: #0f6b47;
+
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: black;
+                --white: black;
+                --text: #f8fafc;
+                --muted: #6b7280;
+                --border: #374151;
+                --input-bg: black;
+
+                --splash-color: black;
+                --splash-color2: black;
+            }
         }
 
         html, body {
@@ -376,7 +394,7 @@
       <div class="logo-icon">
         <img width="40px" src="Bilder/ikoner/splash_screen.png" alt="Logo">
       </div>
-      <span class="logo-name"><i>Plyzaro</i></span>
+      <span class="logo-name"><i>Kvador</i></span>
     </div>
     <p class="tagline">Bli <span>bedre</span>. Hver dag.</p>
   </div>
@@ -426,7 +444,7 @@
         #splash_screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #1DB874, #0f6b47);
+            background: linear-gradient(135deg, var(--splash-color), var(--splash-color2));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -452,9 +470,12 @@
         /* App name */
         .splash_title {
             font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 2px;
+            letter-spacing: 10px;
             color: rgba(255,255,255,0.95);
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
         }
 
         </style>
@@ -462,34 +483,47 @@
         <div id="splash_screen">
             <div class="splash_content">
                 <img class="splash_logo" src="Bilder/ikoner/splash_screen.png" alt="Logo">
-                <div class="splash_title">PLYZARO</div>
+                <div class="splash_title">KVADOR</div>
             </div>
         </div>
 
         <script>
+            /* ================= Dynamisk tema farge =================== */
+            function settThemeColor(farge) {
+                const meta = document.querySelector('meta[name="theme-color"]');
+                
+                if (meta) {
+                    meta.setAttribute("content", farge);
+                }
+            }
+
             window.addEventListener("load", () => {
                 if (sessionStorage.getItem("splash_vist") === "true") {
                     document.getElementById("splash_screen").style.display = "none";
-                    settThemeColor('white');
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        settThemeColor('black');
+                    } else{
+                        settThemeColor('white');
+                    }
+                    return
                 }
             
-            settThemeColor('#1DB874');
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                settThemeColor('black');
+            } else{
+                settThemeColor('#1DB874');
+            }
 
             setTimeout(() => {
                 document.getElementById("splash_screen").style.display = "none";
-                settThemeColor('white');
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        settThemeColor('black');
+                } else{
+                    settThemeColor('white');
+                }
                 sessionStorage.setItem("splash_vist", "true");
             }, 3000); // 3 sekunder
         });
-
-        /* ================= Dynamisk tema farge =================== */
-        function settThemeColor(farge) {
-            const meta = document.querySelector('meta[name="theme-color"]');
-            
-            if (meta) {
-                meta.setAttribute("content", farge);
-            }
-        }
         </script>
 
 <script>
