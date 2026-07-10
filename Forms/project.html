@@ -130,7 +130,7 @@
 
         .field input:focus, select:focus, textarea:focus{
             outline:none;
-            border-color: var(--primærfarge);
+            border-color: var(--primary-color);
         }
 
         /* Footer */
@@ -160,14 +160,14 @@
         /* Lagre */
         .submit{
             flex:2;
-            background: var(--primærfarge);
+            background: var(--primary-color);
             color:white;
             font-weight:600;
         }
 
         /* Hover */
         .submit:hover{
-            background:var(--primærfarge);
+            background:var(--primary-color);
         }
 
         .cancel:hover{
@@ -283,7 +283,7 @@
 
         #active_tempo{
             font-weight: 600;
-            color:var(--primærfarge);
+            color:var(--primary-color);
         }
     </style>
 
@@ -319,8 +319,8 @@
             }
 
             .button.active {
-                background: var(--primærfarge);
-                border-color: var(--primærfarge);
+                background: var(--primary-color);
+                border-color: var(--primary-color);
                 color: #ffffff;
             }
         </style>
@@ -376,7 +376,7 @@
                 padding: 0;
                 border-radius: 999px;
                 border: none;
-                background: linear-gradient(to right, var(--primærfarge) 50%, #ddd 50%);
+                background: linear-gradient(to right, var(--primary-color) 50%, #ddd 50%);
                 cursor: pointer;
             }
 
@@ -385,7 +385,7 @@
                 width: 18px;
                 height: 18px;
                 border-radius: 50%;
-                background: var(--primærfarge);
+                background: var(--primary-color);
                 border: 2px solid white;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.18);
                 cursor: pointer;
@@ -395,7 +395,7 @@
                 width: 18px;
                 height: 18px;
                 border-radius: 50%;
-                background: var(--primærfarge);
+                background: var(--primary-color);
                 border: 2px solid white;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.18);
                 cursor: pointer;
@@ -421,7 +421,7 @@
 
             function updateSlider() {
                 const pct = ((slider.value - 1) / 9) * 100;
-                slider.style.background = `linear-gradient(to right, var(--primærfarge) ${pct}%, #ddd ${pct}%)`;
+                slider.style.background = `linear-gradient(to right, var(--primary-color) ${pct}%, #ddd ${pct}%)`;
                 label.textContent = slider.value + "/10";
             }
 
@@ -486,7 +486,7 @@
             }
 
             #active_rating_value{
-                color:var(--primærfarge);
+                color:var(--primary-color);
                 font-weight:700;
                 font-size: 15px;
             }

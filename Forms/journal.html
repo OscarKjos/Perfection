@@ -130,7 +130,7 @@
 
         .field input:focus, select:focus, textarea:focus{
             outline:none;
-            border-color: var(--primærfarge);
+            border-color: var(--primary-color);
         }
 
         /* Footer */
@@ -160,14 +160,14 @@
         /* Lagre */
         .submit{
             flex:2;
-            background: var(--primærfarge);
+            background: var(--primary-color);
             color:white;
             font-weight:600;
         }
 
         /* Hover */
         .submit:hover{
-            background:var(--primærfarge);
+            background:var(--primary-color);
         }
 
         .cancel:hover{
@@ -254,8 +254,8 @@
             }
 
             .button.active {
-                background: var(--primærfarge);
-                border-color: var(--primærfarge);
+                background: var(--primary-color);
+                border-color: var(--primary-color);
                 color: #ffffff;
             }
         </style>
@@ -283,7 +283,7 @@
                 width: 28px;
                 height: 25px;
                 border-radius: 50%;
-                background-color: var(--primærfarge);
+                background-color: var(--primary-color);
                 color: white;
                 display: flex;
                 justify-content: center;
@@ -344,7 +344,7 @@
 
             function updateSlider() {
                 const pct = ((slider.value - 1) / 9) * 100;
-                slider.style.background = `linear-gradient(to right, var(--primærfarge) ${pct}%, #ddd ${pct}%)`;
+                slider.style.background = `linear-gradient(to right, var(--primary-color) ${pct}%, #ddd ${pct}%)`;
                 label.textContent = slider.value + "/10";
 
                 const energy = document.getElementById("active_energy_value");
@@ -353,7 +353,7 @@
                 energy.textContent = slider.value + "/10";
 
                 if(slider.value >= 7){
-                    energy.style.color = "var(--primærfarge)";
+                    energy.style.color = "var(--primary-color)";
                 }
                 else if(slider.value >= 4){
                     energy.style.color = "#B8860B";
@@ -391,7 +391,7 @@
                 padding: 0;
                 border-radius: 999px;
                 border: none;
-                background: linear-gradient(to right, var(--primærfarge) 50%, #ddd 50%);
+                background: linear-gradient(to right, var(--primary-color) 50%, #ddd 50%);
                 cursor: pointer;
             }
 
@@ -400,7 +400,7 @@
                 width: 18px;
                 height: 18px;
                 border-radius: 50%;
-                background: var(--primærfarge);
+                background: var(--primary-color);
                 border: 2px solid white;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.18);
                 cursor: pointer;
@@ -410,7 +410,7 @@
                 width: 18px;
                 height: 18px;
                 border-radius: 50%;
-                background: var(--primærfarge);
+                background: var(--primary-color);
                 border: 2px solid white;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.18);
                 cursor: pointer;
@@ -430,7 +430,7 @@
             }
 
             #rate_flex i{
-                color:var(--primærfarge);
+                color:var(--primary-color);
             }
         </style>
 
@@ -566,13 +566,13 @@
             }
 
             #active_rating_value{
-                color:var(--primærfarge);
+                color:var(--primary-color);
                 font-weight:700;
                 font-size: 16px;
             }
 
             #active_energy_value{
-                color:var(--primærfarge);
+                color:var(--primary-color);
                 font-weight:700;
                 font-size: 16px;
             }
@@ -629,7 +629,7 @@
 
             const charge_style = document.getElementById("active_energy_value");
             if(innsats.value >= 7){
-                charge_style.style.color = "var(--primærfarge)";
+                charge_style.style.color = "var(--primary-color)";
             }
             else if(innsats.value >= 4){
                 charge_style.style.color = "#B8860B";
