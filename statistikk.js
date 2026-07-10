@@ -245,7 +245,7 @@ let måned = date.getMonth() + 1;
 async function mikro_training(base) {
     const { data, error } = await supabase
     .from('bruker_data_mikroøkt')
-    .select('dato, aktivitet');
+    .select('dato, aktivitet')
 
     let today = new Date();
     const currentWeek = getWeekNumber(today);
@@ -304,13 +304,16 @@ async function mikro_training(base) {
                 }
         });
         }
-
     });
 
     // Oppretter html elementer for hver kategori
         const ovelser__liste = document.querySelector(".ovelser__liste");
         const ovelser__rad = document.createElement("article");
         ovelser__rad.className = "ovelser__rad";
+
+        if (base === "Push-Ups" || base === "Sit-Ups" || base === "Triceps-Dips") {
+            ovelser__rad.classList.add("always_show_row");
+        }
 
         if (totalreps === 0) {
             return
@@ -384,7 +387,20 @@ async function reps_count() {
     let reps_total = 0;
     let reps_year = 0;
     let reps_month = 0;
-    let reps_week = 0;
+    let reps_week = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        12: 0
+    };
 
     let today = new Date();
     const currentWeek = getWeekNumber(today);
@@ -398,20 +414,63 @@ async function reps_count() {
         reps_total += Number(element.repetisjoner);
         document.getElementById("antall-reps-totalt").textContent = reps_total;
 
+        // Antall reps år
         if (element.dato >= year + "-01-01") {
             reps_year += Number(element.repetisjoner);
             document.getElementById("antall-reps-ar").textContent = reps_year;
         }
 
+        // Antall reps måned
         if (element.dato >= `${year}-${String(måned).padStart(2, "0")}-01`) {
             reps_month += Number(element.repetisjoner);
             document.getElementById("antall-reps-maned").textContent = reps_month;
         }
 
-        if (weekNumber === currentWeek && elementYear === currentYear) {
-            reps_week += Number(element.repetisjoner);
-            document.getElementById("antall-reps-uke").textContent = reps_week;
+        // Antall reps uke
+        function allweekreps(antall, id_element, id_prosent) {
+        if (weekNumber === (currentWeek-antall) && elementYear === currentYear) {
+            reps_week[antall + 1] += Number(element.repetisjoner);
+
+            document.getElementById(id_element).textContent = reps_week[antall + 1];
+            document.getElementById(id_prosent).style.height = (reps_week[antall + 1])/5 + "%";
+
+            if (antall === 0) {
+                document.getElementById("antall-reps-uke").textContent = reps_week[1];
+            }
         }
+        }
+        allweekreps(0, "reps_numb_1", "reps_week_1");
+        allweekreps(1, "reps_numb_2", "reps_week_2");
+        allweekreps(2, "reps_numb_3", "reps_week_3");
+        allweekreps(3, "reps_numb_4", "reps_week_4");
+        allweekreps(4, "reps_numb_5", "reps_week_5");
+        allweekreps(5, "reps_numb_6", "reps_week_6");
+        allweekreps(6, "reps_numb_7", "reps_week_7");
+        allweekreps(7, "reps_numb_8", "reps_week_8");
+        allweekreps(8, "reps_numb_9", "reps_week_9");
+        allweekreps(9, "reps_numb_10", "reps_week_10");
+        allweekreps(10, "reps_numb_11", "reps_week_11");
+        allweekreps(11, "reps_numb_12", "reps_week_12");
     });
 }
 reps_count();
+
+
+// Knapp for å vise alle øvelser
+    const showmore = document.getElementById("find_more_ovelser");
+
+    showmore.addEventListener("click", () => {
+        const rader = document.querySelectorAll(".ovelser__rad");
+
+        const text = document.getElementById("text_replacement");
+
+        if (text.textContent === "Last inn flere øvelser") {
+            text.textContent = "Skjul alle øvelser";
+        } else {
+            text.textContent = "Last inn flere øvelser";
+        }
+        
+        rader.forEach(rad => {
+            rad.classList.toggle("show_more_rows");
+        })
+    })

@@ -774,6 +774,78 @@
         </div>
 
 
+        <div class="chart_area">
+            <div class="grid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+            <div class="bar-group">
+                <div class="value" id="reps_numb_12">0</div>
+                <div class="bar" id="reps_week_12"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value" id="reps_numb_11">0</div>
+                <div class="bar" id="reps_week_11"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value" id="reps_numb_10">0</div>
+                <div class="bar" id="reps_week_10"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value" id="reps_numb_9">0</div>
+                <div class="bar" id="reps_week_9"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value" id="reps_numb_8">0</div>
+                <div class="bar" id="reps_week_8"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value" id="reps_numb_7">0</div>
+                <div class="bar" id="reps_week_7"></div>
+            </div>
+
+             <div class="bar-group">
+                <div class="value" id="reps_numb_6">0</div>
+                <div class="bar" id="reps_week_6"></div>
+            </div>
+
+             <div class="bar-group">
+                <div class="value" id="reps_numb_5">0</div>
+                <div class="bar" id="reps_week_5"></div>
+            </div>
+
+             <div class="bar-group">
+                <div class="value" id="reps_numb_4">0</div>
+                <div class="bar" id="reps_week_4"></div>
+            </div>
+
+             <div class="bar-group">
+                <div class="value" id="reps_numb_3">0</div>
+                <div class="bar" id="reps_week_3"></div>
+            </div>
+
+             <div class="bar-group">
+                <div class="value" id="reps_numb_2">0</div>
+                <div class="bar" id="reps_week_2"></div>
+            </div>
+
+             <div class="bar-group">
+                <div class="value" id="reps_numb_1">0</div>
+                <div class="bar" id="reps_week_1"></div>
+            </div>
+        </div>
+
+
         <style>
             .mikrookt-seksjon.ovelser {
                 margin: 15px 10px;
@@ -843,7 +915,6 @@
             }
 
             .ovelser__rad {
-                display: grid;
                 grid-template-columns:
                     minmax(118px, 1.35fr)
                     repeat(4, minmax(58px, 0.75fr));
@@ -854,6 +925,15 @@
                 box-sizing: border-box;
 
                 border-bottom: 1px solid #edf0f2;
+                display:none;
+            }
+
+            .ovelser__rad.show_more_rows {
+                display: grid;
+            }
+
+            .always_show_row{
+                display: grid;
             }
 
             .ovelser__rad:last-child {
@@ -976,6 +1056,74 @@
     <div class="ovelser__liste">
         <!-- Her kommer tabellinnholdet (importert fra supabase) -->
     </div>
+
+    <style>
+        .ovelser__more {
+            margin: 15px 0 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #find_more_ovelser {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            padding: 8px 20px 8px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            margin:10px;
+        }
+
+        #find_more_ovelser:focus-visible {
+            outline: 3px solid rgba(0, 183, 123, 0.22);
+            outline-offset: 3px;
+        }
+
+        .find-more__content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .find-more__icon {
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            font-size: 12px;
+        }
+
+        .find-more__arrow {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.16);
+            font-size: 11px;
+        }
+    </style>
+
+    <div class="ovelser__more">
+        <button id="find_more_ovelser" type="button">
+            <span class="find-more__icon">
+                <i class="fa-solid fa-plus icon_replacement"></i>
+            </span>
+            <span class="find-more__content">
+                <span id="text_replacement">Last inn flere øvelser</span>
+            </span>
+        </button>
+    </div>
 </section>
 
 
@@ -991,6 +1139,7 @@
             gap:8px;
             margin:10px;
             margin-top:15px;
+            margin-bottom: 25px;
         }
 
         .area_of_life__card{
@@ -1012,31 +1161,13 @@
             align-items:center;
             justify-content:center;
             font-size:.78rem;
-        }
-
-        .area_of_life__card:nth-of-type(1) .area_of_life__top > i{
-            background:#e6f9ef;
             color:var(--primary-color);
+            background:#e6f9ef;
         }
 
         .area_of_life__card:nth-of-type(1),
         .area_of_life__card:nth-of-type(2){
             grid-column:span 3;
-        }
-
-        .area_of_life__card:nth-of-type(2) .area_of_life__top > i{
-            background:#e8f4ff;
-            color:#3382c8;
-        }
-
-        .area_of_life__card:nth-of-type(3) .area_of_life__top > i{
-            background:#fff6d8;
-            color:#d9a51f;
-        }
-
-        .area_of_life__card:nth-of-type(4) .area_of_life__top > i{
-            background:#f0e9ff;
-            color:#7b55d9;
         }
 
         .area_of_life__card:nth-of-type(5){
@@ -1047,11 +1178,6 @@
         .area_of_life__card:nth-of-type(4),
         .area_of_life__card:nth-of-type(5){
             grid-column:span 2;
-        }
-
-        .area_of_life__card:nth-of-type(5) .area_of_life__top > i{
-            background:#e6f9ef;
-            color:var(--primary-color);
         }
 
         .area_of_life span{
@@ -1094,26 +1220,6 @@
             line-height:1;
             font-weight:800;
             letter-spacing:0;
-        }
-
-        .area_of_life__card:nth-of-type(1) .area_of_life__count{
-            color:var(--primary-color);
-        }
-
-        .area_of_life__card:nth-of-type(2) .area_of_life__count{
-            color:#3382c8;
-        }
-
-        .area_of_life__card:nth-of-type(3) .area_of_life__count{
-            color:#d9a51f;
-        }
-
-        .area_of_life__card:nth-of-type(4) .area_of_life__count{
-            color:#7b55d9;
-        }
-
-        .area_of_life__card:nth-of-type(5) .area_of_life__count{
-            color:var(--primary-color);
         }
 
         .area_of_life__total{
