@@ -414,6 +414,7 @@
                         <button type="button" class="habit-option" data-habit="meal_prep"><i class="fa-solid fa-utensils"></i>Mealprep</button>
                         <button type="button" class="habit-option" data-habit="vitaminer"><i class="fa-solid fa-droplet"></i>Vitaminer</button>
                         <button type="button" class="habit-option" data-habit="protein"><i class="fa-solid fa-hand-fist"></i>Proteintilskudd</button>
+                        <button type="button" class="habit-option" data-habit="kreatin"><i class="fa-solid fa-vial"></i>Kreatin</button>
                         <button type="button" class="habit-option" data-habit="skritt"><i class="fa-solid fa-shoe-prints"></i>Skrittm&aring;l</button>
                         <button type="button" class="habit-option" data-habit="energi"><i class="fa-solid fa-battery-full"></i>BodyBattery</button>
                     </div>
@@ -536,6 +537,15 @@
                 hint: "Registrer gram protein fra tilskudd.",
                 fields: [
                     { id: "gram", label: "Protein (g)", type: "number", min: "0", step: "1", placeholder: "30", required: true, unit: "g" }
+                ],
+                xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
+            },
+            kreatin: {
+                navn: "Kreatin",
+                icon: "fa-solid fa-vial",
+                hint: "Registrer gram kreatin fra tilskudd.",
+                fields: [
+                    { id: "gram", label: "Kreatin (g)", type: "number", min: "0", step: "1", placeholder: "5", required: true, unit: "g" }
                 ],
                 xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
             },

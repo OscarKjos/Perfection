@@ -165,25 +165,30 @@ hentTrening();
 
 /* ======== Funksjoner for re opp sengen - Siste 7 dager ======== */
 
-async function hentSeng(dato_id, check_id) {
+async function hentSeng(dato_id, check_id, vane_id) {
     const { data, error } = await supabase
         .from('bruker_data_vaner')
         .select('dato, vane')
 
     data.forEach((element) => {
-        if (element.vane === "Resengen" && element.dato === dato_id) {
+        if (element.vane === vane_id && element.dato === dato_id) {
             const seng = document.getElementById(check_id);
             seng.innerHTML = "<i class='fa-solid fa-check'></i>";
             seng.style.backgroundColor = "var(--primary-color)";
 
-            if (element.dato === today) {
+            if (element.dato === today && vane_id === "Resengen") {
                 const bilde = document.getElementById("ikon_av_seng");
                 bilde.src = "Bilder/ikoner/bed.png";
+            }
+
+            if (element.dato === today && vane_id === "Vitaminer") {
+                const bilde = document.getElementById("ikon_av_vitamin");
+                bilde.src = "Bilder/ikoner/sun.png";
             }
         }
 
     })
-} 
+}
 
 const today = new Date().toISOString().split('T')[0];
 const yesterday = new Date(Date.now() - (86400000*1)).toISOString().split('T')[0];
@@ -193,14 +198,23 @@ const day5 = new Date(Date.now() - (86400000*4)).toISOString().split('T')[0];
 const day6 = new Date(Date.now() - (86400000*5)).toISOString().split('T')[0];
 const day7 = new Date(Date.now() - (86400000*6)).toISOString().split('T')[0];
 
-hentSeng(day7, "fill_7_bed");
-hentSeng(day6, "fill_6_bed");
-hentSeng(day5, "fill_5_bed");
-hentSeng(day4, "fill_4_bed");
-hentSeng(day3, "fill_3_bed");
-hentSeng(yesterday, "fill_2_bed");
-hentSeng(today, "fill_1_bed");
+// Diagram for oppredd seng (Siste 7 dager)
+hentSeng(day7, "fill_7_bed", "Resengen");
+hentSeng(day6, "fill_6_bed", "Resengen");
+hentSeng(day5, "fill_5_bed", "Resengen");
+hentSeng(day4, "fill_4_bed", "Resengen");
+hentSeng(day3, "fill_3_bed", "Resengen");
+hentSeng(yesterday, "fill_2_bed", "Resengen");
+hentSeng(today, "fill_1_bed", "Resengen");
 
+// Diagram for intak av vitaminer (Siste 7 dager)
+hentSeng(day7, "vitamin_7", "Vitaminer");
+hentSeng(day6, "vitamin_6", "Vitaminer");
+hentSeng(day5, "vitamin_5", "Vitaminer");
+hentSeng(day4, "vitamin_4", "Vitaminer");
+hentSeng(day3, "vitamin_3", "Vitaminer");
+hentSeng(yesterday, "vitamin_2", "Vitaminer");
+hentSeng(today, "vitamin_1", "Vitaminer");
 
 
 /* Teller antall aktiviteter per kategori */
@@ -474,3 +488,9 @@ reps_count();
             rad.classList.toggle("show_more_rows");
         })
     })
+
+
+
+// =================== Funksjon for å finne søvndata (siste 7 dager) =================== //
+
+

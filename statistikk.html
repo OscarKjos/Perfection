@@ -621,7 +621,7 @@
                 margin-bottom:2px;
             }
 
-            #ikon_av_seng{
+            .bilde{
                 height: 90px;
             }
         </style>
@@ -634,7 +634,7 @@
                     <small>De siste 7 dagene</small>
                 </span>
 
-                <img id="ikon_av_seng" src="Bilder/ikoner/bed2.png" alt="Bilde av seng">
+                <img class="bilde" id="ikon_av_seng" src="Bilder/ikoner/bed2.png" alt="Bilde av seng">
             </div>
 
             <div class="circle_group">
@@ -1224,7 +1224,7 @@
             gap:8px;
             margin:10px;
             margin-top:15px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .area_of_life__card{
@@ -1418,6 +1418,223 @@
             <p class="area_of_life__total-count" id="total_counter">0</p>
         </div>
     </section>
+
+    <style>
+        .søvn_data{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            margin-top:16px;
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            padding:12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin:8px;
+        }
+
+        .health_stats__chart{
+            position:relative;
+            width:100%;
+            min-height: 170px;
+            height: 170px;
+            background: var(--surface-color);
+            border-radius: 16px;
+
+            display:flex;
+            justify-content: space-evenly;
+            position: relative;
+        }
+
+        .chart_occupied{
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-end;
+            align-items:center;
+            gap:2px;
+            height: 100%;
+            width:25px;
+        }
+
+        .chart_fill{
+            height: 0%;
+            background-color: #00b77b;
+            width:100%;
+            border-radius: 13px 13px 0 0;
+        }
+
+        .chart_label{
+            color:var(--text-color);
+            font-size:.9rem;
+            font-weight:700;
+            margin:0;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .label_of_day{
+            color:var(--subtext-color);
+            font-size:.7rem;
+            font-weight:500;
+            margin:0;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .health_numbers{
+            display:grid;
+            flex-direction:row;
+            justify-content:space-between;
+            margin-top:16px;
+            gap:8px;
+            grid-template-columns:1fr 2fr;
+        }
+    </style>
+
+    <section class="søvn_data health_stats">
+        <header class="mikrookt-seksjon__header">
+            <div class="mikrookt-seksjon__icon">
+                <i class="fa-solid fa-bed" aria-hidden="true"></i>
+            </div>
+
+            <div class="mikrookt-seksjon__text">
+                <h2 class="mikrookt-seksjon__title">Søvndata (siste 7 dager)</h2>
+                <p class="mikrookt-seksjon__description">
+                    Oversikt over antall timer søvn
+                </p>
+            </div>
+        </header>
+
+
+        <div class="health_stats__chart">
+            <div class="grid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Man</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Tir</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Ons</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Tor</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Fre</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Lør</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value">0</div>
+                <div class="chart_fill"></div>
+                <div class="label_of_day">Søn</div>
+            </div>
+        </div>
+
+        <article class="health_numbers">
+            <div class="chart_legend_item">
+                <span>
+                    <p class="chart_legend_label">Gjennomsnitt</p>
+                    <p class="chart_legend_value" id="sleep_time">6 t 10 min</p>
+                </span>
+            </div>
+
+            <div class="chart_legend_item">
+                <span>
+                    <p class="chart_legend_label">Status</p>
+                    <p class="chart_legend_value warning" id="sleep_note">Du sover for lite.</p>
+                </span>
+            </div>
+        </article>
+    </section>
+
+    <style>
+
+    </style>
+
+    <section class="diagram_grid health_stats">
+            <div class="bed_header">
+                <span>
+                    <p>Vitaminer</p>
+                    <small>De siste 7 dagene</small>
+                </span>
+
+                <img class="bilde" id="ikon_av_vitamin" src="Bilder/ikoner/nosun.png" alt="Bilde av sol">
+            </div>
+
+            <div class="circle_group">
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamin_7"></div>
+                    </div>
+                    <p>Man</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamim_6"></div>
+                    </div>
+                    <p>Tir</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamin_5"></div>
+                    </div>
+                    <p>Ons</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamin_4"></div>
+                    </div>
+                    <p>Tor</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamin_3"></div>
+                    </div>
+                    <p>Fre</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamin_2"></div>
+                    </div>
+                    <p>Lør</p>
+                </span>
+
+                <span>
+                    <div class="circle_layout">
+                        <div class="circle_fill" id="vitamin_1"></div>
+                    </div>
+                    <p>Søn</p>
+                </span>
+            </div>
+        </section>
 
     </main>
     
