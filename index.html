@@ -541,6 +541,7 @@
                 </div>
                 </span>
 
+                <span style="display:flex; gap:5px; margin-bottom: 5px;">
                 <div class="profile_information__row">
                     <div class="profile_information__row_icon">
                         <i class="fa-solid fa-calendar-day"></i>
@@ -550,6 +551,17 @@
                         <p class="profile_information__value dynamic_age"></p>
                     </div>
                 </div>
+
+                <div class="profile_information__row">
+                    <div class="profile_information__row_icon">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div>
+                        <p class="profile_information__label">Konto Opprettet</p>
+                        <p class="profile_information__value" id="opprettet_dato"></p>
+                    </div>
+                </div>
+                </span>
             </div>
         </section>
 
@@ -772,6 +784,13 @@
                 gap:8px;
             }
 
+            .utvidelser__grid span{
+                width:100%;
+                display:flex;
+                flex-wrap:nowrap;
+                gap:8px;
+            }
+
             .utvidelser__card{
                 min-width:0;
                 padding:12px;
@@ -781,6 +800,7 @@
                 background:#fbfbfe;
                 border:1px solid #f0f0f4;
                 border-radius:10px;
+                width:100%;
             }
 
             .utvidelser__icon{
@@ -825,11 +845,7 @@
             </div>
 
             <div class="utvidelser__grid">
-                <article class="utvidelser__card">
-                        <p class="utvidelser__name">Løpskalkulator</p>
-                        <p class="utvidelser__description">Beregn hastighet</p>
-                </article>
-
+                <span>
                 <article class="utvidelser__card">
                         <p class="utvidelser__name">Notater</p>
                         <p class="utvidelser__description">Tanker og ideer</p>
@@ -844,6 +860,19 @@
                         <p class="utvidelser__name">Day Since</p>
                         <p class="utvidelser__description">Opptelling</p>
                 </article>
+                </span>
+
+                <span>
+                <article class="utvidelser__card">
+                        <p class="utvidelser__name">Løpskalkulator</p>
+                        <p class="utvidelser__description">Beregn hastighet</p>
+                </article>
+
+                <article class="utvidelser__card">
+                        <p class="utvidelser__name">Bokhvelvet</p>
+                        <p class="utvidelser__description">Bøker og artikler</p>
+                </article>
+                </span>
             </div>
         </section>
 
@@ -1919,6 +1948,14 @@
 
         async function sjekkLogin() {
             const { data } = await supabase.auth.getUser();
+
+            const opprettetDato = new Date(data.user.created_at).toLocaleDateString("nb-NO", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+            document.getElementById("opprettet_dato").textContent = opprettetDato;
 
         if (!data.user) {
             window.location.href = "login.html";

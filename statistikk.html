@@ -333,8 +333,90 @@
         }
     </style>
 
-    <main style="padding-bottom: 90px;">
-        <section class="diagram_grid">
+    <main id="main_section_block" style="padding-bottom: 90px;">
+
+        <style>
+            .button_section{
+                padding:15px;
+                background:var(--surface-color);
+                border:1px solid rgba(0,0,0,0.04);
+                box-shadow:0 4px 10px rgba(0,0,0,0.05);
+                display:flex;
+                align-items:center;
+                gap:10px;
+                overflow-x:scroll;
+                width:100vw;
+            }
+
+            .button_section::-webkit-scrollbar{
+                height:6px;
+            }
+
+            .button_section::-webkit-scrollbar-track{
+                background:transparent;
+            }
+
+            .category_btn{
+                min-width:max-content;
+                height:34px;
+                border:1px solid #e3e7eb;
+                border-radius:10px;
+                background:#f8faf9;
+                color:#59616a;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                gap:7px;
+                padding:0 12px;
+                font-size:.78rem;
+                font-weight:700;
+                font-family:inherit;
+                cursor:pointer;
+                box-shadow:0 2px 7px rgba(0,0,0,0.04);
+                transition:background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+            }
+
+            .active_btn{
+                background:var(--primary-color);
+                border-color:var(--primary-color);
+                color:white;
+            }
+
+        </style>
+
+        <div class="button_section">
+                <button id="all_stats" class="category_btn active_btn">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Alle</span>
+                </button>
+
+                <button id="training_stats" class="category_btn">
+                    <i class="fa-solid fa-running"></i>
+                    <span>Trening</span>
+                </button>
+
+                <button id="general_stats" class="category_btn">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Generelt</span>
+                </button>
+
+                <button id="health_stats" class="category_btn">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Helse & ernæring</span>
+                </button>
+
+                <button id="structure_stats" class="category_btn">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Struktur</span>
+                </button>
+
+                <button id="work_stats" class="category_btn">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Arbeid/Studie</span>
+                </button>
+        </div>
+
+        <section class="diagram_grid training_stats">
             <div class="diagram-header">
                 <div class="diagram-title">
                     <div class="diagram-title-icon"><i class="fa-solid fa-chart-column"></i></div>
@@ -455,7 +537,8 @@
         </div>
         </section>
 
-        <section class="open_stats">
+        <section class="training_stats">
+            <div class="open_stats">
             <div class="open_stats__content">
                 <div class="open_stats__icon"><i class="fa-solid fa-arrow-up-right-dots" aria-hidden="true"></i></div>
                 <div class="open_stats__text">
@@ -468,6 +551,7 @@
                 <span>Åpne</span>
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
+            </div>
         </section>
 
 
@@ -543,7 +627,7 @@
         </style>
 
 
-        <section class="diagram_grid" id="bed_section">
+        <section class="diagram_grid structure_stats" id="bed_section">
             <div class="bed_header">
                 <span>
                     <p>Re opp sengen</p>
@@ -726,7 +810,7 @@
             }
         </style>
 
-    <section class="mikrookt-seksjon ovelser">
+    <section class="mikrookt-seksjon ovelser training_stats">
         <header class="mikrookt-seksjon__header">
             <div class="mikrookt-seksjon__icon">
                 <i class="fa-solid fa-dumbbell" aria-hidden="true"></i>
@@ -1270,7 +1354,7 @@
     </style>
 
 
-    <section class="area_of_life">
+    <section class="area_of_life general_stats">
         <div class="area_of_life__card">
             <div class="area_of_life__top">
                 <i class="fa-solid fa-running"></i>
@@ -1337,6 +1421,35 @@
 
     </main>
     
+    <script>
+        function viewStats(kategori) {
+            const button = document.getElementById(kategori);
+            const main = document.getElementById("main_section_block");
+            const section = main.querySelectorAll("section");
+
+            button.addEventListener('click', () => {
+                const category_btn = document.querySelectorAll(".category_btn");
+                category_btn.forEach(btn => btn.classList.remove("active_btn"));
+
+                button.classList.add("active_btn");
+
+                section.forEach(sec => {
+                    if (sec.classList.contains(kategori) || kategori === "all_stats") {
+                        sec.style.display = sec.classList.contains("area_of_life")? "grid" : "block";
+                    } else {
+                        sec.style.display = "none";
+                    }
+                })
+            })
+        }
+        viewStats("all_stats");
+        viewStats("training_stats");
+        viewStats("general_stats");
+        viewStats("health_stats");
+        viewStats("structure_stats");
+        viewStats("work_stats");
+    </script>
+
     <script src="navigator.js" defer></script>
     <script type="module" src="progress.js"></script>
     <script type="module" src="statistikk.js"></script>
