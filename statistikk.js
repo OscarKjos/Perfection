@@ -164,17 +164,24 @@ hentTrening();
 
 
 /* ======== Funksjoner for re opp sengen - Siste 7 dager ======== */
+let gjennomsnitt_av_søvn = 0;
+let gjennomsnitt_av_kalorier = 0;
+let gjennomsnitt_av_vann = 0;
 
-async function hentSeng(dato_id, check_id, vane_id) {
+async function hentVane(dato_id, check_id, vane_id) {
     const { data, error } = await supabase
         .from('bruker_data_vaner')
-        .select('dato, vane')
+        .select('dato, vane, verdi')
+
+    let totalverdi = 0;
 
     data.forEach((element) => {
         if (element.vane === vane_id && element.dato === dato_id) {
-            const seng = document.getElementById(check_id);
-            seng.innerHTML = "<i class='fa-solid fa-check'></i>";
-            seng.style.backgroundColor = "var(--primary-color)";
+            if (vane_id === "Resengen" || vane_id === "Vitaminer") {
+                const seng = document.getElementById(check_id);
+                seng.innerHTML = "<i class='fa-solid fa-check'></i>";
+                seng.style.backgroundColor = "var(--primary-color)";
+            }
 
             if (element.dato === today && vane_id === "Resengen") {
                 const bilde = document.getElementById("ikon_av_seng");
@@ -185,8 +192,87 @@ async function hentSeng(dato_id, check_id, vane_id) {
                 const bilde = document.getElementById("ikon_av_vitamin");
                 bilde.src = "Bilder/ikoner/sun.png";
             }
-        }
 
+            if(vane_id === "Søvn") {
+                const label = document.getElementById(check_id);
+                label.style.height = (element.verdi * 10) + "%";
+
+                gjennomsnitt_av_søvn += Number(element.verdi);
+                const gjennomsnitt = gjennomsnitt_av_søvn / 7;
+                const floor = Math.floor(gjennomsnitt);
+                const decimal = gjennomsnitt - floor;
+                const minutter = decimal * 60;
+
+                document.getElementById("sleep_time").textContent = (floor).toFixed(0) + " t " + (minutter).toFixed(0) + " min";
+
+                const sleepNote = document.getElementById("sleep_note");
+                if (gjennomsnitt > 8){
+                    sleepNote.textContent = "Svært god søvnmengde";
+                } else if (gjennomsnitt >= 7) {
+                    sleepNote.textContent = "Mindre søvn enn anbefalt";
+                } else if (gjennomsnitt >= 6) {
+                    sleepNote.textContent = "Søvnmengden din er lav";
+                } else if (gjennomsnitt >= 0) {
+                    sleepNote.textContent = "Svært lite søvn";
+                }
+
+                if(check_id==="søyle_7"){document.getElementById("sleep_label_7").textContent = element.verdi;}
+                if(check_id==="søyle_6"){document.getElementById("sleep_label_6").textContent = element.verdi;}
+                if(check_id==="søyle_5"){document.getElementById("sleep_label_5").textContent = element.verdi;}
+                if(check_id==="søyle_4"){document.getElementById("sleep_label_4").textContent = element.verdi;}
+                if(check_id==="søyle_3"){document.getElementById("sleep_label_3").textContent = element.verdi;}
+                if(check_id==="søyle_2"){document.getElementById("sleep_label_2").textContent = element.verdi;}
+                if(check_id==="søyle_1"){document.getElementById("sleep_label_1").textContent = element.verdi;}
+            }
+
+
+            if (vane_id === "Vanntilførsel") {
+                const bar_fill = document.getElementById(check_id);
+                totalverdi += Number(element.verdi);
+                bar_fill.style.height = (totalverdi / 35) + "%";
+
+                gjennomsnitt_av_vann += Number(element.verdi);
+                const gjennomsnitt = gjennomsnitt_av_vann / 7;
+
+                document.getElementById("gjs_vann").textContent = gjennomsnitt.toFixed(1) + " ml";
+
+                if(check_id==="vann_1"){document.getElementById("vann_label_1").textContent = totalverdi/100;}
+                if(check_id==="vann_2"){document.getElementById("vann_label_2").textContent = totalverdi/100;}
+                if(check_id==="vann_3"){document.getElementById("vann_label_3").textContent = totalverdi/100;}
+                if(check_id==="vann_4"){document.getElementById("vann_label_4").textContent = totalverdi/100;}
+                if(check_id==="vann_5"){document.getElementById("vann_label_5").textContent = totalverdi/100;}
+                if(check_id==="vann_6"){document.getElementById("vann_label_6").textContent = totalverdi/100;}
+                if(check_id==="vann_7"){document.getElementById("vann_label_7").textContent = totalverdi/100;}
+            }
+
+
+            if (vane_id === "Kaloriinntak") {
+                const bar_fill = document.getElementById(check_id);
+                totalverdi += Number(element.verdi);
+                bar_fill.style.height = (totalverdi / 35) + "%";
+
+                gjennomsnitt_av_kalorier += Number(element.verdi);
+                const gjennomsnitt = gjennomsnitt_av_kalorier / 7;
+
+                document.getElementById("gjs_kcal").textContent = gjennomsnitt.toFixed(1) + " kcal";
+
+                if(check_id==="kalori_1"){document.getElementById("kalori_label_1").textContent = totalverdi/100;}
+                if(check_id==="kalori_2"){document.getElementById("kalori_label_2").textContent = totalverdi/100;}
+                if(check_id==="kalori_3"){document.getElementById("kalori_label_3").textContent = totalverdi/100;}
+                if(check_id==="kalori_4"){document.getElementById("kalori_label_4").textContent = totalverdi/100;}
+                if(check_id==="kalori_5"){document.getElementById("kalori_label_5").textContent = totalverdi/100;}
+                if(check_id==="kalori_6"){document.getElementById("kalori_label_6").textContent = totalverdi/100;}
+                if(check_id==="kalori_7"){document.getElementById("kalori_label_7").textContent = totalverdi/100;}
+            }
+
+            if (vane_id === "Proteintilskudd" || vane_id === "Kreatin") {
+                const bar_check = document.getElementById(check_id);
+                bar_check.innerHTML = "<i class='fa-solid fa-check'></i>";
+                bar_check.style.color = "white";
+                if (vane_id === "Proteintilskudd") {bar_check.style.backgroundColor = "#78cb7a";}
+                if (vane_id === "Kreatin") {bar_check.style.backgroundColor = "#8cc2f0";}
+            }
+        }
     })
 }
 
@@ -199,22 +285,70 @@ const day6 = new Date(Date.now() - (86400000*5)).toISOString().split('T')[0];
 const day7 = new Date(Date.now() - (86400000*6)).toISOString().split('T')[0];
 
 // Diagram for oppredd seng (Siste 7 dager)
-hentSeng(day7, "fill_7_bed", "Resengen");
-hentSeng(day6, "fill_6_bed", "Resengen");
-hentSeng(day5, "fill_5_bed", "Resengen");
-hentSeng(day4, "fill_4_bed", "Resengen");
-hentSeng(day3, "fill_3_bed", "Resengen");
-hentSeng(yesterday, "fill_2_bed", "Resengen");
-hentSeng(today, "fill_1_bed", "Resengen");
+hentVane(day7, "fill_7_bed", "Resengen");
+hentVane(day6, "fill_6_bed", "Resengen");
+hentVane(day5, "fill_5_bed", "Resengen");
+hentVane(day4, "fill_4_bed", "Resengen");
+hentVane(day3, "fill_3_bed", "Resengen");
+hentVane(yesterday, "fill_2_bed", "Resengen");
+hentVane(today, "fill_1_bed", "Resengen");
 
 // Diagram for intak av vitaminer (Siste 7 dager)
-hentSeng(day7, "vitamin_7", "Vitaminer");
-hentSeng(day6, "vitamin_6", "Vitaminer");
-hentSeng(day5, "vitamin_5", "Vitaminer");
-hentSeng(day4, "vitamin_4", "Vitaminer");
-hentSeng(day3, "vitamin_3", "Vitaminer");
-hentSeng(yesterday, "vitamin_2", "Vitaminer");
-hentSeng(today, "vitamin_1", "Vitaminer");
+hentVane(day7, "vitamin_7", "Vitaminer");
+hentVane(day6, "vitamin_6", "Vitaminer");
+hentVane(day5, "vitamin_5", "Vitaminer");
+hentVane(day4, "vitamin_4", "Vitaminer");
+hentVane(day3, "vitamin_3", "Vitaminer");
+hentVane(yesterday, "vitamin_2", "Vitaminer");
+hentVane(today, "vitamin_1", "Vitaminer");
+
+// Diagram for søvn (Siste 7 dager)
+hentVane(day7, "søyle_7", "Søvn");
+hentVane(day6, "søyle_6", "Søvn");
+hentVane(day5, "søyle_5", "Søvn");
+hentVane(day4, "søyle_4", "Søvn");
+hentVane(day3, "søyle_3", "Søvn");
+hentVane(yesterday, "søyle_2", "Søvn");
+hentVane(today, "søyle_1", "Søvn");
+
+// Diagram for vanntilførsel og antall kalorier (Siste 7 dager)
+hentVane(day7, "kalori_7", "Kaloriinntak");
+hentVane(day7, "vann_7", "Vanntilførsel");
+
+hentVane(day6, "kalori_6", "Kaloriinntak");
+hentVane(day6, "vann_6", "Vanntilførsel");
+
+hentVane(day5, "kalori_5", "Kaloriinntak");
+hentVane(day5, "vann_5", "Vanntilførsel");
+
+hentVane(day4, "kalori_4", "Kaloriinntak");
+hentVane(day4, "vann_4", "Vanntilførsel");
+
+hentVane(day3, "kalori_3", "Kaloriinntak");
+hentVane(day3, "vann_3", "Vanntilførsel");
+
+hentVane(yesterday, "kalori_2", "Kaloriinntak");
+hentVane(yesterday, "vann_2", "Vanntilførsel");
+
+hentVane(today, "kalori_1", "Kaloriinntak");
+hentVane(today, "vann_1", "Vanntilførsel");
+
+// Diagram for protein og kreatin (Siste 7 dager)
+hentVane(day7, "protein_7", "Proteintilskudd");
+hentVane(day6, "protein_6", "Proteintilskudd");
+hentVane(day5, "protein_5", "Proteintilskudd");
+hentVane(day4, "protein_4", "Proteintilskudd");
+hentVane(day3, "protein_3", "Proteintilskudd");
+hentVane(yesterday, "protein_2", "Proteintilskudd");
+hentVane(today, "protein_1", "Proteintilskudd");
+
+hentVane(day7, "kreatin_7", "Kreatin");
+hentVane(day6, "kreatin_6", "Kreatin");
+hentVane(day5, "kreatin_5", "Kreatin");
+hentVane(day4, "kreatin_4", "Kreatin");
+hentVane(day3, "kreatin_3", "Kreatin");
+hentVane(yesterday, "kreatin_2", "Kreatin");
+hentVane(today, "kreatin_1", "Kreatin");
 
 
 /* Teller antall aktiviteter per kategori */
@@ -488,9 +622,4 @@ reps_count();
             rad.classList.toggle("show_more_rows");
         })
     })
-
-
-
-// =================== Funksjon for å finne søvndata (siste 7 dager) =================== //
-
 

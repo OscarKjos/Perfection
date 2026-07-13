@@ -489,9 +489,9 @@
             vann: {
                 navn: "Vanntilf&oslash;rsel",
                 icon: "fa-glass-water-droplet",
-                hint: "Registrer antall dl vann du har drukket i dag.",
+                hint: "Registrer antall ml vann du har drukket i dag.",
                 fields: [
-                    { id: "mengde", label: "Vann drukket (dl)", type: "number", min: "0", step: "1", placeholder: "20", required: true, unit: "dl" }
+                    { id: "mengde", label: "Vann drukket (ml)", type: "number", min: "0", step: "1", placeholder: "2 800", required: true, unit: "ml" }
                 ],
                 xp: values => 1 + Math.min(Number(values.mengde || 0) / 8, 4)
             },
@@ -500,7 +500,7 @@
                 icon: "fa-fire",
                 hint: "Registrer ca. kaloriinntak",
                 fields: [
-                    { id: "kcal", label: "Kalorier (kcal)", type: "number", min: "0", step: "10", placeholder: "2400", required: true, unit: "kcal" },
+                    { id: "kcal", label: "Kalorier (kcal)", type: "number", min: "0", step: "10", placeholder: "2 400", required: true, unit: "kcal" },
                 ],
                 xp: values => Number(values.kcal || 0) > 0 ? 2 : 0
             },
