@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+     <!-- Robots: Tillat søkemotorer å indeksere -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Ikoner for ulike enheter -->
+    <link rel="icon" type="image/png" sizes="32x32" href="Bilder/ikoner/logo_webb.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="Bilder/ikoner/logo_webb.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="Bilder/ikoner/logo_light.png"> 
+
+    <!-- PWA / mobil optimalisering -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="white">
+
+    <!-- Google Search Console -->
+    
+    
+    <!-- Tittel og beskrivelse (SEO) -->
+    <title>Kvador</title>
+    <meta name="description" content="Kvador er en app som hjelper deg å bli bedre hver dag. Med enkle verktøy for å sette mål, spore fremgang og få innsikt i dine vaner, gjør Kvador det lettere enn noen gang å nå dine mål og forbedre deg selv.">
+</head>
+<body>
+
+    <style>
+        .settings_page {
+            width: min(100% - 32px, 900px);
+            margin: 30px auto;
+            color: var(--text-color);
+        }
+
+        .settings_title {
+            margin: 0 0 14px 8px;
+            color: var(--subtext-color);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .appearance_card {
+            padding: 24px;
+            border: 1px solid #e1e5e9;
+            border-radius: 24px;
+            background: var(--surface-color);
+            box-shadow: 0 8px 24px rgba(31, 35, 41, 0.04);
+        }
+
+        .appearance_header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .appearance_icon {
+            display: flex;
+            width: 50px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: var(--secondary_color);
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .appearance_text h2 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .appearance_text p {
+            margin: 0;
+            color: var(--subtext-color);
+            font-size: 12px;
+        }
+
+        .theme_group {
+            display: flex;
+            gap:5px;
+        }
+
+        .theme_color {
+            display: flex;
+            width:100%;
+            padding: 12px;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e1e5e9;
+            border-radius: 18px;
+            background: #f8f9fa !important;
+            color: #111;
+            cursor: pointer;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
+        }
+
+        .theme_color:hover {
+            border-color: var(--swatch-color);
+            transform: translateY(-2px);
+        }
+
+        .color_swatch {
+            display: flex;
+            width: 25px;
+            height: 25px;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--surface-color);
+            border-radius: 50%;
+            background: var(--swatch-color);
+            box-shadow: 0 2px 8px rgba(31, 35, 41, 0.25);
+            color: white;
+            font-size: 11px;
+        }
+
+        .account_section {
+            margin-top: 32px;
+        }
+
+        .account_card {
+            overflow: hidden;
+            border: 1px solid #e1e5e9;
+            border-radius: 24px;
+            background: var(--surface-color);
+            box-shadow: 0 8px 24px rgba(31, 35, 41, 0.04);
+        }
+
+        .account_item {
+            display: flex;
+            width: 100%;
+            padding: 16px 22px;
+            gap: 18px;
+            align-items: center;
+            border: 0;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            font: inherit;
+            text-align: left;
+        }
+
+        .account_item:hover {
+            background: rgba(127, 127, 127, 0.06);
+        }
+
+        .account_icon {
+            display: flex;
+            width: 50px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: var(--secondary_color);
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .account_text {
+            flex: 1;
+        }
+
+        .account_text strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .account_text span {
+            color: var(--subtext-color);
+            font-size: 13px;
+        }
+
+        .account_arrow {
+            color: var(--subtext-color);
+            font-size: 16px;
+        }
+
+        .app_information {
+            margin: 46px 0 22px;
+            color: var(--subtext-color);
+            text-align: center;
+        }
+
+        .app_information strong,
+        .app_information span {
+            display: block;
+        }
+
+        .app_information strong {
+            margin-bottom: 9px;
+            font-size: 16px;
+        }
+
+        .app_information span {
+            font-size: 16px;
+        }
+
+        @media (max-width: 650px) {
+            .settings_page {
+                width: min(100% - 24px, 900px);
+                margin-top: 20px;
+            }
+
+            .appearance_card {
+                padding: 18px;
+                border-radius: 20px;
+            }
+
+            .account_card {
+                border-radius: 20px;
+            }
+
+            .account_item {
+                padding: 14px 16px;
+            }
+
+        }
+    </style>
+
+    <main class="settings_page">
+        <h1 class="settings_title">Utseende</h1>
+
+        <section class="appearance_card">
+            <div class="appearance_header">
+                <div class="appearance_icon" aria-hidden="true">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+
+                <div class="appearance_text">
+                    <h2>Temafarge</h2>
+                    <p>Velg hovedfargen som brukes i appen</p>
+                </div>
+            </div>
+
+            <div class="theme_group" aria-label="Velg temafarge">
+                <button class="theme_color selected" style="--swatch-color:#00b079; background-color:#00b079" data-color="green" type="button">
+                    <span class="color_swatch"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
+                    <span>Gr&oslash;nn</span>
+                </button>
+
+                <button class="theme_color" style="--swatch-color:#2995a3; background-color:#2995a3" data-color="blue" type="button">
+                    <span class="color_swatch"></span>
+                    <span>Hav</span>
+                </button>
+
+                <button class="theme_color" style="--swatch-color:#dc4c56; background-color:#dc4c56" data-color="red" type="button">
+                    <span class="color_swatch"></span>
+                    <span>Korall</span>
+                </button>
+
+                <button class="theme_color" style="--swatch-color:#1f2329; background-color:#1f2329" data-color="black" type="button">
+                    <span class="color_swatch"></span>
+                    <span>Grafitt</span>
+                </button>
+            </div>
+
+        </section>
+
+        <section class="account_section">
+            <h2 class="settings_title">Konto</h2>
+
+            <div class="account_card">
+                <button class="account_item" type="button">
+                    <span class="account_icon" aria-hidden="true">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </span>
+
+                    <span class="account_text">
+                        <strong class="logout_referrer">Logg ut</strong>
+                        <span>Avslutt den aktive &oslash;kten</span>
+                    </span>
+
+                    <i class="fa-solid fa-chevron-right account_arrow" aria-hidden="true"></i>
+                </button>
+            </div>
+        </section>
+
+        <footer class="app_information">
+            <strong>Kvador</strong>
+            <span>Versjon 1.0.0</span>
+        </footer>
+    </main>
+
+    <script src="navigator.js" defer></script>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+        const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+        const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        /* ============ Logg ut bruker med knapp ============== */
+        const logout = document.querySelectorAll(".logout_referrer");
+        
+        logout.forEach((element) => {
+            element.addEventListener("click", async () => {
+            const { error } = await supabase.auth.signOut();
+            window.location.href = "login.html";
+        });
+        });
+    </script>
+
+    <script>
+        // 1. Sjekk om det allerede ligger en lagret farge i localStorage når siden laster
+        const knapper = document.querySelectorAll(".theme_color");
+
+        // 2. Lytt etter klikk på knappen
+        knapper.forEach((knapp) => {
+            knapp.addEventListener("click", () => {
+                const fargeId = knapp.dataset.color;
+                const farge = knapp.style.backgroundColor;
+                let sekundær_farge = ""
+                
+                // Endre fargen i CSS-en med en gang
+                document.documentElement.style.setProperty("--primary-color", farge);
+
+                if(fargeId === "green"){ sekundær_farge = "#e6f9ef"}
+                if(fargeId === "red"){ sekundær_farge = "#fdebed"}
+                if(fargeId === "blue"){ sekundær_farge = "#e3f1fc"}
+                if(fargeId === "black"){ sekundær_farge = "#f0f2f4"}
+                
+                document.documentElement.style.setProperty("--secondary_color", sekundær_farge); 
+
+                // Lagre selve fargestrengen til localStorage
+                localStorage.setItem("primary_color", farge);
+
+                // Lagre selve fargestrengen til localStorage
+                localStorage.setItem("secondary_color", sekundær_farge);
+            });
+        });
+    </script>
+
+</body>
+</html>

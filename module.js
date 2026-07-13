@@ -121,3 +121,4 @@ validation_habits("Meditasjon", "meditasjon_validation");
             });
         }
     segmentDisplay();
+    

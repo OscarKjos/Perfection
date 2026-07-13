@@ -273,7 +273,7 @@ style.textContent = `
         #splash_screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, var(--splash-color), var(--splash-color2));
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary_color));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -373,7 +373,7 @@ navContainer.innerHTML = `
         </a>
         <div>
             <button class="icon-btn" title="Varsler"><i class="fa-regular fa-bell"></i></button>
-            <button class="icon-btn" title="Innstillinger"><i class="fa-solid fa-gear"></i></button>
+            <button class="icon-btn" id="settings_referrer" title="Innstillinger"><i class="fa-solid fa-gear"></i></button>
         </div>
     </div>
 
@@ -478,7 +478,7 @@ function settThemeColor(farge) {
      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         settThemeColor('black');
     } else{
-        settThemeColor('#1DB874');
+        settThemeColor('var(--primary-color)');
     }
 
     setTimeout(() => {
@@ -491,3 +491,20 @@ function settThemeColor(farge) {
         sessionStorage.setItem("splash_vist", "true");
     }, 3000); // 3 sekunder
 });
+
+
+// ==================== Link til Innstillinger ====================== //
+    const knapp = document.getElementById("settings_referrer");
+
+    knapp.addEventListener("click", () => {
+        window.location.href = "settings.html";
+    });
+
+// ==================== Dynamisk Fargevalg ====================== //
+    const lagretFarge = localStorage.getItem("primary_color");
+    const lagretFarge2 = localStorage.getItem("secondary_color");
+
+    if (lagretFarge) {
+        document.documentElement.style.setProperty("--primary-color", lagretFarge);
+        document.documentElement.style.setProperty("--secondary_color", lagretFarge2);
+    }

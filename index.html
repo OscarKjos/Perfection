@@ -116,8 +116,8 @@
         }
         
         .quote {
-            background: #e6f9ef;
-            color: #00b079;
+            background: var(--secondary_color);
+            color: var(--primary-color);
             border-radius: 7px;
             padding: 2px 10px 2px 7px;
             font-size: 0.7em;
@@ -353,8 +353,8 @@
 
 
         <button id="active_media" class="profile_bar__item" type="button">
-            <i class="fa-regular fa-file-lines"></i>
-            <span>Innlegg</span>
+            <i class="fa-solid fa-wheat-awn-circle-exclamation"></i>
+            <span>Ernæring</span>
         </button>
         
         <button id="active_segments" class="profile_bar__item" type="button">
@@ -431,7 +431,7 @@
             width:38px;
             height:38px;
             border-radius:50%;
-            background:#e6f9ef;
+            background:var(--secondary_color);
             color:var(--primary-color);
             display:flex;
             align-items:center;
@@ -603,7 +603,7 @@
                 width:34px;
                 height:34px;
                 border-radius:10px;
-                background:#e6f9ef;
+                background:var(--secondary_color);
                 color:var(--primary-color);
                 display:flex;
                 align-items:center;
@@ -754,7 +754,7 @@
                 width:34px;
                 height:34px;
                 border-radius:10px;
-                background:#e6f9ef;
+                background:var(--secondary_color);
                 color:var(--primary-color);
                 display:flex;
                 align-items:center;
@@ -1069,164 +1069,721 @@
 
     <main class="container media_container" style="display:none">
         <style>
-            .picture_grid{
-                width:100%;
-                padding:15px;
-                background:var(--surface-color);
-                border:1px solid rgba(0,0,0,0.04);
-                box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            :root {
+                --plan-green: #08ad73;
+                --plan-text: #17191c;
+                --plan-muted: #62666d;
+                --plan-border: #e8eaee;
+                --plan-background: #ffffff;
+                --plan-shadow: 0 4px 12px rgba(20, 25, 35, 0.06);
             }
 
-            .picture_grid__header{
-                display:flex;
-                align-items:flex-start;
-                justify-content:space-between;
-                gap:12px;
-                margin-bottom:14px;
-            }
-
-            .picture_grid__title_group{
-                min-width:0;
-                display:flex;
-                flex-direction:row;
-                justify-content: space-between;
-                gap:4px;
-            }
-
-            .picture_grid__title{
-                color:var(--text-color);
-                font-size:1rem;
-                font-weight:800;
-                line-height:1.1;
-                margin:0;
-            }
-
-            .picture_grid__subtitle{
-                color:var(--subtext-color);
-                font-size:.72rem;
-                font-weight:500;
-                line-height:1.2;
-                margin:0;
-            }
-
-            .picture_grid__items{
-                display:grid;
-                grid-template-columns:repeat(3, minmax(0, 1fr));
-                gap:8px;
-            }
-
-            .picture_grid__item,
-            .picture_grid__upload{
-                width:100%;
-                aspect-ratio:1 / 1;
-                border-radius:12px;
-                overflow:hidden;
-                background:#f1f1f6;
-                border:1px solid rgba(0,0,0,0.04);
-            }
-
-            .picture_grid__item{
-                position:relative;
-                margin:0;
-            }
-
-            .picture_grid__item::after{
-                content:"";
-                position:absolute;
-                left:0;
-                right:0;
-                bottom:0;
-                height:46%;
-                background:linear-gradient(to top, rgba(0,0,0,0.52), transparent);
-                pointer-events:none;
-            }
-
-            .picture_grid__item img{
-                width:100%;
-                height:100%;
-                display:block;
-                object-fit:cover;
-            }
-
-            .picture_grid__meta{
-                position:absolute;
-                left:8px;
-                right:8px;
-                bottom:8px;
-                display:flex;
-                align-items:center;
-                justify-content:space-between;
-                gap:6px;
-                color:white;
-                font-size:.68rem;
-                font-weight:700;
-                text-shadow:0 1px 4px rgba(0,0,0,0.55);
-                z-index:1;
-            }
-
-            .picture_grid__tag{
-                min-width:0;
-                overflow:hidden;
-                text-overflow:ellipsis;
-                white-space:nowrap;
-            }
-
-            .picture_grid__upload{
-                padding:12px;
-                cursor:pointer;
-                color:var(--primary-color);
-                background:#f4fbf8;
-                border:1px dashed rgba(0,176,121,0.35);
+            .picture_grid {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+                background: var(--surface-color, #ffffff);
                 display:flex;
                 flex-direction:column;
-                align-items:center;
-                justify-content:center;
-                gap:7px;
-                text-align:center;
-                font:inherit;
+                gap:12px;
             }
 
-            .picture_grid__upload i{
-                width:34px;
-                height:34px;
-                border-radius:50%;
-                background:#e6f9ef;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:1rem;
+            .picture_grid h4 {
+                margin: 0 0 12px;
+                font-size: 15px;
+                margin-left:8px;
+                color: var(--plan-text);
             }
 
-            .picture_grid__upload span{
-                color:var(--primary-color);
-                font-size:.72rem;
-                font-weight:800;
-                line-height:1.1;
+            /* Hele dagskortet */
+            .plan_article {
+                overflow: hidden;
+                border: 1px solid var(--plan-border);
+                border-radius: 10px;
+                background: var(--plan-background);
+                box-shadow: var(--plan-shadow);
             }
 
-            .picture_grid__upload small{
-                color:var(--subtext-color);
-                font-size:.62rem;
-                font-weight:600;
-                line-height:1.1;
+            /* Fjerner standardpilen til details */
+            .plan_article summary {
+                list-style: none;
             }
 
-    </style>
+            .plan_article summary::-webkit-details-marker {
+                display: none;
+            }
 
-    <section class="picture_grid">
-        <div class="picture_grid__header">
-                <p class="picture_grid__title">Media</p>
-                <p class="picture_grid__subtitle">11 opplastinger</p>
-        </div>
+            /* Overskriften med Mandag og kalorier */
+            .plan_header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                min-height: 48px;
+                padding: 0 14px;
+                box-sizing: border-box;
+                cursor: pointer;
+                user-select: none;
+            }
 
-        <div class="picture_grid__items">
-            <button class="picture_grid__upload" type="button" aria-label="Last opp bilde">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>Last opp</span>
-                <small>Bilde eller video</small>
-            </button>
-        </div>
-    </section>
+            .plan_header_content {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+            }
+
+            .plan_header_content .calendar_icon {
+                color: var(--plan-green);
+                font-size: 16px;
+            }
+
+            .plan_day {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--plan-text);
+            }
+
+            .plan_calories {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 500;
+                color: var(--plan-green);
+            }
+
+            .plan_chevron {
+                font-size: 12px;
+                color: var(--plan-text);
+                transition: transform 0.2s ease;
+            }
+
+            /* Når planen er åpen, peker pilen opp */
+            .plan_article[open] .plan_chevron {
+                transform: rotate(180deg);
+            }
+
+            /* Måltidslisten */
+            .plan_card {
+                margin: 0 8px 8px;
+                overflow: hidden;
+                border: 1px solid var(--plan-border);
+                border-radius: 8px;
+                background: var(--plan-background);
+            }
+
+            /*
+                Kolonnene er:
+                ikon | måltid | klokkeslett | mat | kalorier
+            */
+            .plan_row {
+                display: grid;
+                grid-template-columns:
+                    24px
+                    minmax(78px, 0.8fr)
+                    42px
+                    minmax(120px, 1.8fr)
+                    58px;
+
+                align-items: center;
+                column-gap: 7px;
+                min-height: 40px;
+                padding: 7px 10px;
+                box-sizing: border-box;
+                border-bottom: 1px solid var(--plan-border);
+            }
+
+            .plan_row:last-child {
+                border-bottom: none;
+            }
+
+            .plan_row i {
+                justify-self: center;
+                font-size: 12px;
+                color: #202327;
+            }
+
+            .plan_row p {
+                min-width: 0;
+                margin: 0;
+                line-height: 1.3;
+            }
+
+            .meal_name {
+                font-size: 11px;
+                font-weight: 600;
+                color: var(--plan-text);
+            }
+
+            .meal_time {
+                font-size: 9px;
+                color: var(--plan-muted);
+            }
+
+            .meal_description {
+                overflow: hidden;
+                font-size: 10px;
+                color: var(--plan-text);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .meal_calories {
+                justify-self: end;
+                font-size: 10px;
+                font-weight: 500;
+                color: var(--plan-text);
+                white-space: nowrap;
+            }
+
+            /* Tilpasning for ekstra smale skjermer */
+            @media (max-width: 380px) {
+                .plan_row {
+                    grid-template-columns:
+                        21px
+                        69px
+                        35px
+                        minmax(80px, 1fr)
+                        52px;
+
+                    column-gap: 5px;
+                    padding-inline: 7px;
+                }
+
+                .meal_name {
+                    font-size: 10px;
+                }
+
+                .meal_description,
+                .meal_calories {
+                    font-size: 9px;
+                }
+
+                .meal_time {
+                    font-size: 8px;
+                }
+            }
+        </style>
+
+        <section class="picture_grid">
+            <h4>Ernæringsplan</h4>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Mandag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Tirsdag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Onsdag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Torsdag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Fredag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Lørdag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Søndag</p>
+                        <p class="plan_calories">– 3 180 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            Havregrøt med banan og melk
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Yoghurt + nøtter og honning
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingwrap med grønnsaker
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time">16:00</p>
+                        <p class="meal_description">
+                            Banan og riskaker med honning
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Cottage cheese med bær
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+        </section>
     </main>
 
 
@@ -1600,7 +2157,7 @@
             width:28px;
             height:28px;
             border-radius:50%;
-            background:#e6f9ef;
+            background:var(--secondary_color);
             color:var(--primary-color);
             display:flex;
             align-items:center;
@@ -1683,7 +2240,7 @@
                 linear-gradient(
                     to top,
                     var(--primary-color),
-                    #34c097
+                    var(--primary-color)
                 );
 
             border-bottom-left-radius: 12px;
@@ -1794,7 +2351,7 @@
             width:26px;
             height:26px;
             border-radius:50%;
-            background:#e6f9ef;
+            background:var(--secondary_color);
             color:var(--primary-color);
             display:flex;
             align-items:center;
@@ -1883,7 +2440,7 @@
             width:34px;
             height:34px;
             border-radius:50%;
-            background:#e6f9ef;
+            background:var(--secondary_color);
             color:var(--primary-color);
             display:flex;
             align-items:center;

@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta name="theme-color" content="white">
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="global.css">
 
     <!-- Ikoner for ulike enheter -->
     <link rel="icon" type="image/png" sizes="32x32" href="Bilder/ikoner/logo_webb.png?v=2">
@@ -444,7 +445,7 @@
         #splash_screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, var(--splash-color), var(--splash-color2));
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary_color));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -511,7 +512,7 @@
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 settThemeColor('black');
             } else{
-                settThemeColor('#1DB874');
+                settThemeColor('var(--primary-color)');
             }
 
             setTimeout(() => {
@@ -559,6 +560,16 @@
   document.getElementById('password').addEventListener('keydown', e => {
     if (e.key === 'Enter') handleLogin();
   });
+
+  
+  // ==================== Dynamisk Fargevalg ====================== //
+    const lagretFarge = localStorage.getItem("primary_color");
+    const lagretFarge2 = localStorage.getItem("secondary_color");
+
+    if (lagretFarge) {
+        document.documentElement.style.setProperty("--primary-color", lagretFarge);
+        document.documentElement.style.setProperty("--secondary_color", lagretFarge2);
+    }
 </script>
 
 <script type="module">
