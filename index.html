@@ -1132,7 +1132,7 @@
             }
 
             .plan_header_content .calendar_icon {
-                color: var(--plan-green);
+                color: var(--primary-color);
                 font-size: 16px;
             }
 
@@ -1147,7 +1147,7 @@
                 margin: 0;
                 font-size: 13px;
                 font-weight: 500;
-                color: var(--plan-green);
+                color: var(--primary-color);
             }
 
             .plan_chevron {
@@ -1999,7 +1999,7 @@
             <section class="todolist">
             <div style="height: 45vh; overflow-y: scroll;">
                 <div>
-                    <i class="fa-solid fa-dumbbell" style="background:#D9F7E8; color:#198754;"></i>
+                    <i class="fa-solid fa-running" style="background:#D9F7E8; color:#198754;"></i>
                     <p>Trening registrert</p>
                     <p id="training_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
@@ -2027,6 +2027,15 @@
                     <p>Søvn registrert</p>
                     <p id="søvn_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
+
+                <script>
+                    const validate = document.getElementById("søvn_validation");
+                    validate.addEventListener("click", () => {
+                        if (validate.innerHTML.includes("Fullført")) {
+                            validate.innerHTML = localStorage.getItem("sleep_value_today");
+                        }
+                    })
+                </script>
 
                 <div>
                     <i class="fa-solid fa-book-open" style="background:#FFE8CC; color:#D97706;"></i>
@@ -2056,6 +2065,18 @@
                     <i class="fa-solid fa-graduation-cap" style="background:#F3E8FF; color:#7E22CE;"></i>
                     <p>Studie registrert</p>
                     <p id="study_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-pills" style="background:#E0F2FE; color:#0369A1;"></i>
+                    <p>Kreatin inntak</p>
+                    <p id="kreatin_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-dumbbell" style="background:#FFEDD5; color:#C2410C;"></i>
+                    <p>Stryke øvelser</p>
+                    <p id="stryke_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
             </div>
             </section>

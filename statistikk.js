@@ -223,6 +223,11 @@ async function hentVane(dato_id, check_id, vane_id) {
                 if(check_id==="søyle_3"){document.getElementById("sleep_label_3").textContent = element.verdi;}
                 if(check_id==="søyle_2"){document.getElementById("sleep_label_2").textContent = element.verdi;}
                 if(check_id==="søyle_1"){document.getElementById("sleep_label_1").textContent = element.verdi;}
+
+                // Denne skal slettes når funksjon i index.html er ferdig - fungerer for dagsrapport
+                if (dato_id === today) {
+                    localStorage.setItem("sleep_value_today", element.verdi);
+                }
             }
 
 

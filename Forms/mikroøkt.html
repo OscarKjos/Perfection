@@ -440,22 +440,38 @@
                 return;
             }
 
-            window.microActivities.push({
-                aktivitet: aktivitet.value,
-                repetisjoner: Number(repetisjoner.value)
-            });
+            const index = window.microActivities.findIndex(
+                activity => activity.aktivitet.toLowerCase() === aktivitet.value.toLowerCase()
+            );
 
-            const micro_activity = document.createElement("div");
-            micro_activity.classList.add("micro_activity");
+            if (index !== -1) {
+                const existing = window.microActivities[index];
 
-            micro_activity.innerHTML = `
-                <span class="micro_row">
-                    <div class="circle_of_type"></div>
-                    <p class="aktivitet">${aktivitet.value}</p>
-                </span>
-                <p class="repetisjoner">${repetisjoner.value} stk</p>
-            `;
-            micro_list.appendChild(micro_activity);
+                existing.repetisjoner += Number(repetisjoner.value);
+
+                micro_list.children[index]
+                    .querySelector(".repetisjoner")
+                    .textContent = `${existing.repetisjoner} stk`;
+
+            } else {
+                window.microActivities.push({
+                    aktivitet: aktivitet.value,
+                    repetisjoner: Number(repetisjoner.value)
+                });
+
+                const micro_activity = document.createElement("div");
+                micro_activity.classList.add("micro_activity");
+
+                micro_activity.innerHTML = `
+                    <span class="micro_row">
+                        <div class="circle_of_type"></div>
+                        <p class="aktivitet">${aktivitet.value}</p>
+                    </span>
+                    <p class="repetisjoner">${repetisjoner.value} stk</p>
+                `;
+
+                micro_list.appendChild(micro_activity);
+            }
 
             totalreps += Number(repetisjoner.value);
             document.getElementById("active_reps").innerHTML = totalreps;

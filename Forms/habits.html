@@ -493,7 +493,7 @@
                 fields: [
                     { id: "mengde", label: "Vann drukket (ml)", type: "number", min: "0", step: "1", placeholder: "2 800", required: true, unit: "ml" }
                 ],
-                xp: values => 1 + Math.min(Number(values.mengde || 0) / 8, 4)
+                xp: values => 1 + Math.min(Number(values.mengde || 0) / 800, 4)
             },
             kalorier: {
                 navn: "Kaloriinntak",
