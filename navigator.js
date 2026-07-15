@@ -273,7 +273,7 @@ style.textContent = `
         #splash_screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary_color));
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
             display: flex;
             justify-content: center;
             align-items: center;
