@@ -22,7 +22,7 @@ validation('bruker_data_trening', "training_validation");
 validation('bruker_data_produktivitet', "work_validation");
 validation('bruker_data_journal', "journal_validation");
 validation('bruker_data_studie', "study_validation");
-validation('bruker_data_mikroøkt', "stryke_validation");
+validation('bruker_data_mikroøkt', "strength_validation");
 
 
 async function validation_habits(vaneVerdi, relevant_id) {

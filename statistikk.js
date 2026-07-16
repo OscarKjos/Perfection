@@ -226,7 +226,10 @@ async function hentVane(dato_id, check_id, vane_id) {
 
                 // Denne skal slettes når funksjon i index.html er ferdig - fungerer for dagsrapport
                 if (dato_id === today) {
-                    localStorage.setItem("sleep_value_today", element.verdi);
+                    const floor = Math.floor(element.verdi);
+                    const decimal = element.verdi - floor;
+                    const minutter = decimal * 60;
+                    localStorage.setItem("sleep_value_today", floor + " t " + minutter.toFixed(0) + " min");
                 }
             }
 
@@ -248,8 +251,12 @@ async function hentVane(dato_id, check_id, vane_id) {
                 if(check_id==="vann_5"){document.getElementById("vann_label_5").textContent = totalverdi/100;}
                 if(check_id==="vann_6"){document.getElementById("vann_label_6").textContent = totalverdi/100;}
                 if(check_id==="vann_7"){document.getElementById("vann_label_7").textContent = totalverdi/100;}
-            }
 
+                 // Denne funksjonen lagrer verdien for dagsrapport
+                if (dato_id === today) {
+                    localStorage.setItem("water_value_today", totalverdi + " ml");
+                }
+            }
 
             if (vane_id === "Kaloriinntak") {
                 const bar_fill = document.getElementById(check_id);
@@ -537,6 +544,7 @@ async function reps_count() {
     .from('bruker_data_mikroøkt')
     .select('dato, repetisjoner');
 
+    let reps_today = 0;
     let reps_total = 0;
     let reps_year = 0;
     let reps_month = 0;
@@ -556,6 +564,7 @@ async function reps_count() {
     };
 
     let today = new Date();
+    const todayString = today.toISOString().split("T")[0];
     const currentWeek = getWeekNumber(today);
     const currentYear = today.getFullYear();
 
@@ -566,6 +575,12 @@ async function reps_count() {
 
         reps_total += Number(element.repetisjoner);
         document.getElementById("antall-reps-totalt").textContent = reps_total;
+        
+        // Antall reps i dag
+        if (element.dato === todayString) {
+            reps_today += Number(element.repetisjoner);
+            localStorage.setItem("strength_value_today", reps_today + " reps");
+        }
 
         // Antall reps år
         if (element.dato >= year + "-01-01") {

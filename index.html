@@ -1517,6 +1517,25 @@
                     background:var(--surface-color);
                     border-radius:12px;
                 }
+
+                .click_bate{
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                }
+
+                .click_bate input{
+                    width: 18px;
+                    height: 18px;
+                    accent-color: var(--primary-color);
+                    cursor: pointer;
+                }
+
+                .clicked{
+                    text-decoration: line-through;
+                    color: #4b5563;
+                    opacity:0.5;
+                }
             </style>
 
             <aside class="nutrition_note">
@@ -1544,92 +1563,106 @@
                 </summary>
 
                 <div class="handleliste">
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">1 brød</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">3 epler</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">Gulrøtter</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">6 egg</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">6 bananer</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">Sjokolademelk 1 liter</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">Melk 1,75 liter (proteinshake)</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">1 isbergsalat</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">3 stk paprika</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">2 stk agurk</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">3 stk tunfisk</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">400 g kjøttdeig</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">Mais</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">500 g Laks</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">1 brokkoli</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">3 tomater</label>
                     </span>
 
-                    <span>
+                    <span class="click_bate">
                         <input type="checkbox">
                         <label for="handleliste">3 poser ris</label>
                     </span>
                 </div>
-            </details> 
+            </details>
+            
+            <script>
+                const click = document.querySelectorAll(".click_bate");
+                click.forEach(click => {
+                    click.addEventListener("click", () => {
+                        click.classList.toggle("clicked");
+                        const input = click.querySelector("input");
+                        
+                        if (click.classList.contains("clicked")) {
+                            input.checked = true;
+                        }
+                    })
+                })
+            </script>
 
             <details class="plan_article">
                 <summary class="plan_header">
@@ -1899,7 +1932,7 @@
                 <div>
                     <i class="fa-solid fa-running" style="background:#D9F7E8; color:#198754;"></i>
                     <p>Trening registrert</p>
-                    <p id="training_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                    <p class="validation_click" id="training_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
 
                 <div>
@@ -1917,23 +1950,14 @@
                 <div>
                     <i class="fa-solid fa-glass-water" style="background:#D8F4FF; color:#0D6EFD;"></i>
                     <p>Vanntilførsel</p>
-                    <p id="water_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                    <p class="validation_click" id="water_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
 
                 <div>
                     <i class="fa-solid fa-moon" style="background:#E8E1FF; color:#6F42C1;"></i>
                     <p>Søvn registrert</p>
-                    <p id="søvn_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                    <p class="validation_click" id="søvn_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
-
-                <script>
-                    const validate = document.getElementById("søvn_validation");
-                    validate.addEventListener("click", () => {
-                        if (validate.innerHTML.includes("Fullført")) {
-                            validate.innerHTML = localStorage.getItem("sleep_value_today");
-                        }
-                    })
-                </script>
 
                 <div>
                     <i class="fa-solid fa-book-open" style="background:#FFE8CC; color:#D97706;"></i>
@@ -1956,13 +1980,13 @@
                 <div>
                     <i class="fa-solid fa-briefcase" style="background:#E3F2FD; color:#1565C0;"></i>
                     <p>Arbeid registrert</p>
-                    <p id="work_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                    <p class="validation_click" id="work_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
 
                 <div>
                     <i class="fa-solid fa-graduation-cap" style="background:#F3E8FF; color:#7E22CE;"></i>
                     <p>Studie registrert</p>
-                    <p id="study_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                    <p class="validation_click" id="study_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
 
                 <div>
@@ -1974,12 +1998,41 @@
                 <div>
                     <i class="fa-solid fa-dumbbell" style="background:#FFEDD5; color:#C2410C;"></i>
                     <p>Stryke øvelser</p>
-                    <p id="stryke_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
+                    <p class="validation_click" id="strength_validation"><i class="fa-regular fa-circle"></i> Mangler</p>
                 </div>
             </div>
             </section>
         </div>
     </section>
+
+    <script>
+    const validate = document.querySelectorAll(".validation_click");
+
+    validate.forEach(valid => {
+        valid.addEventListener("click", () => {
+            function click_validate(click_id){
+                const id = document.getElementById(click_id);
+                
+                if (valid.innerHTML.includes("Fullført")) {
+                    if (click_id === "søvn_validation"){
+                        id.innerHTML = localStorage.getItem("sleep_value_today");
+                    }
+                    else if (click_id === "water_validation"){
+                        id.innerHTML = localStorage.getItem("water_value_today");
+                    }
+                    else if (click_id === "strength_validation"){
+                        id.innerHTML = localStorage.getItem("strength_value_today");
+                    }
+                }
+                else {
+                    id.innerHTML = "<i class='fa-solid fa-circle-check'></i> Fullført";
+                }
+            }
+            click_validate(valid.id);
+        })
+    })
+    
+    </script>
 
     <script>
         const half_filter = document.getElementById("half_filter");
