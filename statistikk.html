@@ -346,6 +346,14 @@
                 gap:10px;
                 overflow-x:scroll;
                 width:100vw;
+                padding-bottom: 20px;
+                
+                scroll-snap-type: x proximity;
+                overscroll-behavior-x: contain;
+
+                -webkit-overflow-scrolling: touch;
+
+                scrollbar-width: none;
             }
 
             .button_section::-webkit-scrollbar{
@@ -367,8 +375,8 @@
                 align-items:center;
                 justify-content:center;
                 gap:7px;
-                padding:0 12px;
-                font-size:.78rem;
+                padding:20px 20px;
+                font-size:.8rem;
                 font-weight:700;
                 font-family:inherit;
                 cursor:pointer;
