@@ -575,7 +575,7 @@ async function reps_count() {
 
         reps_total += Number(element.repetisjoner);
         document.getElementById("antall-reps-totalt").textContent = reps_total;
-        
+
         // Antall reps i dag
         if (element.dato === todayString) {
             reps_today += Number(element.repetisjoner);
@@ -643,3 +643,152 @@ reps_count();
         })
     })
 
+
+
+// Funksjon for å lage work-diagram
+
+
+async function getWork(tabelltype) {
+    const { data, error } = await supabase
+        .from(tabelltype)
+        .select('dato, varighet');
+
+        // Alt oppgis i antall minutter (Husk å gjøre om til timer + min)
+        let total_tid = 0;
+        let tid_dette_året = 0;
+        let tid_denne_måneden = 0;
+
+        let hour_uke1 = 0;    let hour_uke2 = 0;    let hour_uke3 = 0;    let hour_uke4 = 0;    //Måned 1
+        let hour_uke5 = 0;    let hour_uke6 = 0;    let hour_uke7 = 0;    let hour_uke8 = 0;    //Måned 2
+        let hour_uke9 = 0;    let hour_uke10 = 0;   let hour_uke11 = 0;   let hour_uke12 = 0;   //Måned 3
+
+        // Setter grunnverdier slik at funksjonen returnerer verdi ved manglende data
+        document.getElementById("måneds_timer").innerHTML = "0 t";
+        document.getElementById("års_timer").innerHTML = "0 t";
+        document.getElementById("total_timer").innerHTML = "0 t";
+
+        const value = document.querySelectorAll(".work_value");
+        value.forEach(element => {
+            element.innerHTML = "0";
+        })
+
+        const bar = document.querySelectorAll(".work_bar");
+        bar.forEach(element => {
+            element.style.height = "0%";
+        })
+
+    data.forEach(element => {
+
+        total_tid += Number(element.varighet);
+        const timer_total = (total_tid / 60).toFixed(1);
+        document.getElementById("total_timer").innerHTML = timer_total + " t";
+
+        if (element.dato >= year + "-01-01") {
+            tid_dette_året += Number(element.varighet);
+
+            const timer = (tid_dette_året / 60).toFixed(1);
+
+            document.getElementById("års_timer").innerHTML = timer + " t";
+        }
+
+        if (element.dato >= `${year}-${String(måned).padStart(2, "0")}-01`) {
+            tid_denne_måneden += Number(element.varighet);
+
+            const timer = (tid_denne_måneden / 60).toFixed(1);
+
+            document.getElementById("måneds_timer").innerHTML = timer + " t";
+        }
+
+        const week = getWeekNumber(new Date());
+
+        function timer_per_uke(week_number) {
+            const wanted_week = week - week_number;
+
+            if (getWeekNumber(new Date(element.dato)) === wanted_week && new Date(element.dato).getFullYear() === year) {
+                if (week_number === 0) {
+                    hour_uke1 += Number(element.varighet);
+                    document.getElementById("work_hour_1").innerHTML = Math.round(hour_uke1 / 60);
+                    document.getElementById("work_bar_1").style.height = (hour_uke1 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 1) {
+                    hour_uke2 += Number(element.varighet);
+                    document.getElementById("work_hour_2").innerHTML = Math.round(hour_uke2 / 60);
+                    document.getElementById("work_bar_2").style.height = (hour_uke2 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 2) {
+                    hour_uke3 += Number(element.varighet);
+                    document.getElementById("work_hour_3").innerHTML = Math.round(hour_uke3 / 60);
+                    document.getElementById("work_bar_3").style.height = (hour_uke3 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 3) {
+                    hour_uke4 += Number(element.varighet);
+                    document.getElementById("work_hour_4").innerHTML = Math.round(hour_uke4 / 60);
+                    document.getElementById("work_bar_4").style.height = (hour_uke4 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 4) {
+                    hour_uke5 += Number(element.varighet);
+                    document.getElementById("work_hour_5").innerHTML = Math.round(hour_uke5 / 60);
+                    document.getElementById("work_bar_5").style.height = (hour_uke5 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 5) {
+                    hour_uke6 += Number(element.varighet);
+                    document.getElementById("work_hour_6").innerHTML = Math.round(hour_uke6 / 60);
+                    document.getElementById("work_bar_6").style.height = (hour_uke6 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 6) {
+                    hour_uke7 += Number(element.varighet);
+                    document.getElementById("work_hour_7").innerHTML = Math.round(hour_uke7 / 60);
+                    document.getElementById("work_bar_7").style.height = (hour_uke7 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 7) {
+                    hour_uke8 += Number(element.varighet);
+                    document.getElementById("work_hour_8").innerHTML = Math.round(hour_uke8 / 60);
+                    document.getElementById("work_bar_8").style.height = (hour_uke8 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 8) {
+                    hour_uke9 += Number(element.varighet);
+                    document.getElementById("work_hour_9").innerHTML = Math.round(hour_uke9 / 60);
+                    document.getElementById("work_bar_9").style.height = (hour_uke9 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 9) {
+                    hour_uke10 += Number(element.varighet);
+                    document.getElementById("work_hour_10").innerHTML = Math.round(hour_uke10 / 60);
+                    document.getElementById("work_bar_10").style.height = (hour_uke10 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 10) {
+                    hour_uke11 += Number(element.varighet);
+                    document.getElementById("work_hour_11").innerHTML = Math.round(hour_uke11 / 60);
+                    document.getElementById("work_bar_11").style.height = (hour_uke11 / 60)*10 / 5 + "%";
+                }
+                else if (week_number === 11) {
+                    hour_uke12 += Number(element.varighet);
+                    document.getElementById("work_hour_12").innerHTML = Math.round(hour_uke12 / 60);
+                    document.getElementById("work_bar_12").style.height = (hour_uke12 / 60)*10 / 5 + "%";
+                }
+            }
+        }
+        timer_per_uke(0)
+        timer_per_uke(1)
+        timer_per_uke(2)
+        timer_per_uke(3)
+        timer_per_uke(4)
+        timer_per_uke(5)
+        timer_per_uke(6)
+        timer_per_uke(7)
+        timer_per_uke(8)
+        timer_per_uke(9)
+        timer_per_uke(10)
+        timer_per_uke(11)
+    });
+}
+getWork("bruker_data_produktivitet");
+
+const work_button = document.getElementById("work_button");
+work_button.addEventListener("click", () => {
+    getWork("bruker_data_produktivitet");
+});
+
+const study_button = document.getElementById("study_button");
+study_button.addEventListener("click", () => {
+    getWork("bruker_data_studie");
+});

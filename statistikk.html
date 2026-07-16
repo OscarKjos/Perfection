@@ -1959,6 +1959,123 @@
         </span>
     </section>
 
+    <!-- Diagram (Ukentlige arbeidstimer - studie og prosjekter) -->
+    <section class="diagram_grid work_stats">
+        <div class="diagram-header">
+            <div class="diagram-title">
+                <div class="diagram-title-icon">
+                    <i class="fa-solid fa-chart-column"></i>
+                </div>
+                <p>Ukentlige arbeidstimer</p>
+            </div>
+
+            <div class="diagram-actions" aria-label="Velg kategori for diagram">
+                <button id="work_button" value="Arbeid" class="diagram-action active" type="button" aria-pressed="true">
+                    <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
+                    <span>Prosjekter</span>
+                </button>
+
+                <button id="study_button" value="Studie" class="diagram-action" type="button" aria-pressed="false">
+                    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                    <span>Studie</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="chart_area">
+            <div class="grid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_12">0</div>
+                <div class="bar work_bar" id="work_bar_12"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_11">0</div>
+                <div class="bar work_bar" id="work_bar_11"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_10">0</div>
+                <div class="bar work_bar" id="work_bar_10"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_9">0</div>
+                <div class="bar work_bar" id="work_bar_9"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_8">0</div>
+                <div class="bar work_bar" id="work_bar_8"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_7">0</div>
+                <div class="bar work_bar" id="work_bar_7"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_6">0</div>
+                <div class="bar work_bar" id="work_bar_6"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_5">0</div>
+                <div class="bar work_bar" id="work_bar_5"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_4">0</div>
+                <div class="bar work_bar" id="work_bar_4"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_3">0</div>
+                <div class="bar work_bar" id="work_bar_3"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_2">0</div>
+                <div class="bar work_bar" id="work_bar_2"></div>
+            </div>
+
+            <div class="bar-group">
+                <div class="value work_value" id="work_hour_1">0</div>
+                <div class="bar work_bar" id="work_bar_1"></div>
+            </div>
+        </div>
+
+        <div class="chart_legend" aria-label="Timeoversikt">
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">Totalt</p>
+                    <p id="total_timer" class="chart_legend_value">0 t</p>
+                </div>
+            </article>
+
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">I år</p>
+                    <p id="års_timer" class="chart_legend_value">0 t</p>
+                </div>
+            </article>
+
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">Denne måneden</p>
+                    <p id="måneds_timer" class="chart_legend_value">0 t</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
     </main>
 
     <style>
