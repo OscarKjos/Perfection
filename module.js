@@ -108,7 +108,11 @@ validation_habits("Kreatin", "kreatin_validation");
                 card.classList.add(erFullført ? 'fullført' : 'pågående');
 
                 card.innerHTML = `
-                        <div style="background-color: ${element.backgroundColor}; color: ${element.color};" class="segments_grid__icon"><i class="${element.ikon}"></i></div>
+                        <div class="segment-badge">
+                            <div class="segment-badge-inner">
+                                <i class="${element.ikon}"></i>
+                            </div>
+                        </div>
                         <div class="segments_grid__content">
                             <div class="segments_grid__top">
                                 <p class="segments_grid__title">${element.navn}</p>
@@ -119,6 +123,15 @@ validation_habits("Kreatin", "kreatin_validation");
                             </div>
                         </div>
                 `
+
+                if (erFullført) {
+                    const track = card.querySelectorAll('.segments_grid__track');
+
+                    track.forEach(element => {
+                        element.style.display = "none";
+                    })
+                }
+
                 segments_grid.appendChild(card);
             });
         }

@@ -1022,6 +1022,54 @@
             }
         </style>
 
+        <style>
+            /* Style for 6-kant segment */
+            .segment-badge {
+                width:fit-content;
+                aspect-ratio: 1 / 1.08;
+
+                background: var(--primary-color);
+
+                clip-path: polygon(
+                    50% 0%,
+                    93% 25%,
+                    93% 75%,
+                    50% 100%,
+                    7% 75%,
+                    7% 25%
+                );
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                filter: drop-shadow(0 10px 16px rgba(17, 24, 32, 0.16));
+            }
+
+            .segment-badge-inner {
+                width: calc(100% - 3px);
+                height: calc(100% - 3px);
+                padding:8px;
+
+                background: linear-gradient(
+                    145deg,
+                    #ffffff 0%,
+                    #f4f5f7 50%,
+                    #ffffff 100%
+                );
+
+                clip-path: inherit;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                color: var(--primary-color);
+                text-align: center;
+            }
+        </style>
+
         <section class="segments_section picture_grid">
             <div class="segments_buttons">
                 <button id="fullførtBate">Fullførte</button>
@@ -1869,8 +1917,11 @@
             width:32px;
             height:32px;
             border-radius:50%;
-            background:#e6f9ef;
-            color:var(--primary-color);
+
+            /* Disse verdiene må fjernes dersom jeg vil ha unike farger per ikon */
+            background:var(--secondary_color) !important;
+            color:var(--eksternfarge) !important;
+            
             display:flex;
             align-items:center;
             justify-content:center;
@@ -1898,8 +1949,8 @@
             min-width:76px;
             padding:5px 8px;
             border-radius:999px;
-            background:#fff6eb;
-            color:#ecac66;
+            background:#f2f3f3;
+            color:var(--subtext-color);
             font-size:.72rem;
             font-weight:700;
         }
@@ -2024,7 +2075,7 @@
                         id.innerHTML = localStorage.getItem("strength_value_today");
                     }
                 }
-                else {
+                else if (!valid.innerHTML.includes("Mangler")) {
                     id.innerHTML = "<i class='fa-solid fa-circle-check'></i> Fullført";
                 }
             }
