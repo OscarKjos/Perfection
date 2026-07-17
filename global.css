@@ -10,7 +10,6 @@
     --subtext-color:#666;
 
     --splash-color: #00b079;
-    --splash-color2: #0f6b47;
 
     --bg-color: #f6f5fb;
     --surface-color: white;
@@ -19,7 +18,7 @@
 
     --primary-color:#00b079;
     --secondary_color:#e6f9ef;
-    --eksternfarge:none;
+    --eksternfarge:#0f8762;
 
     --hoverfarge:rgb(100, 100, 100);
     --marked:#ffcc00;
@@ -28,7 +27,6 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --splash-color: black;
-        --splash-color2: black;
 
         --primary-color:#067244;
         --bg-color: #020509;

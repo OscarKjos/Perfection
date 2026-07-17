@@ -403,14 +403,14 @@
                     <span>Helse & ernæring</span>
                 </button>
 
-                <button id="structure_stats" class="category_btn">
-                    <i class="fa-solid fa-chart-pie"></i>
-                    <span>Struktur</span>
-                </button>
-
                 <button id="work_stats" class="category_btn">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Arbeid/Studie</span>
+                </button>
+
+                <button id="structure_stats" class="category_btn">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Struktur</span>
                 </button>
 
                 <button id="general_stats" class="category_btn">
@@ -1655,12 +1655,12 @@
             }
 
             .kalori{
-                background-color: var(--primary-color);
+                background-color: var(--eksternfarge);
                 border-radius: 5px 5px 0px 0px;
             }
 
             .vann{
-                background-color: #5fdfff;
+                background-color: var(--primary-color);
                 border-radius: 5px 5px 0px 0px;
             }
             
@@ -1703,10 +1703,6 @@
             align-items: center;
         }
 
-        .stat-card.water {
-            background: #f4f7fb;
-        }
-
         .stat-text {
             display: flex;
             flex-direction: column;
@@ -1739,13 +1735,13 @@
         }
 
         .stat-card.calories .stat-icon {
-            background: #dff5ea;
-            color: #12b76a;
+            background: var(--secondary_color);
+            color: var(--primary-color);
         }
 
         .stat-card.water .stat-icon {
-            background: #e3f0ff;
-            color: #4da3ff;
+            background: var(--secondary_color);
+            color: var(--eksternfarge);
         }
         </style>
 
@@ -1874,7 +1870,7 @@
             }
 
             .flex_now:nth-child(2) .box {
-                background: #56c2c8;
+                background: var(--eksternfarge);
             }
 
             .market_tags{

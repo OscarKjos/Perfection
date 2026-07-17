@@ -325,23 +325,34 @@
             knapp.addEventListener("click", () => {
                 const fargeId = knapp.dataset.color;
                 const farge = knapp.style.backgroundColor;
-                let sekundær_farge = ""
+                let sekundær_farge = "";
+                let eksternfarge = "";
                 
                 // Endre fargen i CSS-en med en gang
                 document.documentElement.style.setProperty("--primary-color", farge);
 
-                if(fargeId === "green"){ sekundær_farge = "#e6f9ef"}
-                if(fargeId === "red"){ sekundær_farge = "#fdebed"}
-                if(fargeId === "blue"){ sekundær_farge = "#e3f1fc"}
-                if(fargeId === "black"){ sekundær_farge = "#f0f2f4"}
+                // Dynamic Splash Color
+                document.documentElement.style.setProperty("--splash-color", farge);
+
+                if(fargeId === "green"){ sekundær_farge = "#e6f9ef"; eksternfarge = "#0f8762"}
+                if(fargeId === "red"){ sekundær_farge = "#fdebed"; eksternfarge = "#a83b43"}
+                if(fargeId === "blue"){ sekundær_farge = "#e3f1fc"; eksternfarge = "#257a85"}
+                if(fargeId === "black"){ sekundær_farge = "#f0f2f4"; eksternfarge = "#1f2329"}
                 
                 document.documentElement.style.setProperty("--secondary_color", sekundær_farge); 
+                document.documentElement.style.setProperty("--eksternfarge", eksternfarge);
 
                 // Lagre selve fargestrengen til localStorage
                 localStorage.setItem("primary_color", farge);
 
                 // Lagre selve fargestrengen til localStorage
                 localStorage.setItem("secondary_color", sekundær_farge);
+
+                // Lagre selve fargestrengen til localStorage
+                localStorage.setItem("eksternfarge", eksternfarge);
+
+                // Lagre selve fargestrengen til localStorage
+                localStorage.setItem("splash_color", farge);
             });
         });
     </script>

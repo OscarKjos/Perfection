@@ -281,8 +281,8 @@ async function hentVane(dato_id, check_id, vane_id) {
                 const bar_check = document.getElementById(check_id);
                 bar_check.innerHTML = "<i class='fa-solid fa-check'></i>";
                 bar_check.style.color = "white";
-                if (vane_id === "Proteintilskudd") {bar_check.style.backgroundColor = "#78cb7a";}
-                if (vane_id === "Kreatin") {bar_check.style.backgroundColor = "#8cc2f0";}
+                if (vane_id === "Proteintilskudd") {bar_check.style.backgroundColor = "var(--primary-color)";}
+                if (vane_id === "Kreatin") {bar_check.style.backgroundColor = "var(--eksternfarge)";}
             }
         }
     })
