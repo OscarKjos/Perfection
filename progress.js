@@ -206,11 +206,13 @@ async function updateProgress(tabell) {
             const status = document.querySelectorAll(".dynamic_status");
             status.forEach((stat) => {
                 stat.innerText = element.status;
+                localStorage.setItem("status", element.status);
             })
 
             const fødselsdato = document.querySelectorAll(".dynamic_age");
             fødselsdato.forEach((date) => {
                 date.innerText = element.fødselsdato;
+                localStorage.setItem("fødselsdato", element.fødselsdato);
             })
 
             /* Beregne levealder basert på kjønn */
