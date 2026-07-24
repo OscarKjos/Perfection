@@ -54,3 +54,9 @@
 .no_link{
     text-decoration: none;
 }
+
+body{
+    background: var(--bg-color);
+    font-family:Arial,sans-serif;
+    min-height:100dvh;
+}

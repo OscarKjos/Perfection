@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+
+        .note{
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-top:10px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .note_block{
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            background-color: white;
+            padding:10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .note_block button{
+            background-color: var(--primary-color);
+            color:white;
+            border:none;
+            padding:10px;
+            border-radius: 5px;
+            min-width: 150px;
+        }
+
+        #notat_field{
+            height: 40px;
+            padding:8px;
+            border-radius: 7px;
+            border: 1px solid #e4e6ea;
+        }
+
+        .saved_notes{
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .note span{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+        }
+
+        .note p{
+            margin:0;
+        }
+        
+        .page-label {
+            display: flex;
+            color:#2f343b;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            gap:15px;
+            margin-right:10px;
+        }
+
+        .page-label a{
+            color: #2f343b;
+        }
+
+        .page-header {
+            display:flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .remove_item{
+            display:flex;
+            justify-content: right;
+        }
+
+        .note_text{
+            color:var(--subtext-color);
+            font-size: 0.8rem;
+        }
+
+        .note_block p{
+            margin:5px;
+        }
+
+        .extra_bar{
+            width:100%;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+
+    <header class="page-header">
+        <a href="../index.html" class="no_link"><span class="brand"><img style="width:30px;" src="../Bilder/ikoner/logo_light.png" alt="Logo"> KVADOR</span></a>
+        <span class="page-label">
+            <i class="fa-regular fa-bell"></i>
+            <a class="no_link" href="../settings.html"><i class="fa-solid fa-gear"></i></a>
+        </span>
+    </header>
+
+    <div class="note_block">
+        <p>Nytt midlertidig notat</p>
+        <textarea id="notat_field" cols="30" rows="10" placeholder="Skriv ned en tanke.."></textarea>
+        <span class="extra_bar">
+            <div style="margin-left:10px; color:var(--subtext-color)" class="page-label">
+                <i class="fa-solid fa-list-ul"></i>
+                <i class="fa-solid fa-hashtag"></i>
+            </div>
+            <button><i class="fa-solid fa-plus"></i> Legg til notat</button>
+        </span>
+    </div>
+
+    <style>
+        .button_for_filter{
+            display:flex;
+            gap:10px;
+            margin-top:10px;
+        }
+    </style>
+
+    <section class="button_for_filter">
+        <button>Alle</button>
+        <button>Today</button>
+        <button>Favoritter</button>
+        <button>Påmindelser</button>
+    </section>
+
+    <div class="saved_notes">
+        <!-- Her kommer notatene - importert fra localstorage -->
+    </div>
+
+    <style>
+        .warning_overlay{
+            position:fixed;
+            background-color:#63666d3e;
+            inset:0;
+            display:none;
+            pointer-events: none;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .warning_overlay.open{
+            display:flex;
+            pointer-events: all;
+        }
+
+        .warning_card{
+            position:fixed;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            background-color:white;
+            padding:18px;
+            border-radius:8px;
+            display:flex;
+            flex-direction: column;
+            gap:10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width:80vw;
+        }
+
+        .warning_card button{
+            min-height: 42px;
+            border: none;
+            border-radius: 8px;
+            width:100%;
+
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid #dfe3e8;
+            background: #ffffff;
+            color: #344054;
+        }
+
+        #confirm_delete{
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+        }
+
+        .warning_text{
+            color:var(--subtext-color);
+            font-size: 0.8rem;
+            line-height: 1.4;
+            margin:0;
+            margin-bottom: 5px;
+        }
+    </style>
+
+    <!-- Håndlaget alert for sletting av notat-->
+    <section class="warning_overlay">
+        <article class="warning_card">
+            <p>Ønsker du å slette notatet?</p>
+            <p class="warning_text">Du er i ferd med å slette et notat. Vær observant på at denne handlingen kan ikke angres.</p>
+
+            <div style="display:flex; gap:6px;">
+            <button id="cancel_delete" type="button">Avbryt</button>
+
+            <button id="confirm_delete" type="button">
+                <i class="fa-regular fa-trash-can"></i>
+                Slett
+            </button>
+            </div>
+        </article>
+    </section>
+
+    <script>
+        const notat = document.getElementById("notat_field");
+        const saved = document.querySelector(".saved_notes");
+
+        document.querySelector("button").addEventListener("click", () => {
+            if (notat.value === ""){
+                alert("Skriv inn notat");
+                return
+            };
+
+            const note = document.createElement("div");
+            note.classList.add("note");
+            const klokkeslett = new Date().toLocaleTimeString([], { timeStyle: 'short' });
+            const dato = new Date().toLocaleDateString();   
+
+            note.innerHTML = `
+                <span>
+                    <p>${dato}</p>
+                    <p>${klokkeslett}</p>
+                </span>
+                <p class="note_text">${notat.value}</p>
+                <i class="fa-regular fa-trash-can remove_item"></i>
+            `
+
+            saved.prepend(note);
+            
+            localStorage.setItem("notat", saved.innerHTML);
+
+            notat.value = "";
+        });
+
+        saved.innerHTML = localStorage.getItem("notat");
+
+        const remove = document.querySelectorAll(".remove_item");
+        remove.forEach(item => {
+            item.addEventListener("click", () => {
+                const overlay = document.querySelector(".warning_overlay");
+                overlay.classList.add("open");
+
+                const cancel = document.getElementById("cancel_delete");
+                cancel.addEventListener("click", () => {
+                    overlay.classList.remove("open");
+                    return
+                });
+
+                const confirm = document.getElementById("confirm_delete");
+                confirm.addEventListener("click", () => {
+                    overlay.classList.remove("open");
+                    item.parentElement.remove();
+                    localStorage.setItem("notat", saved.innerHTML);
+                });
+            });
+        });
+    </script>
+    <script>
+        /* ================= Dynamisk tema farge =================== */
+        function settThemeColor(farge) {
+            const meta = document.querySelector('meta[name="theme-color"]');
+            
+            if (meta) {
+                meta.setAttribute("content", farge);
+            }
+        }
+
+
+        // ==================== Dynamisk Fargevalg ====================== //
+            const lagretFarge = localStorage.getItem("primary_color");
+            const lagretFarge2 = localStorage.getItem("secondary_color");
+            const lagretFarge3 = localStorage.getItem("eksternfarge");
+            let lagretFarge4 = localStorage.getItem("splash_color");
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches){
+                lagretFarge4 = "black";
+            }
+            if (lagretFarge === "#1f2329" || lagretFarge === "rgb(31, 35, 41)"){
+                lagretFarge4 = "black";
+            }
+
+            if (lagretFarge) {
+                document.documentElement.style.setProperty("--primary-color", lagretFarge);
+                document.documentElement.style.setProperty("--secondary_color", lagretFarge2);
+                document.documentElement.style.setProperty("--eksternfarge", lagretFarge3);
+                document.documentElement.style.setProperty("--splash-color", lagretFarge4);
+            }
+
+
+        // ================= Tema farge basert på fargevalg ==================== //
+        let mediaFarge = '#00b079';
+        if (lagretFarge === "#00b079" || lagretFarge === "rgb(0, 176, 121)") {
+            mediaFarge = '#00b079';
+        } else if (lagretFarge === "#2995a3" || lagretFarge === "rgb(41, 149, 163)"){
+            mediaFarge = '#2995a3';
+        } else if (lagretFarge === "#dc4c56" || lagretFarge === "rgb(220, 76, 86)"){
+            mediaFarge = '#dc4c56';
+        } else if (lagretFarge === "#1f2329" || lagretFarge === "rgb(31, 35, 41)"){
+            mediaFarge = 'black';
+        }
+    </script>
+</body>
+</html>
