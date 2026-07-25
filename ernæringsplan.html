@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ekstern CSS for global stil og ikoner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="global.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Robots: Tillat søkemotorer å indeksere -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Ikoner for ulike enheter -->
+    <link rel="icon" type="image/png" sizes="32x32" href="Bilder/ikoner/logo_webb.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="Bilder/ikoner/logo_webb.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="Bilder/ikoner/logo_light.png"> 
+
+    <!-- PWA / mobil optimalisering -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="white">
+
+    <title>Document</title>
+</head>
+<body>
+    <style>
+            :root {
+                --plan-green: #08ad73;
+                --plan-text: #17191c;
+                --plan-muted: #62666d;
+                --plan-border: #e8eaee;
+                --plan-background: #ffffff;
+                --plan-shadow: 0 4px 12px rgba(20, 25, 35, 0.06);
+            }
+
+            .picture_grid {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+                background: var(--surface-color, #ffffff);
+                display:flex;
+                flex-direction:column;
+                gap:12px;
+                padding-bottom: 90px;
+            }
+
+            .picture_grid p{
+                margin:0;
+            }
+
+            .picture_grid h4 {
+                margin: 0 0 12px;
+                font-size: 15px;
+                margin-left:8px;
+                color: var(--plan-text);
+            }
+
+            /* Hele dagskortet */
+            .plan_article {
+                overflow: hidden;
+                border: 1px solid var(--plan-border);
+                border-radius: 10px;
+                background: var(--plan-background);
+                box-shadow: var(--plan-shadow);
+            }
+
+            /* Fjerner standardpilen til details */
+            .plan_article summary {
+                list-style: none;
+            }
+
+            .plan_article summary::-webkit-details-marker {
+                display: none;
+            }
+
+            /* Overskriften med Mandag og kalorier */
+            .plan_header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                min-height: 48px;
+                padding: 0 14px;
+                box-sizing: border-box;
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .plan_header_content {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+            }
+
+            .plan_header_content .calendar_icon {
+                color: var(--primary-color);
+                font-size: 16px;
+            }
+
+            .plan_day {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--plan-text);
+            }
+
+            .plan_calories {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 500;
+                color: var(--primary-color);
+            }
+
+            .plan_chevron {
+                font-size: 12px;
+                color: var(--plan-text);
+                transition: transform 0.2s ease;
+            }
+
+            /* Når planen er åpen, peker pilen opp */
+            .plan_article[open] .plan_chevron {
+                transform: rotate(180deg);
+            }
+
+            /* Måltidslisten */
+            .plan_card {
+                margin: 0 8px 8px;
+                overflow: hidden;
+                border: 1px solid var(--plan-border);
+                border-radius: 8px;
+                background: var(--plan-background);
+            }
+
+            /*
+                Kolonnene er:
+                ikon | måltid | klokkeslett | mat | kalorier
+            */
+            .plan_row {
+                display: grid;
+                grid-template-columns:
+                    24px
+                    minmax(78px, 0.8fr)
+                    42px
+                    minmax(120px, 1.8fr)
+                    58px;
+
+                align-items: center;
+                column-gap: 7px;
+                min-height: 40px;
+                padding: 7px 10px;
+                box-sizing: border-box;
+                border-bottom: 1px solid var(--plan-border);
+            }
+
+            .plan_row:last-child {
+                border-bottom: none;
+            }
+
+            .plan_row i {
+                justify-self: center;
+                font-size: 12px;
+                color: #202327;
+            }
+
+            .plan_row p {
+                min-width: 0;
+                margin: 0;
+                line-height: 1.3;
+            }
+
+            .meal_name {
+                font-size: 11px;
+                font-weight: 600;
+                color: var(--plan-text);
+            }
+
+            .meal_time {
+                font-size: 9px;
+                color: var(--plan-muted);
+            }
+
+            .meal_description {
+                overflow: hidden;
+                font-size: 10px;
+                color: var(--plan-text);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .meal_calories {
+                justify-self: end;
+                font-size: 10px;
+                font-weight: 500;
+                color: var(--plan-text);
+                white-space: nowrap;
+            }
+
+            .info_card{
+                display:flex;
+                align-items: center;
+                gap:10px;
+                background-color: var(--surface-color);
+            }
+
+            .nutrition_plan_intro {
+                margin-bottom: 15px;
+                margin-left:10px;
+            }
+
+            .nutrition_plan_intro h4 {
+                margin: 10px 0 6px 0;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #111827;
+                line-height: 1.2;
+            }
+
+            .nutrition_plan_intro small {
+                display: block;
+                font-size: 0.7rem;
+                color: #6b7280;
+                line-height: 1.4;
+            }
+
+            .nutrition_info_cards {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 5px;
+            }
+
+            .info_card {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 8px;
+                background: #ffffff;
+                border: 1px solid #e7edf3;
+                border-radius:10px;
+                box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+                box-sizing: border-box;
+            }
+
+            .info_icon {
+                width: 25px;
+                height: 25px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--secondary_color);
+                color: var(--primary-color);
+                font-size: 0.8rem;
+            }
+
+            .info_text {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                min-width: 0;
+            }
+
+            .info_title {
+                margin: 0;
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: #111827;
+                line-height: 1.2;
+            }
+
+            .info_subtitle {
+                margin: 4px 0 0 0;
+                font-size: 0.6rem;
+                color: #6b7280;
+                line-height: 1.3;
+            }
+
+
+            /* Tilpasning for ekstra smale skjermer */
+            @media (max-width: 380px) {
+                .plan_row {
+                    grid-template-columns:
+                        21px
+                        69px
+                        35px
+                        minmax(80px, 1fr)
+                        52px;
+
+                    column-gap: 5px;
+                    padding-inline: 7px;
+                }
+
+                .meal_name {
+                    font-size: 10px;
+                }
+
+                .meal_description,
+                .meal_calories {
+                    font-size: 9px;
+                }
+
+                .meal_time {
+                    font-size: 8px;
+                }
+            }
+        </style>
+
+        <section class="picture_grid">
+
+            <div class="nutrition_plan_intro">
+                <h4>Ernæringsplan – 3 dager</h4>
+                <small>To innkjøp, to meal-prep-runder, minimalt matsvinn.</small>
+            </div>
+
+            <div class="nutrition_info_cards">
+                <article class="info_card">
+                    <div class="info_icon">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <div class="info_text">
+                        <p class="info_title">Innkjøp</p>
+                        <p class="info_subtitle">Lørdag og Onsdag</p>
+                    </div>
+                </article>
+
+                <article class="info_card">
+                    <div class="info_icon">
+                        <i class="fa-solid fa-kitchen-set"></i>
+                    </div>
+                    <div class="info_text">
+                        <p class="info_title">Meal-prep</p>
+                        <p class="info_subtitle">Lørdag og Onsdag</p>
+                    </div>
+                </article>
+
+                <article class="info_card">
+                    <div class="info_icon">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div class="info_text">
+                        <p class="info_title">Mål</p>
+                        <p class="info_subtitle">Variert kosthold</p>
+                    </div>
+                </article>
+            </div>
+
+            <details class="plan_article" open>
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-regular fa-calendar calendar_icon"></i>
+                        <p class="plan_day">Måltider</p>
+                        <p class="plan_calories">– 3 350 kcal</p>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="plan_card">
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bowl-rice"></i>
+                        <p class="meal_name">Frokost</p>
+                        <p class="meal_time">07:00</p>
+                        <p class="meal_description">
+                            200 g yoghurt, 80 g havregryn, 1 banan, 2 brødskiver med egg
+                        </p>
+                        <p class="meal_calories">520 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <p class="meal_name">Mellommåltid</p>
+                        <p class="meal_time">10:30</p>
+                        <p class="meal_description">
+                            Tunfisksalat og brød
+                        </p>
+                        <p class="meal_calories">280 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bread-slice"></i>
+                        <p class="meal_name">Lunsj</p>
+                        <p class="meal_time">13:00</p>
+                        <p class="meal_description">
+                            Kyllingsalat og brød
+                        </p>
+                        <p class="meal_calories">640 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Før trening</p>
+                        <p class="meal_time"></p>
+                        <p class="meal_description">
+                            1 banan
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-bolt"></i>
+                        <p class="meal_name">Etter trening</p>
+                        <p class="meal_time"></p>
+                        <p class="meal_description">
+                            330 ml sjokolademelk + proteinshake + kreatin + evt 1 banan
+                        </p>
+                        <p class="meal_calories">220 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                        <p class="meal_name">Middag</p>
+                        <p class="meal_time">19:00</p>
+                        <p class="meal_description">
+                            Laks med ris og brokkoli
+                        </p>
+                        <p class="meal_calories">920 kcal</p>
+                    </div>
+
+                    <div class="plan_row">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <p class="meal_name">Kveldsmat</p>
+                        <p class="meal_time">21:30</p>
+                        <p class="meal_description">
+                            Smoothie + Grønnsaker/Frukt
+                        </p>
+                        <p class="meal_calories">600 kcal</p>
+                    </div>
+                </div>
+            </details>
+
+            <style>
+                .nutrition_note {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    padding: 10px;
+
+                    background: #f0fafb;
+                    border: 1px solid #cdecee;
+                    border-left: 4px solid var(--primary-color);
+                    border-radius: 12px;
+                }
+
+                .nutrition_note_icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    width: 36px;
+                    height: 36px;
+                    min-width: 36px;
+
+                    color: var(--primary-color);
+                    border-radius: 10px;
+                    font-size: 1rem;
+                }
+
+                .nutrition_note_content {
+                    min-width: 0;
+                }
+
+                .nutrition_note_content p {
+                    margin: 0;
+                    color: #4b5563;
+                    font-size: 0.6rem;
+                    line-height: 1.55;
+                }
+
+                .handleliste{
+                    display:flex;
+                    flex-direction:column;
+                    gap:8px;
+                    padding:10px;
+                    background:var(--surface-color);
+                    border-radius:12px;
+                }
+
+                .click_bate{
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                }
+
+                .click_bate input{
+                    width: 18px;
+                    height: 18px;
+                    accent-color: var(--primary-color);
+                    cursor: pointer;
+                }
+
+                .clicked{
+                    text-decoration: line-through;
+                    color: #4b5563;
+                    opacity:0.5;
+                }
+            </style>
+
+            <aside class="nutrition_note">
+                <div class="nutrition_note_icon" aria-hidden="true">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+
+                <div class="nutrition_note_content">
+                    <p>
+                        Denne dagsplanen er satt sammen for å gi et sunt og næringsrikt
+                        kosthold som støtter energibehov, trening og restitusjon.
+                        Opplegget kan fint gjentas hver dag for enkelhetens skyld.
+                    </p>
+                </div>
+            </aside>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-solid fa-list-check calendar_icon"></i>
+                        <b>Handleliste <small> - 3 dager</small></b>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+
+                <div class="handleliste">
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">1 brød</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">3 epler</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">Gulrøtter</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">6 egg</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">6 bananer</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">Sjokolademelk 1 liter</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">Melk 1,75 liter (proteinshake)</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">1 isbergsalat</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">3 stk paprika</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">2 stk agurk</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">3 stk tunfisk</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">400 g kjøttdeig</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">Mais</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">500 g Laks</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">1 brokkoli</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">3 tomater</label>
+                    </span>
+
+                    <span class="click_bate">
+                        <input type="checkbox">
+                        <label for="handleliste">3 poser ris</label>
+                    </span>
+                </div>
+            </details>
+            
+            <script>
+                const click = document.querySelectorAll(".click_bate");
+                click.forEach(click => {
+                    click.addEventListener("click", () => {
+                        click.classList.toggle("clicked");
+                        const input = click.querySelector("input");
+                        
+                        if (click.classList.contains("clicked")) {
+                            input.checked = true;
+                        }
+                    })
+                })
+            </script>
+
+            <details class="plan_article">
+                <summary class="plan_header">
+                    <div class="plan_header_content">
+                        <i class="fa-solid fa-utensils calendar_icon"></i>
+                        <b>Meal-prep - plan</b>
+                    </div>
+
+                    <i class="fa-solid fa-angle-down plan_chevron"></i>
+                </summary>
+                <div style="margin:0px 0px 15px 15px; line-height: 1.55;">
+                    <p>Oppkjært brød</p>
+                    <p>3 tunfisksalter</p>
+                    <p>3 tacosalater</p>
+                    <p>3 laksemiddager</p>
+                </div>
+            </details> 
+
+            <style>
+                .price_estimate {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                    padding: 16px 18px;
+                    background: #f0fafb;
+                    border: 1px solid #cdecee;
+                    border-radius: 12px;
+                }
+
+                .price_estimate span {
+                    display: block;
+                    color: var(--primary-color);
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+
+                .price_estimate p {
+                    margin: 0;
+                    color: var(--primary-color);
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            </style>
+
+            <article class="price_estimate">
+                <span>Estimert pris:</span>
+                <p>250–270 kr per dag</p>
+            </article>
+
+            <h4>Oppskrifter:</h4>
+        </section>
+        <script src="navigator.js" defer></script>
+</body>
+</html>
