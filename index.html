@@ -992,7 +992,7 @@
             flex-direction: column;
             gap: 0.65rem;
             background-color: white;
-            padding:12px;
+            padding:16px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -1062,7 +1062,10 @@
         .remove_item{
             display:flex;
             justify-content: right;
-            font-size: 0.85rem;
+            font-size: 0.80rem;
+            padding:6px;
+            border-radius: 3px;
+            background-color: #ebedf1;
         }
 
         .note_text{
@@ -1089,6 +1092,7 @@
         }
     </style>
 
+    <section style="background-color: white;">
     <div class="note_block">
         <input id="overskrift_field" maxlength="30" type="text" placeholder="Overskrift">
         <textarea id="notat_field" cols="30" rows="10" placeholder="Skriv ned en tanke.."></textarea>
@@ -1106,7 +1110,7 @@
             display: flex;
             align-self: start;
             gap: 8px;
-            margin:8px;
+            margin:10px;
             margin-top: 16px;
             overflow-x: auto;
             padding-bottom: 4px;
@@ -1123,7 +1127,7 @@
             color: #374151;
             border: 1px solid #e5e7eb;
             padding: 8px 16px;
-            border-radius: 9999px; /* Gjør knappene runde på sidene (piller) */
+            border-radius: 10px; /* Gjør knappene runde på sidene (piller) */
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -1149,6 +1153,7 @@
         <button class="filter-btn" type="button">I dag</button>
         <button class="filter-btn" type="button">Favoritter</button>
         <button class="filter-btn" type="button">Påminnelser</button>
+    </section>
     </section>
 
     <div class="saved_notes">
