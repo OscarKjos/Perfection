@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Ekstern CSS for global stil og ikoner -->
+    <script src="global.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -165,6 +166,9 @@
 
 </head>
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
 
     <section id="section_part">
         <div id="search_top_bar">
@@ -206,7 +210,7 @@
         }
 
         .content_card{
-            background-color: white;
+            background-color: var(--surface-color);
             border:1px solid #e8edf3;
             border-radius:22px;
             padding:20px 15px 20px 15px;
@@ -247,6 +251,7 @@
         .value{
             font-size:13px;
             font-weight:700;
+            color:var(--text-color);
         }
 
         .top{
@@ -494,6 +499,7 @@
 
             .energy{
                 font-weight:600;
+                color:var(--text-color);
             }
 
             .xp{
@@ -526,6 +532,10 @@
                 gap:5px;
             }
 
+            .work_xp i{
+                color:var(--text-color);
+            }
+
             .work_xp div{
                 display:flex;
                 flex-direction: column;
@@ -535,6 +545,7 @@
             .work_xp_value{
                 font-size:0.9rem;
                 font-weight:800;
+                color:var(--text-color);
             }
 
             .work_meta{
@@ -547,6 +558,7 @@
 
             .work_title{
                 font-weight:550;
+                color:var(--text-color);
 
             }
 
@@ -607,46 +619,47 @@
                 font-size:.92rem;
             }
 
-.progress-container{
-    position:relative;
-    width:90px;
-    height:90px;
-}
+            .progress-container{
+                position:relative;
+                width:90px;
+                height:90px;
+            }
 
-svg{
-    width:100%;
-    height:100%;
-    transform:rotate(-90deg);
-}
+            svg{
+                width:100%;
+                height:100%;
+                transform:rotate(-90deg);
+            }
 
-circle{
-    fill:none;
-    stroke-width:12;
-}
+            circle{
+                fill:none;
+                stroke-width:12;
+            }
 
-.background{
-    stroke:#e4e7eb;
-}
+            .background{
+                stroke:#e4e7eb;
+            }
 
-.progress{
-    stroke:var(--primary-color);
-    stroke-linecap:round;
-    transition:stroke-dashoffset .8s ease;
-}
+            .progress{
+                stroke:var(--primary-color);
+                stroke-linecap:round;
+                transition:stroke-dashoffset .8s ease;
+            }
 
-.content{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-}
+            .content{
+                position:absolute;
+                inset:0;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+            }
 
-.content small{
-    font-weight:lighter;
-    font-size:0.8rem;
-}
+            .content small{
+                font-weight:lighter;
+                font-size:0.8rem;
+                color:var(--text-color);
+            }
 
             .work_focus{
                 font-weight:600;
@@ -819,6 +832,148 @@ circle{
             .aktivitet_extra{
                 border-radius: 10px;
             }
+
+    /* -- Darkmode -- */
+    @media (prefers-color-scheme: dark) {
+        #search_top_bar {
+            background-color: var(--surface-color);
+            border-color: #202832;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+        }
+
+        #search_top_bar input {
+            background-color: #111820;
+            border-color: #28323d;
+            color: var(--text-color);
+        }
+
+        #search_top_bar input::placeholder {
+            color: #7f8a98;
+        }
+
+        #search_top_bar input:focus {
+            background-color: #151d26;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(6, 114, 68, 0.28);
+        }
+
+        .search-icon,
+        #clear_search {
+            color: #929ca9;
+        }
+
+        #clear_search:hover {
+            background: #202a35;
+            color: var(--text-color);
+        }
+
+        #top_bar_alternative button,
+        .nanobtn {
+            background-color: #121921;
+            border-color: #293440;
+            color: #c3cbd5;
+        }
+
+        #top_bar_alternative button:hover,
+        #top_bar_alternative button:focus-visible,
+        .nanobtn:hover {
+            background-color: #19232d;
+            border-color: var(--primary-color);
+        }
+
+        #top_bar_alternative button.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .content_card {
+            border-color: #202a34;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+        }
+
+        .utforming {
+            background-image:
+                linear-gradient(rgba(11, 15, 20, 0.94), rgba(11, 15, 20, 0.94)),
+                url('Bilder/utforming2.png');
+        }
+
+        .content_card:hover {
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+        }
+
+        .label,
+        .study_date,
+        .study_duration span,
+        .meta_label,
+        .journal_date,
+        .work_date,
+        .work_duration_title,
+        .work_footer,
+        .habit_date {
+            color: #929dab;
+        }
+
+        .note,
+        .study_notes,
+        .journal_title,
+        .journal_text,
+        .work_note,
+        .habit_note,
+        .habit_note_text {
+            color: #d6dce4;
+        }
+
+        .meta,
+        .habit_note_text,
+        .work_progress {
+            background-color: #141c24;
+        }
+
+        .stats,
+        .journal_category,
+        .journal_footer,
+        .work_note,
+        .work_footer,
+        .habit_footer {
+            border-color: #25303b;
+        }
+
+        .background {
+            stroke: #29333e;
+        }
+
+        .highlight > div[style*="background-color"] {
+            background-color: #2a3540 !important;
+        }
+
+        .main_table {
+            background: var(--surface-color);
+            border-color: #202a34;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+        }
+
+        .main_table thead {
+            background: #131b23;
+        }
+
+        .main_table th,
+        .main_table td {
+            border-bottom-color: #222d38;
+        }
+
+        .main_table th {
+            color: #96a1af;
+        }
+
+        .main_table td {
+            color: #d5dbe3;
+        }
+
+        .main_table tbody tr:hover {
+            background: #151e27;
+        }
+    }
 </style>
 
 
@@ -1434,12 +1589,12 @@ circle{
                     </div>
 
                     <div class="habit_footer">
-                        <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:10px; color:var(--text-color);">
                             <i class="fa-solid fa-layer-group"></i>
                             <div>
                                 <p class="work_duration_title">Verdi</p>
                             <div class="work_duration">
-                                <span class="habit_number">${element.verdi}</span>
+                                <span style="color:var(--text-color)" class="habit_number">${element.verdi}</span>
                                 <small>${element.enhet || ""}</small>
                             </div>
                             </div>
@@ -1727,7 +1882,7 @@ circle{
                         </div>
                     </div>
 
-                <div style="display:flex; flex-direction:column; gap:15px; flex:2;">
+                <div style="display:flex; flex-direction:column; gap:15px; flex:2; color:var(--text-color);">
                 <div style="display:flex; flex-direction:row; gap:20px;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <i class="fa-regular fa-clock"></i>
@@ -1829,6 +1984,12 @@ circle{
 
                 dynamic.appendChild(row);
             });
+
+            // Loading Screen
+            setTimeout(() => {
+                document.getElementById("loader")?.classList.add("hidden");
+            }, 200);
+
         };
         hentData_produktvitet()
 

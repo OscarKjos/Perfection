@@ -792,3 +792,9 @@ const study_button = document.getElementById("study_button");
 study_button.addEventListener("click", () => {
     getWork("bruker_data_studie");
 });
+
+
+// Loading Screen
+setTimeout(() => {
+    document.getElementById("loader")?.classList.add("hidden");
+}, 400);

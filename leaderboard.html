@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Ekstern CSS for global stil og ikoner -->
+    <script src="global.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,8 +33,11 @@
 
 </head>
 <body>
-    <style>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
 
+    <style>
         .table {
             width: min(100% - 24px, 900px);
             margin: 0px auto 90px;
@@ -187,6 +191,77 @@
             background:#eef0f8;
             color:#111827;
         }
+
+        @media (prefers-color-scheme: dark) {
+            #search_top_bar {
+                background-color: var(--surface-color);
+                border-color: #202832;
+                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+            }
+
+            #search_top_bar input {
+                background-color: #111820;
+                border-color: #28323d;
+                color: var(--text-color);
+                caret-color: var(--primary-color);
+            }
+
+            #search_top_bar input::placeholder {
+                color: #7f8a98;
+            }
+
+            #search_top_bar input:focus {
+                background-color: #151d26;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(6, 114, 68, 0.28);
+            }
+
+            .search-icon,
+            #clear_search {
+                color: #929ca9;
+            }
+
+            #clear_search:hover {
+                background: #202a35;
+                color: var(--text-color);
+            }
+
+            .main_table {
+                background: var(--surface-color);
+                border-color: #202a34;
+                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+            }
+
+            .main_table thead {
+                background: #131b23;
+            }
+
+            .main_table th,
+            .main_table td {
+                border-bottom-color: #222d38;
+            }
+
+            .main_table th {
+                color: #96a1af;
+            }
+
+            .main_table td {
+                color: #d5dbe3;
+            }
+
+            .main_table tbody tr {
+                transition: background-color 0.16s ease;
+            }
+
+            .main_table tbody tr:hover {
+                background: #151e27;
+            }
+
+            .main_table tbody tr.current_user,
+            .main_table tbody tr.current_user:hover {
+                background-color: black !important;
+            }
+        }
     </style>
 
     <section id="section_part">
@@ -274,6 +349,10 @@
                 });
             }
 
+            // Loading Screen
+            setTimeout(() => {
+                document.getElementById("loader")?.classList.add("hidden");
+            }, 400);
             
         };
         updateLeaderboard();

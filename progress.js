@@ -243,3 +243,8 @@ async function updateProgress(tabell) {
 
     };
     hentBruker();
+
+    // Loading Screen
+    setTimeout(() => {
+        document.getElementById("loader")?.classList.add("hidden");
+    }, 400);

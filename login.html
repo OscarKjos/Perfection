@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kvador – Logg inn</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<meta name="theme-color" content="white">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="global.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kvador – Logg inn</title>
+    
+    <script src="global.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="theme-color" content="white">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="global.css">
 
     <!-- Ikoner for ulike enheter -->
     <link rel="icon" type="image/png" sizes="32x32" href="Bilder/ikoner/logo_webb.png?v=2">
@@ -489,46 +491,6 @@
         </div>
 
         <script>
-            /* ================= Dynamisk tema farge =================== */
-            function settThemeColor(farge) {
-                const meta = document.querySelector('meta[name="theme-color"]');
-                
-                if (meta) {
-                    meta.setAttribute("content", farge);
-                }
-            }
-
-            // ==================== Dynamisk Fargevalg ====================== //
-            const lagretFarge = localStorage.getItem("primary_color");
-            const lagretFarge2 = localStorage.getItem("secondary_color");
-            const lagretFarge3 = localStorage.getItem("eksternfarge");
-            let lagretFarge4 = localStorage.getItem("splash_color");
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches){
-                lagretFarge4 = "black";
-            }
-            if (lagretFarge === "#1f2329" || lagretFarge === "rgb(31, 35, 41)"){
-                lagretFarge4 = "black";
-            }
-
-            if (lagretFarge) {
-                document.documentElement.style.setProperty("--primary-color", lagretFarge);
-                document.documentElement.style.setProperty("--secondary_color", lagretFarge2);
-                document.documentElement.style.setProperty("--eksternfarge", lagretFarge3);
-                document.documentElement.style.setProperty("--splash-color", lagretFarge4);
-            }
-
-            // ================= Tema farge basert på fargevalg ==================== //
-            let mediaFarge = '#00b079';
-            if (lagretFarge === "#00b079" || lagretFarge === "rgb(0, 176, 121)") {
-                mediaFarge = '#00b079';
-            } else if (lagretFarge === "#2995a3" || lagretFarge === "rgb(41, 149, 163)"){
-                mediaFarge = '#2995a3';
-            } else if (lagretFarge === "#dc4c56" || lagretFarge === "rgb(220, 76, 86)"){
-                mediaFarge = '#dc4c56';
-            } else if (lagretFarge === "#1f2329" || lagretFarge === "rgb(31, 35, 41)"){
-                mediaFarge = 'black';
-            }
-
             window.addEventListener("load", () => {
                 if (sessionStorage.getItem("splash_vist") === "true") {
                     document.getElementById("splash_screen").style.display = "none";

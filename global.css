@@ -1,9 +1,6 @@
 :root{
     /* Fonts */
     --font: Arial,sans-serif;
-    --font-size-large: 25px;
-    --font-size-medium: 18px;
-    --font-size-small: 16px;
 
     /* Colors */
     --text-color: #222;
@@ -24,39 +21,83 @@
     --marked:#ffcc00;
 }
 
-@media (prefers-color-scheme: dark) {
+        .brand {
+            font-size: 1.1em;
+            color: var(--text-color);
+            margin-right: 12px;
+            letter-spacing: 3px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .no_link{
+            text-decoration: none;
+        }
+
+        body{
+            background: var(--bg-color);
+            font-family:Arial,sans-serif;
+            min-height:100dvh;
+        }
+
+
+        /* Heldekkende bakgrunn - loading-skjermen */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--primary-color); /* Fargen på loading-skjermen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9000; /* Sikrer at den ligger over alt annet */
+            transition: opacity 0.4s ease, visibility 0.4s ease; /* For myk uttoning */
+        }
+
+        /* Snurrende animation (Spinner) */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-radius: 30%;
+            animation: spin 1.2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Klasse som legger til myk uttoning */
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+
+    @media (prefers-color-scheme: dark) {
     :root {
         --splash-color: black;
 
         --primary-color:#067244;
         --bg-color: #020509;
         --surface-color: #0b0f14;
-        --text-color: white;
-        --subtext-color:white;
+        --text-color: #d8dee6;
+        --subtext-color:#d8dee6;
+
+        --white:black;
+        --black:#d8dee6;
 
 
         --hoverfarge:rgb(100, 100, 100);
         --marked:#ffcc00;
     }
-}
 
-.brand {
-    font-size: 1.1em;
-    color: var(--text-color);
-    margin-right: 12px;
-    letter-spacing: 3px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.no_link{
-    text-decoration: none;
-}
-
-body{
-    background: var(--bg-color);
-    font-family:Arial,sans-serif;
-    min-height:100dvh;
+    #loader {
+        background-color: black;
+    }
 }

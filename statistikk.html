@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Ekstern CSS for global stil og ikoner -->
+    <script src="global.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,6 +33,10 @@
 
 </head>
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
     <style>
         .diagram_grid{
             display: flex;
@@ -1111,6 +1116,7 @@
                     height: 33px;
                     flex-basis: 33px;
                     font-size: 13px;
+                    color:var(--text-color)
                 }
 
                 .ovelser__navn p {
@@ -1937,7 +1943,7 @@
 
     <section class="diagram_grid health_stats">
         <span class="flex_now">
-            <p>Protein</p>
+            <p style="color:var(--black)">Protein</p>
             <div class="supplements" id="protein_group">
                 <div id="protein_7">-</div>
                 <div id="protein_6">-</div>
@@ -1950,7 +1956,7 @@
         </span>
         
         <span class="flex_now">
-            <p>Kreatin</p>
+            <p style="color:var(--black)">Kreatin</p>
             <div class="supplements" id="kreatin_group">
                 <div id="kreatin_7">-</div>
                 <div id="kreatin_6">-</div>
@@ -2081,6 +2087,179 @@
     </section>
 
     </main>
+
+    <style>
+        @media (prefers-color-scheme: dark) {
+            .diagram_grid,
+            .open_stats,
+            .button_section,
+            .mikrookt-seksjon,
+            .area_of_life,
+            .søvn_data {
+                border-color: #202a34;
+                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+            }
+
+            .chart_area,
+            .health_stats__chart {
+                background: var(--surface-color);
+            }
+
+            .grid {
+                border-top-color: #29343f;
+            }
+
+            .chart_legend_item,
+            .mikrookt-seksjon__stat,
+            .area_of_life__card,
+            .stat-card {
+                background: #10171e;
+                border-color: #222d38;
+                box-shadow: none;
+            }
+
+            .chart_legend_label,
+            .diagram-title p,
+            .open_stats__description,
+            .mikrookt-seksjon__description,
+            .mikrookt-seksjon__period,
+            .mikrookt-seksjon__unit,
+            .ovelser__statistikk small,
+            .stat-label,
+            .label_of_day,
+            .bed_header p {
+                color: #929dab;
+            }
+
+            .diagram-title h2,
+            .chart_legend_value,
+            .open_stats__title,
+            .mikrookt-seksjon__title,
+            .mikrookt-seksjon__number,
+            .ovelser__navn p,
+            .ovelser__statistikk p,
+            .stat-value,
+            .bed_header h2 {
+                color: #d8dee6;
+            }
+
+            .diagram-action,
+            .category_btn {
+                background: #121921;
+                border-color: #293440;
+                color: #bdc6d1;
+                box-shadow: none;
+            }
+
+            .diagram-action:hover,
+            .category_btn:hover {
+                background: #19232d;
+                border-color: var(--primary-color);
+                color: #8ed7b2;
+            }
+
+            .diagram-action.active,
+            .diagram-action[aria-pressed="true"],
+            .category_btn.active_btn {
+                background: var(--primary-color);
+                border-color: var(--primary-color);
+                color: #ffffff;
+            }
+
+            .diagram-action:focus-visible,
+            .category_btn:focus-visible,
+            .open_stats__button:focus-visible,
+            #find_more_ovelser:focus-visible {
+                outline: 2px solid var(--primary-color);
+                outline-offset: 2px;
+            }
+
+            .diagram-actions::-webkit-scrollbar-thumb {
+                background: #3a4652;
+            }
+
+            .mikrookt-seksjon__icon,
+            .diagram-title-icon,
+            .open_stats__icon,
+            .area_of_life__top > i,
+            .ovelser__ikon,
+            .stat-icon {
+                background: #11241f;
+                background: color-mix(in srgb, var(--primary-color) 18%, #0b0f14);
+            }
+
+            .mikrookt-seksjon.ovelser {
+                background: var(--surface-color);
+                border-color: #202a34;
+                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+            }
+
+            .ovelser__search {
+                background: var(--surface-color);
+                border-bottom-color: #25303b;
+            }
+
+            .ovelser__input {
+                background: #111820;
+                border-color: #28323d;
+                color: var(--text-color);
+                caret-color: var(--primary-color);
+                box-shadow: none;
+            }
+
+            .ovelser__input::placeholder,
+            .ovelser__search-icon {
+                color: #7f8a98;
+            }
+
+            .ovelser__input:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(6, 114, 68, 0.28);
+            }
+
+            .ovelser__rad {
+                border-bottom-color: #222d38;
+                transition: background-color 0.16s ease;
+            }
+
+            .ovelser__rad:hover {
+                background: #121a22;
+            }
+
+            .area_of_life__total {
+                background: #11241f;
+                background: color-mix(in srgb, var(--primary-color) 14%, #0b0f14);
+                border-color: color-mix(in srgb, var(--primary-color) 36%, #202a34);
+            }
+
+            .circle_layout,
+            .circle_fill {
+                border-color: #29343f;
+            }
+
+            .circle_layout {
+                background-color: #151d25;
+            }
+
+            .supplements div,
+            #protein_group div,
+            #kreatin_group div {
+                background: #151d25;
+                color: #aab4c0;
+                border: 1px solid #27323d;
+            }
+
+            .market_tags,
+            .stats-wrapper {
+                color: #cbd3dc;
+            }
+
+            .bar-group .value,
+            .chart_occupied .value {
+                color: #d5dce5;
+            }
+        }
+    </style>
 
     <style>
         #main_section_block section{

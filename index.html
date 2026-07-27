@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Ekstern CSS for global stil og ikoner -->
+    <script src="global.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="global.css">
@@ -32,7 +33,6 @@
 
 
     <style>
-        
         .stats-card {
             display:grid;
             grid-template-columns:repeat(4, minmax(0, 1fr));
@@ -307,6 +307,9 @@
 </head>
 
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
 
     <div class="card">
         <div class="circle">
@@ -478,7 +481,7 @@
                 padding:12px;
                 border:1px solid #f0f0f4;
                 border-radius:10px;
-                background:#fbfbfe;
+                background:var(--surface-color);
             }
 
             .dokumenter__content{
@@ -641,7 +644,7 @@
                 display:flex;
                 flex-direction:column;
                 justify-content:space-between;
-                background:#fbfbfe;
+                background:var(--surface-color);
                 border:1px solid #f0f0f4;
                 border-radius:10px;
                 width:100%;
@@ -775,7 +778,7 @@
 
             .segments_buttons button:first-child::before,
             .segments_buttons__item--active::before{
-                background:#e6f9ef;
+                background:var(--surface-color);
             }
 
             .segments_grid{
@@ -948,10 +951,10 @@
 
                     all_knapper.forEach(knapp => {
                         knapp.style.color = "var(--subtext-color)";
-                        knapp.style.backgroundColor = "var(--white)";
+                        knapp.style.backgroundColor = "var(--surface-color)";
                     })
 
-                    knapp.style.color = "var(--white)";
+                    knapp.style.color = "var(--surface-color)";
                     knapp.style.backgroundColor = "var(--primary-color)";
 
                     all_segments.forEach(segment => {
@@ -982,7 +985,7 @@
             padding: 0.8rem;
             border-radius: 8px;
             margin-top:10px;
-            background-color: white;
+            background-color: var(--surface-color);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             border-left: 2px solid var(--primary-color);
         }
@@ -991,7 +994,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.65rem;
-            background-color: white;
+            background-color: var(--surface-color);
             padding:16px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -1032,6 +1035,7 @@
 
         .note b{
             font-size: 0.85rem;
+            color:var(--text-color)
         }
 
         .note p{
@@ -1092,7 +1096,7 @@
         }
     </style>
 
-    <section style="background-color: white;">
+    <section style="background-color: var(--surface-color);">
     <div class="note_block">
         <input id="overskrift_field" maxlength="30" type="text" placeholder="Overskrift">
         <textarea id="notat_field" cols="30" rows="10" placeholder="Skriv ned en tanke.."></textarea>
@@ -1258,7 +1262,6 @@
         </article>
     </section>
 
-    <script src="navigator.js" defer></script>
     <script>
         const notat = document.getElementById("notat_field");
         const saved = document.querySelector(".saved_notes");
@@ -1511,7 +1514,7 @@
             min-width:76px;
             padding:5px 8px;
             border-radius:999px;
-            background:#f2f3f3;
+            background:var(--white);
             color:var(--subtext-color);
             font-size:.72rem;
             font-weight:700;
@@ -1807,7 +1810,7 @@
         }
 
         .progress_max p{
-            color: #777;
+            color: var(--subtext-color);
             transform: rotate(180deg);
             font-size: 10px;
             margin:2px;
