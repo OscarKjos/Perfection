@@ -113,6 +113,7 @@ KmCount(`${year}-01-01`, `${year}-${månedString}-01`, akt_type);
 
             // Setter antall km per uke og runder av desimaler
             document.getElementById("km_per_uke_1").innerText = Math.round(km_uke1);
+                localStorage.setItem("ukentlig_distanse", Math.round(km_uke1));
                 document.getElementById("progress_fill_1").style.height = `${km_uke1}%`;
             document.getElementById("km_per_uke_2").innerText = Math.round(km_uke2); 
                 document.getElementById("progress_fill_2").style.height = `${km_uke2}%`;

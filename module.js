@@ -62,6 +62,7 @@ validation_habits("Kreatin", "kreatin_validation");
             segments_grid.innerHTML = "";
 
             let fullførtAntall = 0;
+            let antall_segmenter = 0;
 
             data.forEach(element => {
                 const card = document.createElement("article");
@@ -102,8 +103,17 @@ validation_habits("Kreatin", "kreatin_validation");
                     fullførtAntall++;
                 }
 
-                const dynamic_segment = document.getElementById('dynamic_segment');
-                dynamic_segment.textContent = fullførtAntall;
+                antall_segmenter++;
+
+                const dynamic_segment = document.querySelectorAll('#dynamic_segment');
+                dynamic_segment.forEach(element => {
+                    element.textContent = fullførtAntall;
+                })
+
+                const dymamic_pågående = document.querySelectorAll('#dymamic_pågående');
+                dymamic_pågående.forEach(element => {
+                    element.textContent = antall_segmenter-fullførtAntall;
+                })
 
                 card.classList.add(erFullført ? 'fullført' : 'pågående');
 
