@@ -451,7 +451,6 @@ referrer('statistikk_referrer', 'statistikk.html');
 referrer('leaderboard_referrer', 'leaderboard.html');
 referrer('data_referrer', 'data.html');
 
-
 /* ==================== Splash screen ====================== */
 
     window.addEventListener("load", () => {
@@ -462,12 +461,11 @@ referrer('data_referrer', 'data.html');
             } else{
                 settThemeColor('white');
             }
-            return
         } else{
              document.querySelector("#loader")?.classList.add("hidden");
         }
     
-     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         settThemeColor('black');
     } else{
         settThemeColor(mediaFarge);
@@ -482,8 +480,14 @@ referrer('data_referrer', 'data.html');
         }
         sessionStorage.setItem("splash_vist", "true");
     }, 3000); // 3 sekunder
-});
 
+
+    const loader = document.querySelector('#loader');
+
+    if (!loader.classList.contains('hidden')) {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', mediaFarge);
+    }
+});
 
 // ==================== Link til Innstillinger ====================== //
     const knapp = document.getElementById("settings_referrer");
@@ -491,5 +495,3 @@ referrer('data_referrer', 'data.html');
     knapp.addEventListener("click", () => {
         window.location.href = "settings.html";
     });
-
-

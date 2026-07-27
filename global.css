@@ -50,7 +50,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: var(--primary-color); /* Fargen på loading-skjermen */
+            background-color: var(--splash-color); /* Fargen på loading-skjermen */
             display: flex;
             justify-content: center;
             align-items: center;

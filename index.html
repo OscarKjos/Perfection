@@ -983,45 +983,59 @@
 
         .note{
             padding: 0.8rem;
-            border-radius: 8px;
+            border-radius: 0px 8px 8px 0px;
             margin-top:10px;
             background-color: var(--surface-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.062);
             border-left: 2px solid var(--primary-color);
         }
 
         .note_block{
             display: flex;
             flex-direction: column;
-            gap: 0.65rem;
+            gap: 0;
             background-color: var(--surface-color);
-            padding:16px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 18px;
+            border: 1px solid rgba(127, 127, 127, 0.16);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(25, 39, 35, 0.07);
         }
 
         .note_block button{
-            background-color: var(--primary-color);
-            color:white;
-            border:none;
-            padding:10px;
-            border-radius: 5px;
-            min-width: 150px;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        #notat_field, #overskrift_field{
+            box-sizing: border-box;
+            width: 100%;
+            border: 0;
+            border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+            border-radius: 0;
+            outline: none;
+            color: var(--text-color);
+            background: transparent;
+            transition: border-color 0.2s ease;
         }
 
         #notat_field{
-            height: 40px;
-            padding:8px;
-            border-radius: 7px;
-            border: 1px solid #e4e6ea;
+            min-height: 92px;
+            padding: 11px 12px;
+            resize: vertical;
+            font: inherit;
             font-size: 16px;
-            color:var(--subtext-color);
+            line-height: 1.5;
+        }
+
+        #notat_field:focus, #overskrift_field:focus{ border-color: var(--primary-color); }
+        #notat_field::placeholder, #overskrift_field::placeholder{
+            color: color-mix(in srgb, var(--subtext-color) 70%, transparent);
         }
 
         .saved_notes{
             display: flex;
             flex-direction: column;
-            gap: 0.2rem;
+            gap: 0.15rem;
             margin:8px;
             margin-top:10px;
         }
@@ -1087,23 +1101,64 @@
             display:flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            padding-top: 13px;
         }
 
         #overskrift_field{
-            border:none;
-            font-size: 16px;
-            padding:5px;
+            font: inherit;
+            font-size: 1.05rem;
+            font-weight: 650;
+            padding: 8px 12px 10px;
+        }
+
+        .note_tools{ display: flex; gap: 6px; }
+        .note_tool{
+            width: 36px; height: 36px; display: grid; place-items: center;
+            border: 1px solid rgba(127, 127, 127, 0.2); border-radius: 10px;
+            color: var(--subtext-color); background: transparent;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+        .note_tool:hover{
+            color: var(--primary-color); border-color: var(--primary-color);
+            background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+        }
+        #note_btn{
+            display: inline-flex;
+            align-items: center;
+            justify-content:center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 9px 15px;
+            border: 1px solid var(--primary-color);
+            border-radius: 11px;
+            color: #fff;
+            background: var(--primary-color);
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 5px 14px color-mix(in srgb, var(--primary-color) 24%, transparent);
+            transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+        }
+        #note_btn:hover{
+            filter: brightness(0.94); transform: translateY(-1px);
+            box-shadow: 0 7px 18px color-mix(in srgb, var(--primary-color) 30%, transparent);
+        }
+        #note_btn:active{ transform: translateY(0); }
+        @media (max-width: 480px) {
+            .note_block { padding: 15px; }
+            .extra_bar { align-items: stretch; }
+            #note_btn { flex: 1; }
         }
     </style>
 
-    <section style="background-color: var(--surface-color);">
+    <section class="notes_workspace">
     <div class="note_block">
         <input id="overskrift_field" maxlength="30" type="text" placeholder="Overskrift">
-        <textarea id="notat_field" cols="30" rows="10" placeholder="Skriv ned en tanke.."></textarea>
+        <textarea id="notat_field" cols="30" rows="4" placeholder="Skriv ned en tanke …"></textarea>
         <span class="extra_bar">
-            <div style="margin-left:10px; color:var(--subtext-color)" class="page-label">
-                <i class="fa-solid fa-list-ul"></i>
-                <i class="fa-solid fa-hashtag"></i>
+            <div class="note_tools" aria-label="Notatverktøy">
+                <button class="note_tool" type="button" aria-label="Legg til liste" title="Liste"><i class="fa-solid fa-list-ul"></i></button>
+                <button class="note_tool" type="button" aria-label="Legg til emneknagg" title="Emneknagg"><i class="fa-solid fa-hashtag"></i></button>
             </div>
             <button id="note_btn"><i class="fa-solid fa-plus"></i> Legg til notat</button>
         </span>
@@ -1113,13 +1168,13 @@
         .filter-container {
             display: flex;
             align-self: start;
-            gap: 8px;
-            margin:10px;
-            margin-top: 16px;
+            gap: 7px;
+            margin: 12px 2px 0;
             overflow-x: auto;
-            padding-bottom: 4px;
+            padding: 2px 0 4px;
             /* Skjuler scrollbar på noen nettlesere, men beholder funksjonaliteten */
             scrollbar-width: none; 
+            margin:8px;
         }
         
         .filter-container::-webkit-scrollbar {
@@ -1127,21 +1182,24 @@
         }
 
         .filter-btn {
-            background-color: white;
-            color: #374151;
-            border: 1px solid #e5e7eb;
-            padding: 8px 16px;
-            border-radius: 10px; /* Gjør knappene runde på sidene (piller) */
-            font-size: 14px;
-            font-weight: 500;
+            background: var(--surface-color);
+            color: var(--subtext-color);
+            border: 1px solid rgba(127, 127, 127, 0.2);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
             white-space: nowrap;
             width:100%;
         }
 
         .filter-btn:hover {
-            background-color: #e5e7eb;
+            color: var(--text-color);
+            border-color: color-mix(in srgb, var(--primary-color) 55%, transparent);
+            background: color-mix(in srgb, var(--primary-color) 7%, transparent);
         }
 
         /* Stil for knappen som er aktiv/valgt akkurat nå */
@@ -1149,6 +1207,7 @@
             background-color: var(--primary-color);
             color: #ffffff;
             border-color: var(--primary-color);
+            box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-color) 20%, transparent);
         }
     </style>
 
