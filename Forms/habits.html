@@ -536,7 +536,7 @@
                 icon: "fa-hand-fist",
                 hint: "Registrer gram protein fra tilskudd.",
                 fields: [
-                    { id: "gram", label: "Protein (g)", type: "number", min: "0", step: "1", placeholder: "30", required: true, unit: "g" }
+                    { id: "fullfort", label: "Protein tatt", type: "checkbox", required: true }
                 ],
                 xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
             },
@@ -545,7 +545,7 @@
                 icon: "fa-solid fa-vial",
                 hint: "Registrer gram kreatin fra tilskudd.",
                 fields: [
-                    { id: "gram", label: "Kreatin (g)", type: "number", min: "0", step: "1", placeholder: "5", required: true, unit: "g" }
+                    { id: "fullfort", label: "Kreatin tatt", type: "checkbox", required: true }
                 ],
                 xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
             },
