@@ -853,7 +853,6 @@ async function getRace() {
             if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month) {
                 dayBlock.classList.add("race");
 
-            
             dayBlock.addEventListener("click", () => {
                 if (dayBlock.classList.contains("race")) {
                     // Her dukker det opp en boks med info om løpet som er registrert på den datoen
