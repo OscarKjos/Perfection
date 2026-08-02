@@ -1275,7 +1275,6 @@
         }
 
         .day:hover {
-            background: #e8f1ff;
             color: var(--primary-color);
             transform: translateY(-2px);
         }
@@ -1303,6 +1302,8 @@
 
         .empty {
             aspect-ratio: 1;
+            background: #f5f7f9b2;
+            border-radius: 11px;
         }
 
         #race_registration {
@@ -1333,9 +1334,64 @@
             padding: 10px;
             border-radius: 8px;
         }
+
+        .open_filter__content input{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e6e9ed;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        #race_info{
+            display:none;
+            flex-direction:column;
+            gap:10px;
+            background-color: var(--surface-color);
+            position:fixed;
+            top:50%;
+            left:50%;
+            transform:translate(-80%, -80%);
+            z-index: 1000;
+            pointer-events: none;
+            padding:10px 20px 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            min-width:220px;
+        }
+
+        #race_info p{
+            margin:0;
+            font-size: 14px;
+        }
+
+        #race_info b{
+            font-size: 14px;
+            color:var(--subtext-color);
+            font-weight: lighter;
+        }
+
+        #race_info h3{
+            margin:0;
+            font-size: 16px;
+        }
+
+        #race_info span{
+            display:flex;
+            justify-content: space-between;
+        }
+
+        #race_info.getRaceInfo{
+            display:flex;
+            pointer-events: all;
+        }
     </style>
 
     <section class="calendar training_stats">
+        <div id="race_info">
+            <!-- Her kommer informasjon om løp dynamisk fra Supabase -->
+        </div>
+
         <header class="calendar_header">
             <div class="calendar_title">
                 <i class="fa-solid fa-calendar-days"></i>
@@ -1371,7 +1427,7 @@
             <button class="day" type="button">5</button>
             <button class="day" type="button">6</button>
             <button class="day" type="button">7</button>
-            <button class="day race" type="button">8</button>
+            <button class="day" type="button">8</button>
             <button class="day" type="button">9</button>
             <button class="day" type="button">10</button>
             <button class="day" type="button">11</button>
@@ -1380,7 +1436,7 @@
             <button class="day" type="button">14</button>
             <button class="day" type="button">15</button>
             <button class="day" type="button">16</button>
-            <button class="day race" type="button">17</button>
+            <button class="day" type="button">17</button>
             <button class="day" type="button">18</button>
             <button class="day" type="button">19</button>
             <button class="day" type="button">20</button>
@@ -1392,12 +1448,174 @@
             <button class="day" type="button">26</button>
             <button class="day" type="button">27</button>
             <button class="day" type="button">28</button>
-            <button class="day race" id="extra_day_1" type="button">29</button>
+            <button class="day" id="extra_day_1" type="button">29</button>
             <button class="day" id="extra_day_2" type="button">30</button>
             <button class="day" id="extra_day_3" type="button">31</button>
         </div>
+
+        <div id="open_filter">
+            <div class="open_filter__sheet">
+                <!-- Dra-håndtak øverst -->
+                <div class="open_filter__handle"></div>
+                
+                <!-- Header som matcher flexbox layouten din -->
+                <div class="open_filter__header">
+                    <div class="open_filter__title">
+                        <h3>Løpskalender</h3>
+                        <p>Registrer kommende løp her</p>
+                    </div>
+                    
+                    <button class="open_filter__close" id="close_filter" type="button" aria-label="Lukk">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+            <style>
+                .open_filter__content{
+                    display:grid;
+                    grid-template-columns:repeat(2, minmax(0, 1fr));
+                    gap:14px;
+                    padding:10px 15px 0;
+                }
+
+                .form_group{
+                    display:flex;
+                    flex-direction:column;
+                    gap:6px;
+                }
+
+                .form_group.full_width{
+                    grid-column:1 / -1;
+                }
+
+                .form_group label{
+                    color:var(--text-color);
+                    font-size:.72rem;
+                    font-weight:700;
+                }
+
+                .input_wrapper{
+                    position:relative;
+                    display:flex;
+                    align-items:center;
+                }
+
+                .input_wrapper i{
+                    position:absolute;
+                    left:13px;
+                    color:var(--subtext-color);
+                    font-size:.8rem;
+                    pointer-events:none;
+                }
+
+                .form_group input,
+                .form_group select{
+                    width:100%;
+                    height:44px;
+                    padding:0 12px 0 34px;
+                    border:1px solid #e2e6ea;
+                    border-radius:11px;
+                    background:#f8f9fb;
+                    color:var(--text-color);
+                    font:inherit;
+                    font-size:.8rem;
+                    outline:none;
+                    transition:border-color .2s, background .2s, box-shadow .2s;
+                }
+
+                .form_group input:focus,
+                .form_group select:focus{
+                    border-color:var(--primary-color);
+                    background:#fff;
+                    box-shadow:0 0 0 3px rgba(23,105,224,.1);
+                }
+
+                .form_group input::placeholder{
+                    color:#a0a6ae;
+                }
+
+                #register_race_button{
+                    grid-column:1 / -1;
+                    height:40px;
+                    margin-top:5px;
+                    border:0;
+                    border-radius:12px;
+                    background:var(--primary-color);
+                    color:#fff;
+                    font:inherit;
+                    font-size:.82rem;
+                    font-weight:700;
+                    cursor:pointer;
+                    transition:transform .15s, opacity .15s;
+                }
+
+                #register_race_button:active{
+                    transform:scale(.98);
+                }
+
+                #register_race_button:hover{
+                    opacity:.92;
+                }
+
+                #race_name, #race_date, #race_time{
+                    padding-left:12px;
+                }
+            </style>
+
+            <div class="open_filter__content">
+                <div class="form_group full_width">
+                    <label for="race_name">Navn på løp</label>
+                    <input type="text" id="race_name" placeholder="Hytteplanmila" required>
+                </div>
+
+                <div class="form_group">
+                    <label for="race_date">Dato</label>
+                    <input type="date" id="race_date" required>
+                </div>
+
+                <div class="form_group">
+                    <label for="race_time">Klokkeslett</label>
+                    <input type="time" id="race_time">
+                </div>
+
+                <div class="form_group full_width">
+                    <label for="race_location">Sted</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input  type="text" id="race_location"  placeholder="By eller arena" required>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <label for="race_distance">Distanse</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-person-running"></i>
+                        <input type="text" id="race_distance" placeholder="5 000 m" required>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <label for="race_type">Type løp</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-route"></i>
+
+                        <select id="race_type">
+                            <option value="">Velg type</option>
+                            <option value="bane">Baneløp</option>
+                            <option value="gate">Gateløp</option>
+                            <option value="terreng">Terrengløp</option>
+                            <option value="stafett">Stafett</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" id="register_race_button"> Registrer løp </button>
+            </div>
+            </div>
+        </div>
     </section>
 
+    <!-- JavaScript for kalender funksjoner -->
     <script>
         const today = new Date();
         const year = today.getFullYear();
@@ -1419,14 +1637,6 @@
                 dayElement.classList.add('today');
             }
         });
-
-        const registerRaceButton = document.querySelector('#race_registration');
-
-        registerRaceButton.addEventListener('click', () => {
-           // Her kan du legge til logikken for å registrere et løp når knappen klikkes
-           alert('Registrer løp-knappen ble klikket!');
-        });
-
        
         if (month === 4 || month === 6 || month === 9 || month === 11) {
             const extraDays = document.querySelector("#extra_day_3");
@@ -1448,6 +1658,25 @@
             }
         });
 
+        // ================================== Funksjon for å registrere et løp ================================== //
+
+        const registerRaceButton = document.querySelector('#race_registration');
+        const open_filter = document.getElementById('open_filter');
+        const close_filter = document.getElementById('close_filter');
+
+        registerRaceButton.addEventListener('click', () => {
+           open_filter.classList.add('open_now');
+        });
+
+        open_filter.addEventListener('click', (event) => {
+            if (event.target === open_filter) {
+                open_filter.classList.remove('open_now');
+            }
+        });
+
+        close_filter.addEventListener('click', () => {
+            open_filter.classList.remove('open_now');
+        });
     </script>
 
 

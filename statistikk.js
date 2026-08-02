@@ -799,3 +799,110 @@ study_button.addEventListener("click", () => {
 setTimeout(() => {
     document.getElementById("loader")?.classList.add("hidden");
 }, 400);
+
+
+
+async function createRace() {
+    // Input felt
+    const race_name = document.getElementById("race_name");
+    const race_date = document.getElementById("race_date");
+    const race_time = document.getElementById("race_time");
+    const race_location = document.getElementById("race_location");
+    const race_distance = document.getElementById("race_distance");
+    const race_type = document.getElementById("race_type");
+
+    const registrer = document.getElementById("register_race_button");
+
+    registrer.addEventListener("click", async () => {
+    // Henter bruker-id
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    const { data, error } = await supabase
+        .from("bruker_data_kalender")
+        .insert([{ user_id:user.id, navn:race_name.value, dato:race_date.value, starttid:race_time.value, sted:race_location.value, distanse:race_distance.value, type:race_type.value }]);
+    
+    const open_filter = document.getElementById("open_filter");
+    open_filter.classList.remove('open_now');
+
+    race_name.value = "";
+    race_date.value = "";
+    race_time.value = "";
+    race_location.value = "";
+    race_distance.value = "";
+    race_type.value = "";
+
+    });
+}
+createRace()
+
+async function getRace() {
+    const { data, error } = await supabase
+        .from("bruker_data_kalender")
+        .select("dato, navn, starttid, sted, distanse, type");
+    
+    data.forEach(element => {
+        const race_date = new Date(element.dato);
+        const day = document.querySelectorAll(".day");
+
+        const Month = new Date().getMonth();
+
+        const race_info = document.getElementById("race_info");
+        race_info.classList.remove("getRaceInfo");
+
+        day.forEach(dayBlock => {
+            if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month) {
+                dayBlock.classList.add("race");
+
+            
+            dayBlock.addEventListener("click", () => {
+                if (dayBlock.classList.contains("race")) {
+                    // Her dukker det opp en boks med info om løpet som er registrert på den datoen
+                    race_info.classList.add("getRaceInfo");
+
+                    race_info.innerHTML = `
+                        <span>
+                            <h3>Løpsinfo</h3>
+                            <div class="close_race_info" id="close_race_info"><i class="fa-solid fa-xmark"></i></div>
+                        </span>
+
+                        <span>
+                            <b>Navn:</b>
+                            <p>${element.navn}</p>
+                        </span>
+
+                        <span>
+                            <b>Dato:</b>
+                            <p>${race_date.getDate()} ${race_date.toLocaleString('nb-NO', { month: 'short' })}</p>
+                        </span>
+
+                        <span>
+                            <b>Starttid:</b>
+                            <p>${element.starttid}</p>
+                        </span>
+                            
+                        <span>
+                            <b>Sted:</b>
+                            <p>${element.sted}</p>
+                        </span>
+
+                        <span>
+                            <b>Distanse:</b>
+                            <p>${(element.distanse).toLocaleString('nb-NO') + " m"}</p>
+                        </span>
+
+                        <span>
+                            <b>Type:</b>
+                            <p>${element.type}</p>
+                        </span>
+                    `;
+                }
+                const close_race_info = document.getElementById("close_race_info");
+                close_race_info.addEventListener("click", () => {
+                    race_info.classList.remove("getRaceInfo");
+                })
+            });
+            }
+        })
+    });
+}
+getRace()
