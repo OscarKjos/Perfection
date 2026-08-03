@@ -907,6 +907,7 @@ async function getRace() {
 getRace()
 
 
+// ========================================= Registrerer resultater ========================================= //
 async function logRace() {
     // Input felt
     const name = document.getElementById("competition_name");
@@ -958,9 +959,9 @@ async function logRace() {
         xp = (BAN10000 / Number(my_time)) * 100;
     }
 
-    else if (distance.value === "5000" && type.value === "gate"){
+    else if (distance.value === "5000" && type.value === "gate" || distance.value === "5000" && type.value === "terreng"){
         xp = (GAT5000 / Number(my_time)) * 100;
-    } else if (distance.value === "10000" && type.value === "gate"){
+    } else if (distance.value === "10000" && type.value === "gate" || distance.value === "10000" && type.value === "terreng"){
         xp = (GAT10000 / Number(my_time)) * 100;
     } else if (distance.value === "half_marathon"){
         xp = (GATHALF / Number(my_time)) * 100;
@@ -989,3 +990,65 @@ async function logRace() {
     });
 }
 logRace()
+
+
+// ====================================== Henter resultater fra databasen ====================================== //
+let limit_number = 5;
+async function setRace() {
+    
+    const find_more_races = document.getElementById("find_more_races");
+    find_more_races.addEventListener("click", () => {
+        if (limit_number > data.length) return;
+        limit_number += 5;
+        setRace();
+    })
+
+    const { data, error, count } = await supabase
+        .from("bruker_data_resultater")
+        .select("dato, stevne, sted, distanse, plassering, deltakere, type, tid, xp",{ count: "exact" })
+        .limit(limit_number)
+        .order("dato", { ascending: false });
+    
+    const race_list = document.getElementById("race_list_card");
+    race_list.innerHTML = "";
+
+    data.forEach(element => {
+        const race_card = document.createElement("div");
+
+        const rank = Math.round(element.plassering / element.deltakere * 100);
+
+        race_card.innerHTML = `
+
+            <div class="race_list_info">
+                <p class="race_list_date">${element.dato}</p>
+                <p class="race_list_name">${element.stevne}</p>
+                <p class="race_list_location">${element.sted}</p>
+                <p class="race_list_distance">${element.distanse + " m"}</p>
+                <p class="race_list_type">${element.type}</p>
+                <p class="race_list_time">${element.tid}</p>
+                <p class="race_list_placement">${element.plassering + " th."}</p>
+                <p class="race_list_participants">${element.deltakere + " stk."}</p>
+                <p class="race_list_xp">${rank + " %"}</p>
+            </div>
+        
+        `;
+
+        race_list.appendChild(race_card);
+    });
+
+    const total_deltakelser = document.getElementById("total_deltakelser");
+    total_deltakelser.innerHTML = count + " stk.";
+
+    const års_deltakelser = document.getElementById("års_deltakelser");
+    const year = new Date().getFullYear();
+
+    let year_count = 0;
+    data.forEach(element => {
+        if (new Date(element.dato).getFullYear() === year){
+            year_count++
+        }
+    });
+
+    års_deltakelser.innerHTML = year_count + " stk.";
+}
+setRace()
