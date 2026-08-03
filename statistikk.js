@@ -835,22 +835,36 @@ async function createRace() {
 }
 createRace()
 
+let Month = new Date().getMonth();
+let Year = new Date().getFullYear(); 
+
 async function getRace() {
     const { data, error } = await supabase
         .from("bruker_data_kalender")
         .select("dato, navn, starttid, sted, distanse, type");
     
+        const select_month = document.getElementById('calendar_month');
+        select_month.addEventListener('change', () => {
+            Month = Number(select_month.value)-1;
+            updateRaces();
+        });
+    
+    function updateRaces() {
+    const day = document.querySelectorAll(".day");
+    
+    day.forEach(dayBlock => {
+        dayBlock.classList.remove("race");
+    });
+
     data.forEach(element => {
         const race_date = new Date(element.dato);
-        const day = document.querySelectorAll(".day");
-
-        const Month = new Date().getMonth();
 
         const race_info = document.getElementById("race_info");
         race_info.classList.remove("getRaceInfo");
 
         day.forEach(dayBlock => {
-            if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month) {
+            
+            if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month && race_date.getFullYear() === Year) {
                 dayBlock.classList.add("race");
 
             dayBlock.addEventListener("click", () => {
@@ -903,6 +917,8 @@ async function getRace() {
             }
         })
     });
+    }
+    updateRaces();
 }
 getRace()
 

@@ -570,6 +570,7 @@
                 justify-content: space-evenly;
                 align-items: center;
                 gap: 10px;
+                padding-top:10px;
             }
 
             .circle_group span{
@@ -616,8 +617,9 @@
 
             .bed_header{
                 display:flex;
-                justify-content: space-between;
-                align-items: center;
+                gap:10px;
+                align-items:last baseline;
+                padding: 7px;
             }
 
             .bed_header small{
@@ -638,12 +640,8 @@
 
         <section class="diagram_grid structure_stats" id="bed_section">
             <div class="bed_header">
-                <span>
-                    <p>Re opp sengen</p>
-                    <small>De siste 7 dagene</small>
-                </span>
-
-                <img class="bilde" id="ikon_av_seng" src="Bilder/ikoner/bed2.png" alt="Bilde av seng">
+                <p>Re opp sengen</p>
+                <small>(De siste 7 dagene)</small>
             </div>
 
             <div class="circle_group">
@@ -1386,7 +1384,21 @@
                 <i class="fa-solid fa-calendar-days"></i>
                 <div class="calendar_title_text">
                     <h1>Løpskalender</h1>
-                    <small class="mikrookt-seksjon__description" id="date_placement">Måned - År</small>
+                    <select id="calendar_month" class="mikrookt-seksjon__description" style="border:none;">
+                        <option id="date_placement" value=""></option>
+                        <option value="1">Januar</option>
+                        <option value="2">Februar</option>
+                        <option value="3">Mars</option>
+                        <option value="4">April</option>
+                        <option value="5">Mai</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
                 </div>
             </div>
             <button class="open_stats__button" id="race_registration">Legg til <i class="fa-solid fa-plus"></i></button>
@@ -1401,7 +1413,7 @@
             <div class="weekday">Lør</div>
             <div class="weekday">Søn</div>
 
-            <!-- August 2026 starter på en lørdag -->
+            <!-- Blank spaces for å definere riktig ukedag -->
             <div class="empty" id="space_0"></div>
             <div class="empty" id="space_1"></div>
             <div class="empty" id="space_2"></div>
@@ -1585,7 +1597,22 @@
                     <label for="race_distance">Distanse</label>
                     <div class="input_wrapper">
                         <i class="fa-solid fa-person-running"></i>
-                        <input type="text" id="race_distance" placeholder="5 000 m" required>
+                        <select id="race_distance" required>
+                            <option value="">Velg...</option>
+                            <option value="60">60 m</option>
+                            <option value="100">100 m</option>
+                            <option value="200">200 m</option>
+                            <option value="400">400 m</option>
+                            <option value="600">600 m</option>
+                            <option value="800">800 m</option>
+                            <option value="1500">1 500 m</option>
+                            <option value="3000">3 000 m</option>
+                            <option value="5000">5 000 m</option>
+                            <option value="10000">10 000 m</option>
+                            <option value="21097">Halvmaraton</option>
+                            <option value="42195">Maraton</option>
+                            <option value="0">Annen distanse</option>
+                        </select>
                     </div>
                 </div>
 
@@ -1600,6 +1627,7 @@
                             <option value="gate">Gateløp</option>
                             <option value="terreng">Terrengløp</option>
                             <option value="stafett">Stafett</option>
+                            <option value="pacer">Fartsholder</option>
                         </select>
                     </div>
                 </div>
@@ -1612,10 +1640,23 @@
 
     <!-- JavaScript for kalender funksjoner -->
     <script>
+        const calendar_month = document.getElementById('calendar_month');
+
         const today = new Date();
         const year = today.getFullYear();
-        const month = today.getMonth() + 1; // Months are zero-based, so we add 1
         const date = today.getDate();
+        let month = new Date().getMonth() + 1;  // Months are zero-based, so we add 1
+
+        calendar_month.addEventListener('change', () => {
+            month = Number(calendar_month.value);
+            getRightDate();
+        });
+
+    function getRightDate() {
+        const extraDays1 = document.querySelectorAll("#extra_day_2, #extra_day_3, #extra_day_1");
+        extraDays1.forEach((extraDay) => {
+            extraDay.style.display = "block";
+        });
 
         const datePlacement = document.getElementById('date_placement');
         const monthNames = [
@@ -1628,8 +1669,10 @@
         const day = document.querySelectorAll('.day');
         day.forEach((dayElement) => {
             const dayNumber = parseInt(dayElement.textContent);
-            if (dayNumber === date) {
+            if (dayNumber === date && month === new Date().getMonth() + 1) {
                 dayElement.classList.add('today');
+            } else {
+                dayElement.classList.remove('today');
             }
         });
        
@@ -1652,6 +1695,8 @@
                 space.style.display = "none";
             }
         });
+    };
+    getRightDate();
 
         // ================================== Funksjon for å registrere et løp ================================== //
 
@@ -1771,6 +1816,7 @@
                         <option value="100">100 m</option>
                         <option value="200">200 m</option>
                         <option value="400">400 m</option>
+                        <option value="600">600 m</option>
                         <option value="800">800 m</option>
                         <option value="1500">1 500 m</option>
                         <option value="3000">3 000 m</option>
@@ -1795,6 +1841,7 @@
                         <option value="gate">Gateløp</option>
                         <option value="terreng">Terrengløp</option>
                         <option value="stafett">Stafett</option>
+                        <option value="pacer">Fartsholder</option>
                     </select>
                 </div>
             </div>
@@ -2382,12 +2429,8 @@
 
     <section class="diagram_grid health_stats">
             <div class="bed_header">
-                <span>
                     <p>Vitaminer</p>
-                    <small>De siste 7 dagene</small>
-                </span>
-
-                <img class="bilde" id="ikon_av_vitamin" src="Bilder/ikoner/nosun.png" alt="Bilde av sol">
+                    <small>(De siste 7 dagene)</small>
             </div>
 
             <div class="circle_group">
