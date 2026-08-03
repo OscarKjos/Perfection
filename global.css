@@ -104,7 +104,7 @@
 
 
     /* Felles filter for dagsrapport og skjema*/
-    #open_filter{
+    .open_filter{
         position: fixed;
         inset:0;
         left:0;
@@ -118,14 +118,14 @@
         transition:opacity .22s ease;
     }
 
-    #open_filter.open_now{
+    .open_filter.open_now{
         pointer-events: all;
         opacity:1;
     }
 
     .open_filter__sheet{
         width:100%;
-        min-height: 65vh;
+        min-height: fit-content;
         max-width:520px;
         max-height:82dvh;
         padding:10px 14px 40px 14px;
@@ -137,7 +137,7 @@
         overflow:auto;
     }
 
-    #open_filter.open_now .open_filter__sheet{
+    .open_filter.open_now .open_filter__sheet{
         transform:translateY(0);
     }
 

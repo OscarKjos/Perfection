@@ -1923,7 +1923,7 @@
         }
     </style>
 
-    <section id="open_filter">
+    <section class="open_filter" id="report_overlay">
         <div class="open_filter__sheet">
             <div class="open_filter__handle"></div>
 
@@ -2047,7 +2047,7 @@
     <script>
         const half_filter = document.getElementById("half_filter");
         const close_filter = document.getElementById("close_filter");
-        const open_filter = document.getElementById("open_filter");
+        const open_filter = document.getElementById("report_overlay");
 
         half_filter.addEventListener("click", () => {
             open_filter.classList.toggle("open_now");

@@ -821,8 +821,8 @@ async function createRace() {
         .from("bruker_data_kalender")
         .insert([{ user_id:user.id, navn:race_name.value, dato:race_date.value, starttid:race_time.value, sted:race_location.value, distanse:race_distance.value, type:race_type.value }]);
     
-    const open_filter = document.getElementById("open_filter");
-    open_filter.classList.remove('open_now');
+    const race_form = document.getElementById("race_form");
+    race_form.classList.remove('open_now');
 
     race_name.value = "";
     race_date.value = "";
@@ -905,3 +905,87 @@ async function getRace() {
     });
 }
 getRace()
+
+
+async function logRace() {
+    // Input felt
+    const name = document.getElementById("competition_name");
+    const date = document.getElementById("competition_date");
+    const location = document.getElementById("competition_location");
+    const distance = document.getElementById("competition_distance");
+    const type = document.getElementById("competition_type");
+    const min = document.getElementById("competition_minutes");
+    const sec = document.getElementById("competition_seconds");
+    const ms = document.getElementById("competition_milliseconds");
+    const placement = document.getElementById("competition_placement");
+    const participants = document.getElementById("competition_participants");
+
+    const reg_button = document.getElementById("register_result_button");
+
+    reg_button.addEventListener("click", async () => {
+    // Henter bruker-id
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+
+    // XP calculation function based on World Record Times
+    let xp = 0;
+
+    const my_time = min.value + "." + sec.value;
+
+    const BAN600 = 1.12     // Jonney gray (1986)
+    const BAN800 = 1.40     // David Rudisha (2012)
+    const BAN1500 = 3.26    // Hicham El Guerrouj (1998)
+    const BAN3000 = 7.17    // Jacob Ingebritsen (2024)
+    const BAN5000 = 12.35   // Joshua Cheptegei (2020)
+    const BAN10000 = 26.11  // Joshua Cheptegei (2020)
+
+    const GAT5000 = 12.49   // Berihu Aregawi (2021)
+    const GAT10000 = 26.24  // Rhonex Kipruto (2020)
+    const GATHALF = 57.20   // Jacob Kiplimo  (2026)
+    const GATFULL = 119.30  // Sabastian Sawe  (2026)
+
+    if (distance.value === "600"){
+        xp = (BAN600 / Number(my_time)) * 100;
+    } else if (distance.value === "800"){
+        xp = (BAN800 / Number(my_time)) * 100;
+    } else if (distance.value === "1500"){
+        xp = (BAN1500 / Number(my_time)) * 100;
+    } else if (distance.value === "3000"){
+        xp = (BAN3000 / Number(my_time)) * 100;
+    } else if (distance.value === "5000" && type.value === "bane"){
+        xp = (BAN5000 / Number(my_time)) * 100;
+    } else if (distance.value === "10000" && type.value === "bane"){
+        xp = (BAN10000 / Number(my_time)) * 100;
+    }
+
+    else if (distance.value === "5000" && type.value === "gate"){
+        xp = (GAT5000 / Number(my_time)) * 100;
+    } else if (distance.value === "10000" && type.value === "gate"){
+        xp = (GAT10000 / Number(my_time)) * 100;
+    } else if (distance.value === "half_marathon"){
+        xp = (GATHALF / Number(my_time)) * 100;
+    } else if (distance.value === "marathon"){
+        xp = (GATFULL / Number(my_time)) * 100;
+    }
+
+    
+    const { data, error } = await supabase
+        .from("bruker_data_resultater")
+        .insert([{ user_id:user.id, stevne:name.value, dato:date.value, sted:location.value, distanse:distance.value, type:type.value, tid:min.value + "." + sec.value + "," + ms.value, plassering:placement.value, deltakere:participants.value, xp:Math.round(xp)}]);
+    
+    const open_filter = document.getElementById("race_registration_form");
+    open_filter.classList.remove('open_now');
+
+    name.value = "";
+    date.value = "";
+    location.value = "";
+    distance.value = "";
+    type.value = "";
+    min.value = "";
+    sec.value = "";
+    placement.value = "";
+    participants.value = "";
+
+    });
+}
+logRace()
