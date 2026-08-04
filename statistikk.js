@@ -945,7 +945,7 @@ async function logRace() {
 
 
     // XP calculation function based on World Record Times
-    let xp = 0;
+    let xp = 35;
 
     const my_time = min.value + "." + sec.value;
 
@@ -979,9 +979,9 @@ async function logRace() {
         xp = (GAT5000 / Number(my_time)) * 100;
     } else if (distance.value === "10000" && type.value === "gate" || distance.value === "10000" && type.value === "terreng"){
         xp = (GAT10000 / Number(my_time)) * 100;
-    } else if (distance.value === "half_marathon"){
+    } else if (distance.value === "21097"){
         xp = (GATHALF / Number(my_time)) * 100;
-    } else if (distance.value === "marathon"){
+    } else if (distance.value === "42195"){
         xp = (GATFULL / Number(my_time)) * 100;
     }
 

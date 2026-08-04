@@ -322,7 +322,7 @@
                     row.innerHTML = `
                         <td>${index + 1}</td>
                         <td>${user.navn}</td>
-                        <td>${user.total_xp}</td>
+                        <td>${(user.total_xp).toFixed(0)}</td>
                         <td>${level}</td>
                     `;
                     tableBody.appendChild(row);

@@ -27,8 +27,9 @@ async function updateProgress(tabell) {
     const count4 = await updateProgress('bruker_data_journal');
     const count5 = await updateProgress('bruker_data_studie');
     const count6 = await updateProgress('bruker_data_mikroøkt');
+    const count7 = await updateProgress('bruker_data_resultater');
 
-    count = count1 + count2 + count3 + count4 + count5 + count6
+    count = count1 + count2 + count3 + count4 + count5 + count6 + count7
 
 
 

@@ -694,10 +694,10 @@
 
             <div class="utvidelser__grid">
                 <span>
-                <a class="no_link" style="width:100%;" href="ernæringsplan.html">
+                <a class="no_link" style="width:100%;" href="Utvidelser/stretching.html">
                     <article class="utvidelser__card">
-                            <p class="utvidelser__name">Ernæring</p>
-                            <p class="utvidelser__description">Plan og handleliste</p>
+                        <p class="utvidelser__name">Uttøying</p>
+                        <p class="utvidelser__description">Skadeforebyggende og mobilitet</p>
                     </article>
                 </a>
 
@@ -713,7 +713,7 @@
                 </span>
 
                 <span>
-                <article class="utvidelser__card">
+                <article id="click_bate" class="utvidelser__card">
                         <p class="utvidelser__name">Løpskalkulator</p>
                         <p class="utvidelser__description">Beregn hastighet</p>
                 </article>
@@ -723,17 +723,54 @@
                         <p class="utvidelser__description">Bøker og artikler</p>
                 </article>
                 </span>
-
-                <a class="no_link" style="width:100%;" href="Utvidelser/stretching.html">
-                    <article class="utvidelser__card">
-                        <p class="utvidelser__name">Uttøyingsøvelser</p>
-                        <p class="utvidelser__description">Skadeforebyggende og mobilitet</p>
-                    </article>
-                </a>
             </div>
         </section>
-
     </main>
+
+    <div class="open_filter" id="calculate_overlay">
+        <div class="open_filter__sheet">
+            <!-- Dra-håndtak øverst -->
+            <div class="open_filter__handle"></div>
+            
+            <!-- Header som matcher flexbox layouten din -->
+            <div class="open_filter__header">
+                <div class="open_filter__title">
+                    <h3>Løpskalkulator</h3>
+                    <p>Beregn hastighet og sluttid</p>
+                </div>
+                
+                <button class="open_filter__close" id="remove_calculate" type="button" aria-label="Lukk">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="open_filter__content">
+                <input type="number" id="time" placeholder="Minutter">
+                <input type="number" id="seconds" placeholder="Sekunder">
+                <input type="number" id="distance" placeholder="Avstand i meter">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const clickBate = document.getElementById("click_bate");
+        const calculate_overlay = document.getElementById("calculate_overlay");
+
+        clickBate.addEventListener("click", () => {
+            calculate_overlay.classList.add('open_now');
+        });
+
+        const remove_calculate = document.getElementById("remove_calculate");
+        remove_calculate.addEventListener("click", () => {
+            calculate_overlay.classList.remove('open_now');
+        });
+
+        calculate_overlay.addEventListener('click', (event) => {
+            if (event.target === calculate_overlay) {
+                calculate_overlay.classList.remove('open_now');
+            }
+        });
+    </script>
 
     <main class="container segments_container" style="display:none">
 
