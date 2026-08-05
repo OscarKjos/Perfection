@@ -349,7 +349,7 @@ navContainer.innerHTML = `
                 <a href="Forms/training.html" id="action_segmenter"><i class="fa-solid fa-route"></i>Treningsøkt</a>
                 <a href="Forms/studyhours.html" id="action_treningsokt"><i class="fa-solid fa-book"></i>Studietimer</a>
                 <a href="Forms/project.html" id="action_treningsokt"><i class="fa-solid fa-chart-line"></i>Arbeidstimer</a>
-                <a href="Forms/habits.html" id="action_artikler"><i class="fa-solid fa-bed"></i>Vaner / Helse</a>
+                <a href="Forms/habits.html" id="action_artikler"><i class="fa-solid fa-bed"></i>Vaner</a>
                 <a href="Forms/journal.html" id="action_treningsokt"><i class="fa-solid fa-journal-whills"></i>Journal</a>
                 <hr style="background:#eee; height:1px; border:none; width:100%;">
                 <a href="Forms/mikroøkt.html" id="action_mikroøkt"><i class="fa-solid fa-hand-fist"></i>Mikroøkt</a>

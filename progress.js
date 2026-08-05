@@ -123,7 +123,8 @@ async function updateProgress(tabell) {
             return [];
         }
 
-        return data;
+        // Legger til tabellnavnet på hvert objekt
+        return data.map(item => ({ ...item, tabell }));
     }
     const data1 = await hentXpData('bruker_data_trening');
     const data2 = await hentXpData('bruker_data_produktivitet');
@@ -131,7 +132,8 @@ async function updateProgress(tabell) {
     const data4 = await hentXpData('bruker_data_journal');
     const data5 = await hentXpData('bruker_data_studie');
     const data6 = await hentXpData('bruker_data_mikroøkt');
-    const allData = [...data1, ...data2, ...data3, ...data4, ...data5, ...data6];
+    const data7 = await hentXpData('bruker_data_resultater');
+    const allData = [...data1, ...data2, ...data3, ...data4, ...data5, ...data6, ...data7];
 
 
 
@@ -140,6 +142,14 @@ async function updateProgress(tabell) {
         targetDate.setDate(targetDate.getDate() - number);
 
         let todayXP = 0;
+
+        let habitsXP = 0;
+        let arbeidXP = 0;
+        let journalXP = 0;
+        let studieXP = 0;
+        let mikroXP = 0;
+        let resultaterXP = 0;
+        let treningXP = 0;
 
         const dager = ["Søn","Man","Tir","Ons","Tor","Fre","Lør"];
         let ukedag_per_søyle = dager[targetDate.getDay()];
@@ -153,6 +163,23 @@ async function updateProgress(tabell) {
                 datoSB.getDate() === targetDate.getDate()
             ) {
                 todayXP += Number(element.xp);
+
+                // Summerer dagens XP for hver tabell/kategori
+                if (element.tabell === "bruker_data_vaner") {
+                    habitsXP += Number(element.xp);
+                } if (element.tabell === "bruker_data_produktivitet") {
+                    arbeidXP += Number(element.xp);
+                } if (element.tabell === "bruker_data_journal") {
+                    journalXP += Number(element.xp);
+                } if (element.tabell === "bruker_data_studie") {
+                    studieXP += Number(element.xp);
+                } if (element.tabell === "bruker_data_mikroøkt") {
+                    mikroXP += Number(element.xp);
+                } if (element.tabell === "bruker_data_resultater") {
+                    resultaterXP += Number(element.xp);
+                } if (element.tabell === "bruker_data_trening") {
+                    treningXP += Number(element.xp);
+                }
             }
         });
 
@@ -165,6 +192,165 @@ async function updateProgress(tabell) {
 
         const label = document.getElementById(numb);
         label.innerText = todayXP.toFixed(1);
+
+        const createCard = document.createElement("div");
+        createCard.classList.add("card_of_creation");
+        
+        createCard.innerHTML = `
+            <div class="card_of_the_day">
+                <div>
+                <h3>${ukedag_per_søyle}</h3>
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color: #23262c"></div>
+                        <p>Vaner:</p>
+                    </span>
+                    <p>${habitsXP}</p>
+                </span>
+
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color:#35393f"></div>
+                        <p>Arbeid:</p>
+                    </span>
+                    <p>${arbeidXP}</p>
+                </span>
+
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color: white"></div>
+                        <p>Journal:</p>
+                    </span>
+                    <p>${journalXP}</p>
+                </span>
+
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color: #b5b7b9"></div>
+                        <p>Studie:</p>
+                    </span>
+                    <p>${studieXP}</p>
+                </span>
+
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color: white"></div>
+                        <p>Styrke:</p>
+                    </span>
+                    <p>${mikroXP}</p>
+                </span>
+
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color: white"></div>
+                        <p>Stevne:</p>
+                    </span>
+                    <p>${resultaterXP}</p>
+                </span>
+
+                <span class="space_between">
+                    <span>
+                        <div class="circle_tag_color" style="background-color: #44484d"></div>
+                        <p>Trening:</p>
+                    </span>
+                    <p>${treningXP}</p>
+                </span>
+                </div>
+                
+                <span class="space_between">
+                    <b>Totalt:</b>
+                    <p>${todayXP}</p>
+                </span>
+            </div>
+        `;
+        document.getElementById("xp_cards").appendChild(createCard);
+
+        const cardText = createCard.querySelector(".card_of_the_day");
+        cardText.style.display = "none";
+
+        // 2. Koble direkte til dette spesifikke kortet
+        progress.addEventListener("click", () => {
+            console.log(prog) // Skriver ut hvilken progress bar du trykker på
+
+            document.querySelectorAll(".card_of_the_day").forEach(cardText => cardText.style.display = "none");
+            cardText.style.display = "flex";
+
+            const habits_prog = document.querySelectorAll(".vaner_prog");
+            const arbeid_prog = document.querySelectorAll(".arbeid_prog");
+            const journal_prog = document.querySelectorAll(".journal_prog");
+            const studie_prog = document.querySelectorAll(".studie_prog");
+            const mikro_prog = document.querySelectorAll(".styrke_prog");
+            const resultater_prog = document.querySelectorAll(".stevne_prog");
+            const trening_prog = document.querySelectorAll(".trening_prog");
+
+            habits_prog.forEach(prog => prog.style.height = "0%");
+            arbeid_prog.forEach(prog => prog.style.height = "0%");
+            journal_prog.forEach(prog => prog.style.height = "0%");
+            studie_prog.forEach(prog => prog.style.height = "0%");
+            mikro_prog.forEach(prog => prog.style.height = "0%");
+            resultater_prog.forEach(prog => prog.style.height = "0%");
+            trening_prog.forEach(prog => prog.style.height = "0%");
+
+            if (prog === "prog1") {
+                habits_prog[0].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[0].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[0].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[0].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[0].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[0].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[0].style.height = (treningXP / todayXP) * 100 + "%";
+            }   if (prog === "prog2") {
+                habits_prog[1].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[1].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[1].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[1].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[1].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[1].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[1].style.height = (treningXP / todayXP) * 100 + "%";
+            }   if (prog === "prog3") {
+                habits_prog[2].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[2].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[2].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[2].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[2].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[2].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[2].style.height = (treningXP / todayXP) * 100 + "%";
+            }   if (prog === "prog4") {
+                habits_prog[3].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[3].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[3].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[3].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[3].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[3].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[3].style.height = (treningXP / todayXP) * 100 + "%";
+            }   if (prog === "prog5") {
+                habits_prog[4].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[4].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[4].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[4].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[4].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[4].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[4].style.height = (treningXP / todayXP) * 100 + "%";
+            }   if (prog === "prog6") {
+                habits_prog[5].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[5].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[5].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[5].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[5].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[5].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[5].style.height = (treningXP / todayXP) * 100 + "%";
+            }   if (prog === "prog7") {
+                habits_prog[6].style.height = (habitsXP / todayXP) * 100 + "%";
+                arbeid_prog[6].style.height = (arbeidXP / todayXP) * 100 + "%";
+                journal_prog[6].style.height = (journalXP / todayXP) * 100 + "%";
+                studie_prog[6].style.height = (studieXP / todayXP) * 100 + "%";
+                mikro_prog[6].style.height = (mikroXP / todayXP) * 100 + "%";
+                resultater_prog[6].style.height = (resultaterXP / todayXP) * 100 + "%";
+                trening_prog[6].style.height = (treningXP / todayXP) * 100 + "%";
+            }
+           
+        });
+
     }
     //* Lager en XP profil fra de 7 siste dagene
     xpForDate(0, "prog1", "one_lable", null); /* Dagens XP */
@@ -174,9 +360,7 @@ async function updateProgress(tabell) {
     xpForDate(4, "prog5", "five_lable", "fifth_day_lable"); /* XP for 4 dager siden*/
     xpForDate(5, "prog6", "six_lable", "sixth_day_lable"); /* XP for 5 dager siden*/
     xpForDate(6, "prog7", "seven_lable", "seventh_day_lable"); /* XP for 6 dager siden*/
-
-
-
+    
 
     /* ============ Logg ut bruker med knapp ============== */
     const logout = document.querySelectorAll(".logout_referrer");

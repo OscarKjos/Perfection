@@ -2265,6 +2265,8 @@
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
             width:90%;
+            z-index: 1000;
+            overflow: hidden;
         }
 
     </style>
@@ -2280,8 +2282,8 @@
             </div>
             <select class="diagram_select">
                 <option value="week">Siste 7 dager</option>
-                <option value="month">Siste 30 dager</option>
-                <option value="year">Siste 365 dager</option>
+                <option value="month">Siste 7 uker</option>
+                <option value="year">Siste 7 måneder</option>
             </select>
         </div>
         <div id="diagram_card">
@@ -2292,46 +2294,177 @@
                 <div class="line"></div>
                 <div class="line"></div>
             </div>
+
+            <style>
+                .card_of_the_day{
+                    transform: rotate(180deg);
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 5px;
+                    background-color: var(--surface-color);
+                    padding:10px 5px 10px 10px;
+                    height:170px;
+                    max-height: 170px;
+                }
+
+                .card_of_the_day span{
+                    display:flex;
+                    align-items:center;
+                    gap:5px;
+                }
+
+                .card_of_the_day p, .card_of_the_day h3, .card_of_the_day b{
+                    margin: 1.5px;
+                    font-size: 10px;
+                }
+            </style>
+
+            <div id="xp_cards">
+                <!-- Her kommer XP-kortene (importert fra supabase) -->
+            </div>
+
+             <style>
+                .vaner_prog {
+                    background-color: #2f2f3553;
+                }
+
+                .studie_prog {
+                    background-color: rgba(255, 255, 255, 0.669);
+                }
+
+                .arbeid_prog {
+                    background-color: #44464d85;
+                }
+
+                .styrke_prog {
+                    background-color: white;
+                }
+
+                .stevne_prog {
+                    background-color: white;
+                }
+
+                .journal_prog {
+                    background-color: white;
+                }
+
+                .trening_prog {
+                    background-color: rgba(255, 255, 255, 0.167);
+                }
+
+                .circle_tag_color{
+                    width:5px;
+                    height:5px;
+                    border-radius: 50%;
+                }
+
+                .space_between{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                }
+            </style>
             
             <div class="progress_max">
                 <p id="first_day_lable">Today</p>
-                <div id="prog1" class="progress_true"></div>
+                <div id="prog1" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="one_lable">0</p>
             </div>
 
             <div class="progress_max">
                 <p id="second_day_lable">-</p>
-                <div id="prog2" class="progress_true"></div>
+                <div id="prog2" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="two_lable">0</p>
             </div>
 
             <div class="progress_max">
                 <p id="third_day_lable">-</p>
-                <div id="prog3" class="progress_true"></div>
+                <div id="prog3" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="three_lable">0</p>
             </div>
 
             <div class="progress_max">
                 <p id="fourth_day_lable">-</p>
-                <div id="prog4" class="progress_true"></div>
+                <div id="prog4" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="four_lable">0</p>
             </div>
 
             <div class="progress_max">
                 <p id="fifth_day_lable">-</p>
-                <div id="prog5" class="progress_true"></div>
+                <div id="prog5" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="five_lable">0</p>
             </div>
 
             <div class="progress_max">
                 <p id="sixth_day_lable">-</p>
-                <div id="prog6" class="progress_true"></div>
+                <div id="prog6" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="six_lable">0</p>
             </div>
 
             <div class="progress_max">
                 <p id="seventh_day_lable">-</p>
-                <div id="prog7" class="progress_true"></div>
+                <div id="prog7" class="progress_true">
+                    <div class="trening_prog"></div>
+                    <div class="vaner_prog"></div>
+                    <div class="arbeid_prog"></div>
+                    <div class="studie_prog"></div>
+                    <div class="styrke_prog"></div>
+                    <div class="stevne_prog"></div>
+                    <div class="journal_prog"></div>
+                </div>
                 <p id="seven_lable">0</p>
             </div>
         </div>
