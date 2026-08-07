@@ -5,34 +5,29 @@ const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
 const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-async function updateProgress(tabell) {
-    const { data, error } = await supabase
-        .from(tabell)
-        .select('xp, dato');
 
-    if (error) {
-        console.error(error);
-        return 0;
+    // Henter total XP fra leaderboard fremfor å hente alle rader for så å summere dem
+    async function getTotalxp() {
+
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        const user_id = user.id;
+
+        const { data, error } = await supabase
+            .from('public_leaderboard')
+            .select('total_xp')
+            .eq('user_id', user_id)
+            .single();
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        return Number(data.total_xp);
     }
+    getTotalxp();
 
-    return data.reduce((sum, row) => sum + (row.xp || 0), 0);
-}
-
-
-    let count = 0
-
-    const count1 = await updateProgress('bruker_data_trening');
-    const count2 = await updateProgress('bruker_data_produktivitet');
-    const count3 = await updateProgress('bruker_data_vaner');
-    const count4 = await updateProgress('bruker_data_journal');
-    const count5 = await updateProgress('bruker_data_studie');
-    const count6 = await updateProgress('bruker_data_mikroøkt');
-    const count7 = await updateProgress('bruker_data_resultater');
-    const count8 = await updateProgress('bruker_data_reg_books');
-
-    count = count1 + count2 + count3 + count4 + count5 + count6 + count7 + count8
-
-
+    let count = await getTotalxp();
 
     //*Formel for å beregne nivå basert på XP
     const level = (Math.floor((count / 100) ** (1/1.6)))+1
@@ -375,7 +370,6 @@ async function updateProgress(tabell) {
 
 
     /* Hente navn og informasjon fra bruker_data */
-
     async function hentBruker() {
     const { data, error } = await supabase
         .from('bruker_data')

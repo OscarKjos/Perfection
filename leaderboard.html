@@ -300,6 +300,7 @@
         .leaderboard_eyebrow { display:block; margin-bottom:4px; color:var(--primary-color); font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
         .leaderboard_controls h2 { margin:0; color:var(--text-color); font-size:clamp(1.05rem,3vw,1.25rem); line-height:1.25; }
         .visibility_switch { display:flex; width:fit-content; padding:4px; gap:4px; background:#eef2f4; border:1px solid #e2e8ec; border-radius:13px; }
+        
         .visibility_btn {
             min-height:25px; 
             border:0; 
@@ -317,11 +318,22 @@
             gap:8px;
             transition:color .18s,background-color .18s,box-shadow .18s; 
         }
+
         .visibility_btn:hover { color:#26313b; background:rgba(255,255,255,.55); }
         .visibility_btn:focus-visible { outline:3px solid rgba(0,176,121,.2); outline-offset:2px; }
         .visibility_btn.active { background:#fff; color:var(--primary-color); box-shadow:0 2px 8px rgba(17,24,39,.1); }
         .leaderboard_note { display:flex; align-items:center; gap:10px; min-height:42px; padding:10px 12px; box-sizing:border-box; color:#55616d; background:rgba(0,176,121,.07); border:1px solid rgba(0,176,121,.14); border-radius:11px; }
-        .leaderboard_note_icon { width:28px; height:28px; flex:0 0 28px; display:grid; place-items:center; color:var(--primary-color); background:var(--surface-color); border-radius:8px; }
+        
+        .leaderboard_note_icon { 
+            width:28px;
+            height:28px;
+            flex:0 0 28px;
+            display:grid;
+            place-items:center;
+            color:var(--primary-color);
+            border-radius:8px; 
+        }
+
         .leaderboard_note small { font-size:.78rem; font-weight:500; line-height:1.45; }
 
         #public_table{
@@ -426,16 +438,16 @@
             const row = document.createElement('tr');
 
             const brukere = [
-                { navn: "Jens Larsen", xp: localStorage.getItem("xp_bruker1"), },
-                { navn: "Ola Nordmann", xp: localStorage.getItem("xp_bruker2"), },
-                { navn: "Kari Hansen", xp: localStorage.getItem("xp_bruker3"), },
-                { navn: "Lars Pettersen", xp: localStorage.getItem("xp_bruker4"), },
-                { navn: "Ola Nordmann", xp: localStorage.getItem("xp_bruker5"), },
-                { navn: "Kari Hansen", xp: localStorage.getItem("xp_bruker6"), },
-                { navn: "Lars Pettersen", xp: localStorage.getItem("xp_bruker7"), },
-                { navn: "Ola Nordmann", xp: localStorage.getItem("xp_bruker8"), },
-                { navn: "Kari Hansen", xp: localStorage.getItem("xp_bruker9"), },
-                { navn: localStorage.getItem("navn"), xp: Number(localStorage.getItem("xp_point"))},
+                { navn: "Jens Larsen", xp: Number(localStorage.getItem("xp_bruker1")) || 0 },
+                { navn: "Ola Nordmann", xp: Number(localStorage.getItem("xp_bruker2")) || 0 },
+                { navn: "Kari Hansen", xp: Number(localStorage.getItem("xp_bruker3")) || 0 },
+                { navn: "Lars Pettersen", xp: Number(localStorage.getItem("xp_bruker4")) || 0 },
+                { navn: "Ingrid Bakke", xp: Number(localStorage.getItem("xp_bruker5")) || 0 },
+                { navn: "Sofie Berg", xp: Number(localStorage.getItem("xp_bruker6")) || 0 },
+                { navn: "Henrik Olsen", xp: Number(localStorage.getItem("xp_bruker7")) || 0 },
+                { navn: "Nora Dahl", xp: Number(localStorage.getItem("xp_bruker8")) || 0 },
+                { navn: "Emil Lie", xp: Number(localStorage.getItem("xp_bruker9")) || 0 },
+                { navn: localStorage.getItem("navn") || "Deg", xp: Number(localStorage.getItem("xp_point")) || 0 }
             ];
 
             brukere.sort((a, b) => b.xp - a.xp);
