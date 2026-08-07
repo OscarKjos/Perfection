@@ -28,8 +28,9 @@ async function updateProgress(tabell) {
     const count5 = await updateProgress('bruker_data_studie');
     const count6 = await updateProgress('bruker_data_mikroøkt');
     const count7 = await updateProgress('bruker_data_resultater');
+    const count8 = await updateProgress('bruker_data_reg_books');
 
-    count = count1 + count2 + count3 + count4 + count5 + count6 + count7
+    count = count1 + count2 + count3 + count4 + count5 + count6 + count7 + count8
 
 
 
@@ -134,7 +135,6 @@ async function updateProgress(tabell) {
     const data6 = await hentXpData('bruker_data_mikroøkt');
     const data7 = await hentXpData('bruker_data_resultater');
     const allData = [...data1, ...data2, ...data3, ...data4, ...data5, ...data6, ...data7];
-
 
 
     function xpForDate(number, prog, numb, weekday) {

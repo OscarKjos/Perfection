@@ -2119,6 +2119,69 @@
     </section>
 
 
+    <section class="training_stats">
+        <div class="open_stats">
+        <div class="open_stats__content">
+            <div class="open_stats__icon"><i class="fa-solid fa-square-root-variable" aria-hidden="true"></i></div>
+            <div class="open_stats__text">
+                <p class="open_stats__title">Løpskalkulator</p>
+                <p class="open_stats__description">Beregn hastighet og sluttid</p>
+            </div>
+        </div>
+
+        <a class="open_stats__button" id="click_bate" aria-label="Åpne trenings-statistikk">
+            <span>Åpne</span>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
+        </div>
+    </section>
+
+    <div class="open_filter" id="calculate_overlay">
+        <div class="open_filter__sheet">
+            <!-- Dra-håndtak øverst -->
+            <div class="open_filter__handle"></div>
+            
+            <!-- Header som matcher flexbox layouten din -->
+            <div class="open_filter__header">
+                <div class="open_filter__title">
+                    <h3>Løpskalkulator</h3>
+                    <p>Beregn hastighet og sluttid</p>
+                </div>
+                
+                <button class="open_filter__close" id="remove_calculate" type="button" aria-label="Lukk">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="open_filter__content">
+                <input type="number" id="time" placeholder="Minutter">
+                <input type="number" id="seconds" placeholder="Sekunder">
+                <input type="number" id="distance" placeholder="Avstand i meter">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const clickBate = document.getElementById("click_bate");
+        const calculate_overlay = document.getElementById("calculate_overlay");
+
+        clickBate.addEventListener("click", () => {
+            calculate_overlay.classList.add('open_now');
+        });
+
+        const remove_calculate = document.getElementById("remove_calculate");
+        remove_calculate.addEventListener("click", () => {
+            calculate_overlay.classList.remove('open_now');
+        });
+
+        calculate_overlay.addEventListener('click', (event) => {
+            if (event.target === calculate_overlay) {
+                calculate_overlay.classList.remove('open_now');
+            }
+        });
+    </script>
+    
+
         <style>
         .area_of_life{
             width:100%-10px;
@@ -3580,7 +3643,7 @@
                         <article class="chart_legend_item">
                             <div class="chart_legend_text">
                                 <p class="chart_legend_label">Totalt (sider)</p>
-                                <p id="" class="chart_legend_value">0 s</p>
+                                <p id="page_count" class="chart_legend_value">0 s</p>
                             </div>
                         </article>
                     </div>
@@ -3782,6 +3845,7 @@
             bookSearchInput.addEventListener('input', () => {
                 const searchTerm = bookSearchInput.value.toLowerCase();
 
+
                 const books = document.querySelectorAll('.current_book');
                 books.forEach(book => {
                     const title = book.querySelector('td:first-child').textContent.toLowerCase();
@@ -3800,6 +3864,15 @@
             const bookCount = document.getElementById('book_count');
             const books = document.querySelectorAll('.current_book');
             bookCount.textContent = books.length + " bøk";
+
+            let total_pace_count = 0;
+
+            // Teller antall sider totalt i alle tilgjengelig bøker
+            books.forEach(book => {
+                total_pace_count += parseInt(book.querySelector('td:nth-child(4)').textContent);
+                const page_count = document.getElementById('page_count');
+                page_count.textContent = total_pace_count.toLocaleString("nb-NO") + " s";
+            });
         </script>
 
         <!-- Bokhvelvets 2. overlay -->

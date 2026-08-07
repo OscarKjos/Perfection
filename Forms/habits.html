@@ -527,9 +527,9 @@
                 icon: "fa-droplet",
                 hint: "Registrer hvilke vitaminer eller tilskudd du tok.",
                 fields: [
-                    { id: "type", label: "Type", type: "text", placeholder: "D-vitamin, omega-3", required: true },
+                    { id: "fullfort", label: "Vitaminer tatt", type: "checkbox", required: true },
                 ],
-                xp: values => values.type ? 2 : 0
+                xp: values => values.fullfort ? 2 : 0
             },
             protein: {
                 navn: "Proteintilskudd",
@@ -538,7 +538,7 @@
                 fields: [
                     { id: "fullfort", label: "Protein tatt", type: "checkbox", required: true }
                 ],
-                xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
+                xp: values => values.fullfort ? 2 : 0
             },
             kreatin: {
                 navn: "Kreatin",
@@ -547,7 +547,7 @@
                 fields: [
                     { id: "fullfort", label: "Kreatin tatt", type: "checkbox", required: true }
                 ],
-                xp: values => 1 + Math.min(Number(values.gram || 0) / 15, 3)
+                xp: values => values.fullfort ? 2 : 0
             },
             skritt: {
                 navn: "Skrittm&aring;l",

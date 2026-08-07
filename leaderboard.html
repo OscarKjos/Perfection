@@ -274,9 +274,87 @@
                 </button>
             </div>
         </div>
+
+        <section class="leaderboard_controls" aria-labelledby="leaderboard_view_title">
+            <div class="leaderboard_controls_heading">
+                <section class="visibility_switch" role="tablist" aria-label="Velg toppliste">
+                    <button id="get_private" class="visibility_btn active" data-value="private" role="tab" aria-selected="true">
+                        <i class="fa-solid fa-user-shield" aria-hidden="true"></i><span>Privat</span>
+                    </button>
+                    <button id="get_public" class="visibility_btn" data-value="public" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-earth-europe" aria-hidden="true"></i><span>Offentlig</span>
+                    </button>
+                </section>
+            </div>
+            <div class="leaderboard_note" aria-live="polite">
+                <span class="leaderboard_note_icon" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></span>
+                <small id="private_note">Denne topplisten bruker simulerte deltakere, slik at du kan konkurrere helt privat.</small>
+                <small id="public_note">Denne topplisten viser ekte brukere og deres delte resultater.</small>
+            </div>
+        </section>
     </section>
 
-    <main class="table">
+    <style>
+        .leaderboard_controls { display:flex; flex-direction:column; gap:16px; padding:20px; background:var(--surface-color); border:1px solid #e7eaf1; border-radius:16px; box-shadow:0 8px 24px rgba(17,24,39,.06); }
+        .leaderboard_controls_heading { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+        .leaderboard_eyebrow { display:block; margin-bottom:4px; color:var(--primary-color); font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+        .leaderboard_controls h2 { margin:0; color:var(--text-color); font-size:clamp(1.05rem,3vw,1.25rem); line-height:1.25; }
+        .visibility_switch { display:flex; width:fit-content; padding:4px; gap:4px; background:#eef2f4; border:1px solid #e2e8ec; border-radius:13px; }
+        .visibility_btn {
+            min-height:25px; 
+            border:0; 
+            background:transparent; 
+            padding:0 16px; 
+            border-radius:9px; 
+            font-family:inherit; 
+            font-size:.72rem;
+            font-weight:700;
+            color:#66727d;
+            cursor:pointer;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            transition:color .18s,background-color .18s,box-shadow .18s; 
+        }
+        .visibility_btn:hover { color:#26313b; background:rgba(255,255,255,.55); }
+        .visibility_btn:focus-visible { outline:3px solid rgba(0,176,121,.2); outline-offset:2px; }
+        .visibility_btn.active { background:#fff; color:var(--primary-color); box-shadow:0 2px 8px rgba(17,24,39,.1); }
+        .leaderboard_note { display:flex; align-items:center; gap:10px; min-height:42px; padding:10px 12px; box-sizing:border-box; color:#55616d; background:rgba(0,176,121,.07); border:1px solid rgba(0,176,121,.14); border-radius:11px; }
+        .leaderboard_note_icon { width:28px; height:28px; flex:0 0 28px; display:grid; place-items:center; color:var(--primary-color); background:var(--surface-color); border-radius:8px; }
+        .leaderboard_note small { font-size:.78rem; font-weight:500; line-height:1.45; }
+
+        #public_table{
+            display:none;
+        }
+
+        #public_note{
+            display:none;
+        }
+
+        @media (max-width:600px) {
+            .leaderboard_controls { padding:16px; }
+            .leaderboard_controls_heading { align-items:stretch; flex-direction:column; gap:14px; }
+            .visibility_switch { width:100%; box-sizing:border-box; }
+            .visibility_btn { flex:1; padding:0 10px; }
+        }
+
+        @media (prefers-color-scheme:dark) {
+            .leaderboard_controls { border-color:#202832; box-shadow:0 10px 28px rgba(0,0,0,.28); }
+            .visibility_switch { background:#111820; border-color:#28323d; }
+            .visibility_btn { color:#929ca9; }
+            .visibility_btn:hover { color:#d5dbe3; background:#1a232d; }
+            .visibility_btn.active { color:#62d5aa; background:#202a35; box-shadow:0 2px 8px rgba(0,0,0,.3); }
+            .leaderboard_note { 
+                color:#abb5c1;
+                background:rgba(0,176,121,.1);
+                border-color:rgba(0,176,121,.2); 
+            }
+            .leaderboard_note_icon { background:#17232a; }
+        }
+    </style>
+
+    <main class="table" id="public_table">
         <table class="main_table">
             <thead>
                 <tr>
@@ -291,6 +369,117 @@
             </tbody>
         </table>
     </main>
+
+    <main class="table" id="privat_table">
+        <table class="main_table">
+            <thead>
+                <tr>
+                    <th>Place</th>
+                    <th>Navn</th>
+                    <th>XP</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody class="computerTable">
+                <!-- Her kommer tabellinnholdet (importert fra supabase) -->
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        // Skifter mellom privat og public tabeller
+        const getPrivate = document.querySelector('#get_private');
+        const getPublic = document.querySelector('#get_public');
+
+        const public_table = document.querySelector('#public_table');
+        const privat_table = document.querySelector('#privat_table');
+
+        const private_note = document.querySelector('#private_note');
+        const public_note = document.querySelector('#public_note');
+
+        getPrivate.addEventListener('click', () => {
+            privat_table.style.display = 'block';
+            public_table.style.display = 'none';
+            private_note.style.display = 'block';
+            public_note.style.display = 'none';
+            getPrivate.classList.add('active');
+            getPublic.classList.remove('active');
+            getPrivate.setAttribute('aria-selected', 'true');
+            getPublic.setAttribute('aria-selected', 'false');
+        });
+
+        getPublic.addEventListener('click', () => {
+            public_table.style.display = 'block';
+            privat_table.style.display = 'none';
+            public_note.style.display = 'block';
+            private_note.style.display = 'none';
+            getPublic.classList.add('active');
+            getPrivate.classList.remove('active');
+            getPublic.setAttribute('aria-selected', 'true');
+            getPrivate.setAttribute('aria-selected', 'false');
+        });
+
+        // Lager privat tabell med programmerte robotter
+        const computerTable = document.querySelector('.computerTable');
+
+        for (let i = 0; i < 10; i++) {
+            const row = document.createElement('tr');
+
+            const brukere = [
+                { navn: "Jens Larsen", xp: localStorage.getItem("xp_bruker1"), },
+                { navn: "Ola Nordmann", xp: localStorage.getItem("xp_bruker2"), },
+                { navn: "Kari Hansen", xp: localStorage.getItem("xp_bruker3"), },
+                { navn: "Lars Pettersen", xp: localStorage.getItem("xp_bruker4"), },
+                { navn: "Ola Nordmann", xp: localStorage.getItem("xp_bruker5"), },
+                { navn: "Kari Hansen", xp: localStorage.getItem("xp_bruker6"), },
+                { navn: "Lars Pettersen", xp: localStorage.getItem("xp_bruker7"), },
+                { navn: "Ola Nordmann", xp: localStorage.getItem("xp_bruker8"), },
+                { navn: "Kari Hansen", xp: localStorage.getItem("xp_bruker9"), },
+                { navn: localStorage.getItem("navn"), xp: Number(localStorage.getItem("xp_point"))},
+            ];
+
+            brukere.sort((a, b) => b.xp - a.xp);
+
+            let level = (Math.floor((brukere[i].xp / 100) ** (1/1.6)))+1
+
+            if (brukere[i].xp < 0) {
+                level = 0
+            }
+
+            function randomXP(bruker) {
+                let current_xp = Number(localStorage.getItem(bruker));
+                current_xp += Math.round(Math.random() * 10);
+                current_xp -= Math.round(Math.random() * 8);
+
+                localStorage.setItem(bruker, current_xp);
+            };
+            randomXP("xp_bruker1");
+            randomXP("xp_bruker2");
+            randomXP("xp_bruker3");
+            randomXP("xp_bruker4");
+            randomXP("xp_bruker5");
+            randomXP("xp_bruker6");
+            randomXP("xp_bruker7");
+            randomXP("xp_bruker8");
+            randomXP("xp_bruker9");
+
+            row.innerHTML = `
+                <td>${i + 1}</td>
+                <td>${brukere[i].navn}</td>
+                <td>${Math.round(brukere[i].xp)}</td>
+                <td>${level}</td>
+            `;
+
+            if (brukere[i].navn === localStorage.getItem("navn")) {
+                row.classList.add('current_user');
+                row.style.backgroundColor = 'var(--secondary_color)';
+            }
+
+            computerTable.appendChild(row);
+        }
+    </script>
+
+
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
