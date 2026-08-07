@@ -819,7 +819,7 @@ async function createRace() {
     
     const { data, error } = await supabase
         .from("bruker_data_kalender")
-        .insert([{ user_id:user.id, navn:race_name.value, dato:race_date.value, starttid:race_time.value, sted:race_location.value, distanse:race_distance.value, type:race_type.value }]);
+        .insert([{ user_id:user.id, navn:race_name.value, dato:race_date.value, starttid:race_time.value, sted:race_location.value, distanse:race_distance.value, type:race_type.value, status:"planlagt" }]);
     
     const race_form = document.getElementById("race_form");
     race_form.classList.remove('open_now');
@@ -841,7 +841,7 @@ let Year = new Date().getFullYear();
 async function getRace() {
     const { data, error } = await supabase
         .from("bruker_data_kalender")
-        .select("dato, navn, starttid, sted, distanse, type");
+        .select("id, dato, navn, starttid, sted, distanse, type, status");
     
         const select_month = document.getElementById('calendar_month');
         select_month.addEventListener('change', () => {
@@ -854,6 +854,12 @@ async function getRace() {
     
     day.forEach(dayBlock => {
         dayBlock.classList.remove("race");
+        dayBlock.style.backgroundColor = "#f5f7f9";
+        dayBlock.style.color = "#3d4650";
+        if (dayBlock.classList.contains("today")) {
+            dayBlock.style.backgroundColor = "var(--primary-color)";
+            dayBlock.style.color = "white";
+        }
     });
 
     data.forEach(element => {
@@ -866,6 +872,19 @@ async function getRace() {
             
             if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month && race_date.getFullYear() === Year) {
                 dayBlock.classList.add("race");
+                
+                if (element.status === "påmeldt") {
+                    dayBlock.style.backgroundColor = "#def1e5"; // Lys grønn
+                    dayBlock.style.color = "#167341";
+                } else if (element.status === "avholdt") {
+                    dayBlock.style.backgroundColor = "#e4e5e7"; // Lys grå
+                    dayBlock.style.color = "#4d4d4d";
+                    dayBlock.style.setProperty("--race-dot-color", "#4d4d4d");
+                } else if (element.status === "planlagt") {
+                    dayBlock.style.backgroundColor = "#f1ebd8"; // Lys gul
+                    dayBlock.style.color = "#7a5e2d";
+                    dayBlock.style.setProperty("--race-dot-color", "#7a5e2d");
+                }
 
             dayBlock.addEventListener("click", () => {
                 if (dayBlock.classList.contains("race")) {
@@ -907,11 +926,30 @@ async function getRace() {
                             <b>Type:</b>
                             <p>${element.type}</p>
                         </span>
+
+                        <span>
+                            <b>Status:</b>
+                            <p>${element.status} <button class="edit_race">:::</button></p>
+                        </span>
                     `;
                 }
                 const close_race_info = document.getElementById("close_race_info");
                 close_race_info.addEventListener("click", () => {
                     race_info.classList.remove("getRaceInfo");
+                })
+
+                const edit_race = document.querySelectorAll(".edit_race");
+                edit_race.forEach(edit => {
+                    edit.addEventListener("click", () => {
+                       // Her skal det gå ann å redigere status på løpet
+                        let race_status = "";
+                        if (element.status === "planlagt") {
+                            race_status = "påmeldt";
+                        } else if (element.status === "påmeldt") {
+                            race_status = "planlagt";
+                        }
+                        updateRaceStatus(element.id, race_status);
+                    })
                 })
             });
             }
@@ -919,6 +957,23 @@ async function getRace() {
     });
     }
     updateRaces();
+
+    async function updateRaceStatus(id, race_status) {
+        const { error } = await supabase
+            .from("bruker_data_kalender")
+            .update({
+                status: race_status
+            })
+            .eq("id", id);
+
+        if (error) {
+            console.error("Kunne ikke oppdatere status:", error);
+            return false;
+        }
+
+        window.location.reload();
+        return true;
+    }
 }
 getRace()
 
@@ -1068,3 +1123,86 @@ async function setRace() {
     års_deltakelser.innerHTML = year_count + " stk.";
 }
 setRace()
+
+
+
+// ================================ Funksjon for å legge til bøker i databasen ================================ //
+
+async function logBook() {
+    // Registrerer klikk på tabellrad
+        const tabell_rader = document.querySelectorAll('.current_book');
+        tabell_rader.forEach(book => {
+            book.addEventListener('click', async (event) => {
+                const bookRegOverlay = document.getElementById('book_reg_overlay');
+                const closeBookRegBtn = document.getElementById('close_book_reg_overlay');
+
+                bookRegOverlay.classList.add('open_now');
+
+                closeBookRegBtn.addEventListener('click', () => {
+                    bookRegOverlay.classList.remove('open_now');
+                });
+
+                bookRegOverlay.addEventListener('click', (event) => {
+                    if (event.target === bookRegOverlay) {
+                        bookRegOverlay.classList.remove('open_now');
+                    }
+                });
+
+                const title = book.querySelector('td:first-child').textContent;
+                const tittel_of_book = document.getElementById("tittel_of_book");
+                tittel_of_book.innerHTML = title;
+
+                const author = book.querySelector('td:nth-child(2)').textContent;
+                const forfatter_of_book = document.getElementById("forfatter_of_book");
+                forfatter_of_book.innerHTML = author;
+
+                const category = book.querySelector('td:nth-child(3)').textContent;
+                const sjanger_of_book = document.getElementById("sjanger_of_book");
+                sjanger_of_book.innerHTML = category;
+
+                const pages = parseInt(book.querySelector('td:nth-child(4)').textContent);
+                const sider_of_book = document.getElementById("sider_of_book");
+                sider_of_book.innerHTML = "Antall sider: " + pages + " s";
+
+                // Funksjon for å legge til bøker i databasen
+                const legg_til_bok = document.getElementById("legg_til_bok");
+
+                const baseXP = pages / 8;
+                let bookXP = baseXP;
+                document.getElementById("xp_of_book").innerHTML = "+ " + bookXP.toFixed(1) + " XP";
+
+                const type_of_book = document.getElementById("type_of_book");
+                type_of_book.addEventListener('change', () => {
+                    if (type_of_book.value === "Lydbok"){
+                        bookXP = baseXP * 0.6;
+                    }
+                    
+                    if (type_of_book.value === "Papirbok"){
+                        bookXP = baseXP;
+                    }
+                    
+                    if (type_of_book.value === "E-bok"){
+                        bookXP = baseXP * 0.8;
+                    }
+                    document.getElementById("xp_of_book").innerHTML = "+ " + bookXP.toFixed(1) + " XP";
+                })
+
+                //.onclick erstatter den gamle funksjonen i stedet for å legge enda en oppå den.
+                legg_til_bok.onclick = async () => {
+                        
+                        const bokStatus = document.getElementById("status_of_book").value;
+                        const type = document.getElementById("type_of_book").value;
+
+                        const { data: { user } } = await supabase.auth.getUser();
+
+                        // Legger til bøker i databasen
+                            const { data, error, count } = await supabase
+                            .from("bruker_data_reg_books")
+                            .insert([{user_id: user.id, navn: title, forfatter: author, sjanger: category, sider: pages, status: bokStatus, type: type, xp: bookXP.toFixed(1)}]);
+
+                 bookRegOverlay.classList.remove('open_now');
+                }
+            });
+        })
+    }
+logBook()

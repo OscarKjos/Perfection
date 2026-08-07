@@ -82,7 +82,7 @@ async function updateProgress(tabell) {
 
     const dynamic_xp = document.querySelectorAll(".dynamic_xp");
         dynamic_xp.forEach((xp) => {
-            xp.innerText = Math.round(count)        /* Merker total XP */
+            xp.innerText = Math.round(count).toLocaleString("no-NO");        /* Merker total XP */
         })
 
     const dynamic_level = document.querySelectorAll(".dynamic_level");
@@ -259,7 +259,7 @@ async function updateProgress(tabell) {
                 
                 <span class="space_between">
                     <b>Totalt:</b>
-                    <p>${todayXP}</p>
+                    <p>${todayXP.toFixed(1)}</p>
                 </span>
             </div>
         `;

@@ -1334,6 +1334,10 @@
             color: #167341;
         }
 
+        :root{
+            --race-dot-color: #20a45b;
+        }
+
         .day.race::after {
             content: "";
             position: absolute;
@@ -1341,7 +1345,7 @@
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: #20a45b;
+            background: var(--race-dot-color);
         }
 
         .empty {
@@ -3433,6 +3437,530 @@
             </article>
         </div>
     </section>
+
+    <section class="work_stats">
+        <div class="open_stats">
+        <div class="open_stats__content">
+            <div class="open_stats__icon"><i class="fa-solid fa-arrow-up-right-dots" aria-hidden="true"></i></div>
+            <div class="open_stats__text">
+                <p class="open_stats__title">Bokhvelvet</p>
+                <p class="open_stats__description">Registrer bøkene dine</p>
+            </div>
+        </div>
+
+        <a class="open_stats__button" id="book_btn" aria-label="Åpne trenings-statistikk">
+            <span>Legg til</span>
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+        </a>
+        </div>
+    </section>
+
+
+    <div class="open_filter" id="book_overlay">
+            <div class="open_filter__sheet">
+                <!-- Dra-håndtak øverst -->
+                <div class="open_filter__handle"></div>
+                
+                <!-- Header som matcher flexbox layouten din -->
+                <div class="open_filter__header">
+                    <div class="open_filter__title">
+                        <h3>Bokhvelvet</h3>
+                        <p>Et utvalg av produktive bøker</p>
+                    </div>
+                    
+                    <button class="open_filter__close" id="close_book_overlay" type="button" aria-label="Lukk">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <style>
+                    #book_search_content {
+                        background: #ffffff;
+                        border: 1px solid #e8ebef;
+                        border-radius: 12px;
+                        padding: 8px;
+                        display: grid;
+                        gap: 14px;
+                    }
+
+                    #book_search_input {
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 10px 12px;
+                        border: 1px solid #dfe3e8;
+                        border-radius: 8px;
+                        font-size: 16px;
+                        font-family: inherit;
+                        color: #343b43;
+                        background: #f8f9fa;
+                        outline: none;
+                        transition: 0.2s ease;
+                    }
+
+                    #book_search_input::placeholder {
+                        color: #9aa1a8;
+                    }
+
+                    #book_search_input:focus {
+                        background: #ffffff;
+                        border-color: #aeb5bd;
+                        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+                    }
+
+                    #book_search_results {
+                        width: 100%;
+                        min-height: 200px;
+                        max-height: 50vh;
+                        overflow: auto;
+                        border: 1px solid #eceff2;
+                        border-radius: 9px;
+                        grid-column: 1 / -1;
+                    }
+
+                    #book_search_results_table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-size: 0.65rem;
+                    }
+
+                    #book_search_results_table thead {
+                        background: #f7f8fa;
+                    }
+
+                    #book_search_results_table th {
+                        padding: 9px 10px;
+                        text-align: left;
+                        font-size: 0.65rem;
+                        font-weight: 700;
+                        color: #7a838c;
+                        text-transform: uppercase;
+                        letter-spacing: 0.04em;
+                        border-bottom: 1px solid #e8ebef;
+                        white-space: nowrap;
+                    }
+
+                    #book_search_results_table td {
+                        padding: 10px;
+                        color: #4b535b;
+                        border-bottom: 1px solid #f0f1f3;
+                        vertical-align: middle;
+                    }
+
+                    #book_search_results_table tbody tr:last-child td {
+                        border-bottom: none;
+                    }
+
+                    #book_search_results_table tbody tr {
+                        transition: background-color 0.15s ease;
+                        cursor: pointer;
+                    }
+
+                    #book_search_results_table tbody tr:hover {
+                        background: #f8fafb;
+                    }
+
+                    #book_search_results_table td:first-child {
+                        font-weight: 600;
+                        color: #2f363d;
+                    }
+                </style>
+
+                <div class="open_filter__content" id="book_search_content">
+                    <div style="grid-column: 1 / -1;">
+                        <input type="text" placeholder="Søk etter bøker" id="book_search_input">
+                    </div>
+                    <div style="grid-column: 1 / -1; display: flex; gap: 14px;">
+                        <article class="chart_legend_item">
+                            <div class="chart_legend_text">
+                                <p class="chart_legend_label">Totalt (Bøker)</p>
+                                <p id="book_count" class="chart_legend_value">0 bøk</p>
+                            </div>
+                        </article>
+
+                        <article class="chart_legend_item">
+                            <div class="chart_legend_text">
+                                <p class="chart_legend_label">Totalt (sider)</p>
+                                <p id="" class="chart_legend_value">0 s</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div id="book_search_results">
+                        <table id="book_search_results_table">
+                            <thead>
+                                <tr>
+                                    <th>Navn</th>
+                                    <th>Forfatter</th>
+                                    <th>Sjanger</th>
+                                    <th>Sider</th>
+                                </tr>
+                            </thead>
+
+                             <tbody>
+                                <tr class="current_book">
+                                    <td>Mikrovaner</td>
+                                    <td>James Clear</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="320">320 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Kunsten å gi f**n</td>
+                                    <td>Mark Manson</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="222">222 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Rich Dad, Poor Dad</td>
+                                    <td>Robert Kiyosaki</td>
+                                    <td>Økonomi</td>
+                                    <td value="289">289 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Bli Best</td>
+                                    <td>Erik BertRand Larssen</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="247">247 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Hvorfor vi sover</td>
+                                    <td>Matthew Walker</td>
+                                    <td>Faglitteratur</td>
+                                    <td value="392">392 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Omgitt av idioter</td>
+                                    <td>Thomas Erikson</td>
+                                    <td>Psykologi</td>
+                                    <td value="294">294 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>The Psychology Of Money</td>
+                                    <td>Morgan Housel</td>
+                                    <td>Økonomi</td>
+                                    <td value="300">300 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Det digitale dopet</td>
+                                    <td>Ole Petter Hjelle</td>
+                                    <td>Faglitteratur</td>
+                                    <td value="136">136 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>The Let Them Theory</td>
+                                    <td>Mel Robbins</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="336">336 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>The Millionaire Next Door</td>
+                                    <td>Thomas J. Stanley & William D. Danko</td>
+                                    <td>Økonomi</td>
+                                    <td value="272">272 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Think and Grow Rich</td>
+                                    <td>Napoleon Hill</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="400">400 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Can't Hurt Me</td>
+                                    <td>David Goggins</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="364">364 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>The Millionaire Master Plan</td>
+                                    <td>Roger James Hamilton</td>
+                                    <td>Økonomi</td>
+                                    <td value="288">288 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>The 48 Laws of Power</td>
+                                    <td>Robert Greene</td>
+                                    <td>Psykologi</td>
+                                    <td value="452">452 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Hemmeligheten bak et rikt liv</td>
+                                    <td>Christian Ringnes & Even Vaa</td>
+                                    <td>Økonomi</td>
+                                    <td value="210">210 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Endelig mandag!</td>
+                                    <td>Petter A. Stordalen & Ole-Martin Ihle</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="204">204 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Alt jeg har lært om ledelse</td>
+                                    <td>Nicolai Tangen & Ellen Emmerentze Jervell</td>
+                                    <td>Ledelse</td>
+                                    <td value="275">275 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>MONEY: Master the Game</td>
+                                    <td>Tony Robbins</td>
+                                    <td>Økonomi</td>
+                                    <td value="688">688 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Never Finished</td>
+                                    <td>David Goggins</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="312">312 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Deep Work</td>
+                                    <td>Cal Newport</td>
+                                    <td>Produktivitet</td>
+                                    <td value="304">304 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>Essentialism</td>
+                                    <td>Greg McKeown</td>
+                                    <td>Produktivitet</td>
+                                    <td value="272">272 s</td>
+                                </tr>
+
+                                <tr class="current_book">
+                                    <td>How to Win Friends and Influence People</td>
+                                    <td>Dale Carnegie</td>
+                                    <td>Selvutvikling</td>
+                                    <td value="291">291 s</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const book_btn = document.getElementById('book_btn');
+            const bookOverlay = document.getElementById('book_overlay');
+            const closeBookBtn = document.getElementById('close_book_overlay');
+
+            book_btn.addEventListener('click', () => {
+                bookOverlay.classList.add('open_now');
+            });
+
+            closeBookBtn.addEventListener('click', () => {
+                bookOverlay.classList.remove('open_now');
+            });
+
+            bookOverlay.addEventListener('click', (event) => {
+                if (event.target === bookOverlay) {
+                    bookOverlay.classList.remove('open_now');
+                }
+            });
+
+            // Registrerer eventlytter for søk etter bøker
+            const bookSearchInput = document.getElementById('book_search_input');
+            const bookSearchResults = document.getElementById('book_search_results');
+
+            bookSearchInput.addEventListener('input', () => {
+                const searchTerm = bookSearchInput.value.toLowerCase();
+
+                const books = document.querySelectorAll('.current_book');
+                books.forEach(book => {
+                    const title = book.querySelector('td:first-child').textContent.toLowerCase();
+                    const author = book.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const category = book.querySelector('td:nth-child(3)').textContent.toLowerCase();
+
+                    if (title.includes(searchTerm) || author.includes(searchTerm) || category.includes(searchTerm)) {
+                        book.style.display = 'table-row';
+                    } else {
+                        book.style.display = 'none';
+                    }
+                });
+            });
+
+            // Teller antall bøker
+            const bookCount = document.getElementById('book_count');
+            const books = document.querySelectorAll('.current_book');
+            bookCount.textContent = books.length + " bøk";
+        </script>
+
+        <!-- Bokhvelvets 2. overlay -->
+        <div class="open_filter" id="book_reg_overlay">
+            <div class="open_filter__sheet">
+                <!-- Dra-håndtak øverst -->
+                <div class="open_filter__handle"></div>
+                
+                <!-- Header som matcher flexbox layouten din -->
+                <div class="open_filter__header">
+                    <div class="open_filter__title">
+                        <h3>Legg til Bok</h3>
+                        <p>Registrer boken i din database</p>
+                    </div>
+                    
+                    <button class="open_filter__close" id="close_book_reg_overlay" type="button" aria-label="Lukk">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <style>
+
+                    .book_info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        padding-bottom: 14px;
+                        border-bottom: 1px solid #edf0f2;
+                        background-color: var(--surface-color);
+                        padding:12px;
+                        border-radius: 12px;
+                    }
+
+                    .book_info small {
+                        font-size: 0.68rem;
+                        font-weight: 700;
+                        color: #8a929a;
+                        text-transform: uppercase;
+                        letter-spacing: 0.04em;
+                    }
+
+                    .book_info strong {
+                        font-size: 0.9rem;
+                        font-weight: 650;
+                        color: #303840;
+                    }
+
+                    .book_info .author {
+                        font-size: 0.76rem;
+                        color: #7a838c;
+                    }
+
+                    .book_form_group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                    }
+
+                    .book_form_group label {
+                        font-size: 0.72rem;
+                        font-weight: 650;
+                        color: #59616a;
+                    }
+
+                    .book_form_group select {
+                        width: 100%;
+                        height: 39px;
+
+                        padding: 0 10px;
+                        border: 1px solid #dfe3e8;
+                        border-radius: 8px;
+
+                        background: #f8f9fa;
+                        color: #3d4650;
+
+                        font-size: 0.78rem;
+                        font-family: inherit;
+
+                        outline: none;
+                        cursor: pointer;
+
+                        transition: 0.2s ease;
+                    }
+
+                    .book_form_group select:hover {
+                        border-color: #cbd1d7;
+                    }
+
+                    .book_form_group select:focus {
+                        background: #ffffff;
+                        border-color: #aeb5bd;
+                        box-shadow: 0 0 0 3px rgba(0,0,0,0.03);
+                    }
+
+                    #legg_til_bok {
+                        width: 100%;
+                        height: 40px;
+
+                        margin-top: 3px;
+
+                        border: none;
+                        border-radius: 8px;
+
+                        background: #303840;
+                        color: white;
+
+                        font-family: inherit;
+                        font-size: 0.78rem;
+                        font-weight: 650;
+
+                        cursor: pointer;
+                        transition: 0.2s ease;
+                        grid-column: 1 / -1;
+                    }
+
+                    #legg_til_bok:hover {
+                        background: #22282e;
+                    }
+
+                    #legg_til_bok:active {
+                        transform: scale(0.99);
+                    }
+                </style>
+
+                <div class="open_filter__content" style="padding:8px;">
+                    <div class="book_info">
+                        <small>Valgt bok</small>
+                        <strong id="tittel_of_book">Tittel</strong>
+                        <span class="author" id="forfatter_of_book">Forfatter</span>
+                    </div>
+
+                    <div class="book_info">
+                        <small>Tema</small>
+                        <strong id="sjanger_of_book">Sjanger</strong>
+                        <span class="author" id="sider_of_book">Sider</span>
+                    </div>
+
+                    <div class="book_form_group">
+                        <label for="status_of_book">Lesestatus</label>
+
+                        <select id="status_of_book">
+                            <option value="Fullført">Fullført</option>
+                            <option value="Leser nå">Leser nå</option>
+                            <option value="Planlegger">Vil lese</option>
+                        </select>
+                    </div>
+
+                    <div class="book_form_group">
+                        <label for="type_of_book">Format</label>
+
+                        <select id="type_of_book">
+                            <option value="Papirbok">Papirbok</option>
+                            <option value="Lydbok">Lydbok</option>
+                            <option value="E-bok">Digital E-bok</option>
+                        </select>
+                    </div>
+
+                    <button id="legg_til_bok"> Legg til bok <i id="xp_of_book">Hei</i></button>
+                </div>
+            </div>
+        </div>
 
     </main>
 
