@@ -46,7 +46,7 @@ style.textContent = `
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 0;
+            bottom: -7%;
             width: 100%;
             height: calc(80px + env(safe-area-inset-bottom));
             box-sizing: border-box;
@@ -57,6 +57,8 @@ style.textContent = `
             justify-content: space-around;
             z-index: 200;
             padding-bottom: max(12px, env(safe-area-inset-bottom));
+            padding-bottom: 100px;
+            padding-top:32px;
         }
         
         .bottomnav-btn {
@@ -96,7 +98,7 @@ style.textContent = `
             font-size: 2em;
             box-shadow: 0 2px 12px rgba(0,176,121,0.18);
             position: relative;
-            top: -22px;
+            bottom: -11px;
             z-index: 2;
             border: 4px solid white;
         }
