@@ -2157,11 +2157,8 @@
                 .pace_calculator {
                     width: 100%;
                     max-width: 520px;
-                    padding: 24px;
-                    background: #ffffff;
-                    border: 1px solid #e7e7e7;
+                    padding: 12px;
                     border-radius: 16px;
-                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
                     font-family: Arial, sans-serif;
                     grid-column: 1 / -1;
                 }
@@ -2189,7 +2186,7 @@
                     padding: 5px;
                     margin-bottom: 22px;
 
-                    background: #f3f3f3;
+                    background: #efecf3;
                     border-radius: 10px;
                 }
 
@@ -2197,7 +2194,7 @@
                     border: none;
                     background: transparent;
 
-                    padding: 10px 8px;
+                    padding: 8px 8px;
 
                     border-radius: 7px;
 
@@ -2237,7 +2234,7 @@
 
                 .time_inputs {
                     display: grid;
-                    grid-template-columns: 1fr 1fr;
+                    grid-template-columns: 1fr 5px 1fr;
                     gap: 10px;
                     margin-bottom: 14px;
                 }
@@ -2250,25 +2247,16 @@
                     width: 100%;
                     box-sizing: border-box;
 
-                    padding: 13px 14px;
+                    padding: 5px 1px 10px 1px;
+                    background: transparent;
 
-                    border: 1px solid #dedede;
-                    border-radius: 9px;
-
+                    border:none;
                     outline: none;
 
-                    font-size: 15px;
+                    font-size: 18px;
 
-                    background: #fafafa;
 
                     transition: 0.2s;
-                }
-
-                .pace_calculator input:focus {
-                    background: white;
-                    border-color: #999;
-
-                    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
                 }
 
 
@@ -2278,7 +2266,7 @@
                     margin-top: 20px;
                     padding: 18px;
 
-                    background: #f7f8f7;
+                    background: #efedf169;
 
                     border-radius: 12px;
                 }
@@ -2298,13 +2286,47 @@
 
                 .calc_placeholder {
                     margin: 0;
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: 700;
                     color: #252525;
                 }
 
                 #sluttid_tab{
                     display:none;
+                }
+
+                .calc_unit {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #888;
+                    margin:0;
+                    margin-top:3px;
+                }
+
+                .input_group{
+                    display:flex;
+                    flex-direction:column;
+                    gap:4px;
+                    background: transparent;
+
+                    border: 1px solid #dedede;
+                    border-radius: 9px;
+
+                    outline: none;
+                    padding:10px 10px 0px 10px;
+                }
+
+                .input_group span{
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:10px;
+                }
+
+                .input_group p, small{
+                    margin:0;
+                    color: #777;
+                    font-size: 12px;
                 }
             </style>
 
@@ -2316,48 +2338,88 @@
                     </div>
 
                     <article id="tempo_tab">
-                        <label class="form_label">Tid</label>
+                        <label class="form_label">
+                            <i class="fa-regular fa-clock icon_replacement"></i>
+                            Tid
+                        </label>
 
                         <div class="time_inputs">
-                            <input type="number" id="time" placeholder="Minutter" min="0">
-                            <input type="number" id="seconds" placeholder="Sekunder" min="0"max="59">
+                            <span class="input_group">
+                                <p>Minutter</p>
+                                <span>
+                                    <input type="number" id="time" placeholder="00" min="0">
+                                    <small>min</small>
+                                </span>
+                            </span>
+                            <p style="margin-top:20px;">:</p>
+                            <span class="input_group">
+                                <p>Sekunder</p>
+                                <span>
+                                    <input type="number" id="seconds" placeholder="00" min="0"max="59">
+                                    <small>sek</small>
+                                </span>
+                            </span>
                         </div>
 
 
                         <div class="input_group">
-                            <label  for="distance"  class="form_label"> Distanse </label>
-                            <input type="number" id="distance" placeholder="Avstand i kilometer" min="0" step="0.01">
+                            <label  for="distance"  class="form_label"> <i class="fa-solid fa-route icon_replacement"></i> Distanse </label>
+                            <span>
+                                <input type="number" id="distance" placeholder="0,00" min="0" step="0.01">
+                                <p>km</p>
+                            </span>
                         </div>
 
 
                         <span class="time_inputs">
                         <div class="pace_result">
                             <span>Tempo</span>
-                            <p class="calc_placeholder" id="tempo_placeholder"> 0:00 min/km</p>
+                            <p class="calc_placeholder" id="tempo_placeholder"> 0:00 </p>
+                            <p class="calc_unit">min/km</p>
                         </div>
 
+                        <p></p>
+
                         <div class="pace_result">
-                            <span>Tempo</span>
-                            <p class="calc_placeholder" id="tempo_2_placeholder"> 0:00 km/h</p>
+                            <span>Hastighet</span>
+                            <p class="calc_placeholder" id="tempo_2_placeholder"> 0:00 </p>
+                            <p class="calc_unit">km/h</p>
                         </div>
                         </span>
                     </article>
 
                     <article id="sluttid_tab">
-                        <label class="form_label">Tempo (min/km)</label>
+                        <label class="form_label"><i class="fa-solid fa-gauge-high"></i> Tempo (min/km)</label>
 
                         <div class="time_inputs">
-                            <input type="number" id="minutes_2" placeholder="Minutter" min="0">
-                            <input type="number" id="seconds_2" placeholder="Sekunder" min="0"max="59">
+                            <span class="input_group">
+                                <p>Minutter</p>
+                                <span>
+                                    <input type="number" id="minutes_2" placeholder="00" min="0">
+                                    <small>min</small>
+                                </span>
+                            </span>
+                            <p style="margin-top:20px;">:</p>
+                            <span class="input_group">
+                                <p>Sekunder</p>
+                                <span>
+                                    <input type="number" id="seconds_2" placeholder="00" min="0"max="59">
+                                    <small>sek</small>
+                                </span>
+                            </span>
                         </div>
 
                         <div class="input_group">
-                            <label  for="distance"  class="form_label"> Distanse </label>
-                            <input type="number" id="distance_2" placeholder="Avstand i kilometer" min="0" step="0.01">
+                            <label  for="distance"  class="form_label"> <i class="fa-solid fa-route icon_replacement"></i> Distanse </label>
+                            <span>
+                                <input type="number" id="distance_2" placeholder="0,00" min="0" step="0.01">
+                                <p>km</p>
+                            </span>
                         </div>
 
-                        <div class="pace_result time_inputs">
-                            <span>Tid</span>
+                        <div class="pace_result time_inputs" style="margin-top:45px; margin-bottom:26.5px;">
+                            <span style="display:flex; align-items: center;">Sluttid</span>
+                            <p></p>
                             <p class="calc_placeholder" id="total_time"> 0 min : 00 s </p>
                         </div>
                     </article>
@@ -2380,11 +2442,11 @@
                     const calc_min = Math.floor(seconds_per_km / 60);
                     const calc_sec = Math.round(seconds_per_km % 60);
 
-                    tempo.textContent = `${calc_min}:${calc_sec.toString().padStart(2, "0")} min/km`;
+                    tempo.textContent = `${calc_min}:${calc_sec.toString().padStart(2, "0")}`;
 
                     const tempo2 = document.getElementById('tempo_2_placeholder');
                     const true_time = (seconds_per_km / 60).toFixed(2)
-                    tempo2.textContent = `${(60 / true_time).toFixed(2)} km/h`;
+                    tempo2.textContent = `${(60 / true_time).toFixed(2)}`;
                 }
 
                 time.addEventListener('input', calculateTempo);
