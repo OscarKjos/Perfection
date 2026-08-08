@@ -460,8 +460,8 @@
 
             function randomXP(bruker) {
                 let current_xp = Number(localStorage.getItem(bruker));
-                current_xp += Math.round(Math.random() * 10);
-                current_xp -= Math.round(Math.random() * 8);
+                current_xp += Math.round(Math.random() * 5);
+                current_xp -= Math.round(Math.random() * 4);
 
                 localStorage.setItem(bruker, current_xp);
             };

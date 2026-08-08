@@ -2153,11 +2153,285 @@
                 </button>
             </div>
 
-            <div class="open_filter__content">
-                <input type="number" id="time" placeholder="Minutter">
-                <input type="number" id="seconds" placeholder="Sekunder">
-                <input type="number" id="distance" placeholder="Avstand i meter">
+            <style>
+                .pace_calculator {
+                    width: 100%;
+                    max-width: 520px;
+                    padding: 24px;
+                    background: #ffffff;
+                    border: 1px solid #e7e7e7;
+                    border-radius: 16px;
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+                    font-family: Arial, sans-serif;
+                    grid-column: 1 / -1;
+                }
+
+                .pace_calculator h2 {
+                    margin: 0 0 6px;
+                    font-size: 22px;
+                    color: #202124;
+                }
+
+                .pace_calculator .description {
+                    margin: 0 0 20px;
+                    color: #777;
+                    font-size: 14px;
+                }
+
+
+                /* Valg øverst */
+
+                .calculator_tabs {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 6px;
+
+                    padding: 5px;
+                    margin-bottom: 22px;
+
+                    background: #f3f3f3;
+                    border-radius: 10px;
+                }
+
+                .calculator_tabs button {
+                    border: none;
+                    background: transparent;
+
+                    padding: 10px 8px;
+
+                    border-radius: 7px;
+
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #777;
+
+                    cursor: pointer;
+
+                    transition: 0.2s;
+                }
+
+                .calculator_tabs button:hover {
+                    background: #e9e9e9;
+                    color: #222;
+                }
+
+                .calculator_tabs button.active {
+                    background: white;
+                    color: #222;
+
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                }
+
+
+                /* Input */
+
+                .form_label {
+                    display: block;
+                    margin-bottom: 7px;
+
+                    font-size: 13px;
+                    font-weight: 600;
+
+                    color: #555;
+                }
+
+                .time_inputs {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                    margin-bottom: 14px;
+                }
+
+                .input_group {
+                    margin-bottom: 14px;
+                }
+
+                .pace_calculator input {
+                    width: 100%;
+                    box-sizing: border-box;
+
+                    padding: 13px 14px;
+
+                    border: 1px solid #dedede;
+                    border-radius: 9px;
+
+                    outline: none;
+
+                    font-size: 15px;
+
+                    background: #fafafa;
+
+                    transition: 0.2s;
+                }
+
+                .pace_calculator input:focus {
+                    background: white;
+                    border-color: #999;
+
+                    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+                }
+
+
+                /* Resultat */
+
+                .pace_result {
+                    margin-top: 20px;
+                    padding: 18px;
+
+                    background: #f7f8f7;
+
+                    border-radius: 12px;
+                }
+
+                .pace_result span {
+                    display: block;
+
+                    margin-bottom: 4px;
+
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+
+                    color: #888;
+                }
+
+                .calc_placeholder {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #252525;
+                }
+
+                #sluttid_tab{
+                    display:none;
+                }
+            </style>
+
+            <div class="open_filter__content" style="padding:0;">  
+                <div class="pace_calculator">
+                    <div class="calculator_tabs">
+                        <button id="tempo_btn" class="active">Tempo</button>
+                        <button id="slutttid_btn">Sluttid</button>
+                    </div>
+
+                    <article id="tempo_tab">
+                        <label class="form_label">Tid</label>
+
+                        <div class="time_inputs">
+                            <input type="number" id="time" placeholder="Minutter" min="0">
+                            <input type="number" id="seconds" placeholder="Sekunder" min="0"max="59">
+                        </div>
+
+
+                        <div class="input_group">
+                            <label  for="distance"  class="form_label"> Distanse </label>
+                            <input type="number" id="distance" placeholder="Avstand i kilometer" min="0" step="0.01">
+                        </div>
+
+
+                        <span class="time_inputs">
+                        <div class="pace_result">
+                            <span>Tempo</span>
+                            <p class="calc_placeholder" id="tempo_placeholder"> 0:00 min/km</p>
+                        </div>
+
+                        <div class="pace_result">
+                            <span>Tempo</span>
+                            <p class="calc_placeholder" id="tempo_2_placeholder"> 0:00 km/h</p>
+                        </div>
+                        </span>
+                    </article>
+
+                    <article id="sluttid_tab">
+                        <label class="form_label">Tempo (min/km)</label>
+
+                        <div class="time_inputs">
+                            <input type="number" id="minutes_2" placeholder="Minutter" min="0">
+                            <input type="number" id="seconds_2" placeholder="Sekunder" min="0"max="59">
+                        </div>
+
+                        <div class="input_group">
+                            <label  for="distance"  class="form_label"> Distanse </label>
+                            <input type="number" id="distance_2" placeholder="Avstand i kilometer" min="0" step="0.01">
+                        </div>
+
+                        <div class="pace_result time_inputs">
+                            <span>Tid</span>
+                            <p class="calc_placeholder" id="total_time"> 0 min : 00 s </p>
+                        </div>
+                    </article>
+                </div>
             </div>
+
+            <script>
+                const time = document.getElementById('time');
+                const seconds = document.getElementById('seconds');
+                const distance = document.getElementById('distance');
+                const tempo = document.getElementById('tempo_placeholder');
+
+                function calculateTempo() {
+                    if (time.value == "" || seconds.value == "" || distance.value == ""){
+                        return;
+                    }
+                    const total_seconds = (Number(time.value) * 60) + Number(seconds.value);
+                    const seconds_per_km = total_seconds / Number(distance.value);
+
+                    const calc_min = Math.floor(seconds_per_km / 60);
+                    const calc_sec = Math.round(seconds_per_km % 60);
+
+                    tempo.textContent = `${calc_min}:${calc_sec.toString().padStart(2, "0")} min/km`;
+
+                    const tempo2 = document.getElementById('tempo_2_placeholder');
+                    const true_time = (seconds_per_km / 60).toFixed(2)
+                    tempo2.textContent = `${(60 / true_time).toFixed(2)} km/h`;
+                }
+
+                time.addEventListener('input', calculateTempo);
+                seconds.addEventListener('input', calculateTempo);
+                distance.addEventListener('input', calculateTempo);
+
+                // Bytte mellom to kalkulatorer
+                const tempo_btn = document.getElementById('tempo_btn');
+                const slutttid_btn = document.getElementById('slutttid_btn');
+                const tempo_tab = document.getElementById('tempo_tab');
+                const slutttid_tab = document.getElementById('sluttid_tab');
+
+                tempo_btn.addEventListener('click', () => {
+                    tempo_tab.style.display = 'block';
+                    slutttid_tab.style.display = 'none';
+                    tempo_btn.classList.add('active');
+                    slutttid_btn.classList.remove('active');
+                });
+
+                slutttid_btn.addEventListener('click', () => {
+                    slutttid_tab.style.display = 'block';
+                    tempo_tab.style.display = 'none';
+                    slutttid_btn.classList.add('active');
+                    tempo_btn.classList.remove('active');
+                });
+
+
+                // Beregne sluttid basert på tempo
+                const minutes_2 = document.getElementById('minutes_2');
+                const seconds_2 = document.getElementById('seconds_2');
+                const distance_2 = document.getElementById('distance_2');
+                const total_time = document.getElementById('total_time');
+
+                function calculateTotalTime() {
+                    if (minutes_2.value == "" || seconds_2.value == "" || distance_2.value == ""){
+                        return;
+                    }
+                    const total_seconds = (Number(minutes_2.value) * 60) + Number(seconds_2.value);
+                    const seconds_per_km = total_seconds * Number(distance_2.value);
+
+                    total_time.textContent = `${Math.floor(seconds_per_km / 60)} min : ${(seconds_per_km % 60).toString().padStart(2, "0")} s`;
+                }
+
+                minutes_2.addEventListener('input', calculateTotalTime);
+                seconds_2.addEventListener('input', calculateTotalTime);
+                distance_2.addEventListener('input', calculateTotalTime);
+            </script>
         </div>
     </div>
 
@@ -2180,7 +2454,7 @@
             }
         });
     </script>
-    
+
 
         <style>
         .area_of_life{

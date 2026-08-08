@@ -5,229 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../global.css">
+    <script src="../global.js"></script>
+    <link rel="stylesheet" href="forms.css">
 
     <title>Registrer treningsøkt</title>
-
     <style>
-        :root{
-            --border: #e0e0e0;
-            --text: #333;
-            --muted: #777;
-        }
-
-        body{
-            font-family: var(--font);
-            margin:0;
-            background-color: var(--white);
-        }
-
-        .hero {
-            position: relative;
-            overflow: hidden;
-
-            background: linear-gradient(160deg, #e8f5ee 0%, #d4ede3 40%, #c5e4d7 100%);
-            padding: 55px 32px 65px;
-            display: flex;
+        .wrappingbox {
             flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-
-            justify-content: space-between;
-            color:var(--text);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -60px; right: -60px;
-            width: 240px; height: 240px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.35);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30px; left: -40px;
-            width: 180px; height: 180px;
-            border-radius: 50%;
-            background: rgba(29,184,116,0.10);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        #Flexor{
-            display:flex;
-            flex-direction: column;
-            border-radius: 10px;
-            height: auto;
-        }
-
-        .hero h2, .hero p{
-            margin:5px;
-            z-index: 100;
-        }
-
-        .instruction{
-            font-size: 12px;
-            color: var(--grå);
-            margin:10px 0px 20px 0px;
-        }
-
-        .nyhetsSkjema{
-            display:flex;
-            flex-direction: column;
-            gap:20px;
-
-            background-color: var(--white);
-            border-radius: 20px 20px 0px 0px;
-            padding:36px 28px 10px;
-            z-index: 100;
-            transform: translateY(-30px);
-        }
-
-        .field{
-            display:flex;
-            flex-direction:column;
-            gap:6px;
-        }
-
-        /* Labels */
-        .field label{
-            font-weight:300;
-            font-size:13px;
-            color: var(--muted);
-        }
-
-        .field input, select{
-            height:45px;
-            padding:0 12px;
-            border-radius:10px;
-            border:1px solid var(--border);
-            font-size:16px;
-            transition:0.2s;
-            background-color: transparent;
-            width:100%;
-            box-sizing:border-box;
-        }
-
-        .field input:focus, select:focus{
-            outline:none;
-            border-color: var(--primary-color);
-        }
-
-        /* Footer */
-        .form-footer{
-            display:flex;
-            gap:10px;
-            margin-top:10px;
-        }
-
-        /* Knapper */
-        .form-footer button{
-            height:50px;
-            border:none;
-            border-radius:12px;
-            font-size:15px;
-            cursor:pointer;
-        }
-
-        /* Avbryt */
-        .cancel{
-            flex:1;
-            background:#f1f1f1;
-            color:black;
-            padding:10px 25px 10px 25px;
-        }
-
-        /* Lagre */
-        .submit{
-            flex:2;
-            background: var(--primary-color);
-            color:white;
-            font-weight:600;
-        }
-
-        /* Hover */
-        .submit:hover{
-            background:var(--primary-color);
-        }
-
-        .cancel:hover{
-            background:#e0e0e0;
-        }
-
-        select:invalid{
-            color:var(--muted); /* grå */
-        }
-
-        select option{
-            color:#111827; /* vanlig tekst */
-        }
-
-        .wrappingbox{
-            display:flex;
-            flex-direction:column;
-            gap:18px;
-            padding:20px;
-            background: #f2fbf8;
-            border:1px solid rgba(29,184,116,0.16);
+            gap: 18px;
+            padding: 20px;
+            background: #fafafa;
+            border: 1px solid rgba(29,184,116,0.16);
             border-radius: 14px;
         }
 
-        .micro-row{
-            display:grid;
+        .micro-row {
+            display: grid;
             grid-template-columns: 2fr 1fr;
-            gap:16px;
+            gap: 16px;
         }
 
-        .wrappingbox .field{
-            flex:1;
+        .micro-action { display: flex; }
+
+        .add-micro-btn {
+            width: 100%;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            border-radius: 12px;
+            background: white;
+            color: var(--text);
+            font-size: 15px;
+            cursor: pointer;
         }
 
-        .micro-action{
-            display:flex;
+        .add-micro-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 14px rgba(29,184,116,0.20);
         }
-
-        .add-micro-btn{
-            width:100%;
-            min-height:48px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            gap:8px;
-            border:none;
-            border-radius:12px;
-            background:white;
-            color:var(--text);
-            font-size:15px;
-            cursor:pointer;
-        }
-
-        .add-micro-btn:active{
-            transform:translateY(0);
-            box-shadow:0 6px 14px rgba(29,184,116,0.20);
-        }
-
-         /*_______________Responsiv Desktop________________*/
-
-            @media (min-width:450px){
-                #FlexGrid{
-                    width:100%;
-                    display:flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                #Flexor{
-                    width:50%;
-                    padding:20px;
-                }
-            }
-
     </style>
 </head>
 <body>
@@ -342,61 +160,11 @@
             <!-- Her kommer øvelserne din laget med Javascript -->
         </div>
     </section>
-
     <style>
-        .stats-wrapper{
-            display:flex;
-            gap:16px;
-        }
-
-        .stat-card{
-            flex:1;
-            background:white;
-            border:1px solid #e5e7eb;
-            border-radius:16px;
-            padding:5px;
-            text-align:center;
-            box-shadow:0 6px 18px rgba(0,0,0,0.04);
-            transition:0.2s;
-        }
-
-        .stat-card:hover{
-            transform:translateY(-2px);
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        .label{
-            font-size:13px;
-            color:#6b7280;
-            margin:5px;
-        }
-
-        .value{
-            font-size:20px;
-            margin:5px;
-            font-weight:700;
-            color:#111827;
-        }
-
-        .value[id="active_tempo"]::after{
-            content:" stk";
-            font-size:12px;
-            color:#6b7280;
-        }
-
-        .value[id="active_point"]::before{
-            content:"+ ";
-            font-size:18px;
-        }
-
-        #active_point_2::after{
-            content:" XP";
-            font-size:12px;
-        }
-
-            #active_point_2::before{
-            content:" +";
-            font-size:12px;
+        .value[id="active_tempo"]::after {
+            content: " stk";
+            font-size: 12px;
+            color: #6b7280;
         }
     </style>
 

@@ -881,9 +881,9 @@ async function getRace() {
                     dayBlock.style.color = "#4d4d4d";
                     dayBlock.style.setProperty("--race-dot-color", "#4d4d4d");
                 } else if (element.status === "planlagt") {
-                    dayBlock.style.backgroundColor = "#f1ebd8"; // Lys gul
-                    dayBlock.style.color = "#7a5e2d";
-                    dayBlock.style.setProperty("--race-dot-color", "#7a5e2d");
+                    dayBlock.style.backgroundColor = "#e4e4e4"; // Lys gul #f1ebd8 og  #7a5e2d
+                    dayBlock.style.color = "#3d3d3d";
+                    dayBlock.style.setProperty("--race-dot-color", "#4d4d4d");
                 }
 
             dayBlock.addEventListener("click", () => {
@@ -1206,3 +1206,20 @@ async function logBook() {
         })
     }
 logBook()
+
+
+async function getBook(){
+    const { data, error } = await supabase
+    .from('bruker_data_reg_books')
+    .select('navn')
+
+    const current_book = document.querySelectorAll(".current_book");
+    current_book.forEach(book => {
+        data.forEach(element => {
+            if (book.querySelector('td:first-child').textContent === element.navn){
+                book.style.backgroundColor = '#def1e5';
+            }
+        })
+    })
+}
+getBook();
