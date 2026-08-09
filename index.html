@@ -414,6 +414,177 @@
     <main class="container profile_container" style="display:none">
         <!-- Her skal den nye koden for "Fremgang" komme -->
         
+        <section class="dagsrapport" style="margin:8px; margin-top:12px; width:calc(100% - 16px)">
+            <div class="dagsrapport__content">
+                <div class="dagsrapport__icon"><i class="fa-brands fa-think-peaks"></i></div>
+                <div class="dagsrapport__text">
+                    <p class="dagsrapport__title">Analyse av AI</p>
+                    <p class="dagsrapport__description">Analyser dataene dine</p>
+                </div>
+            </div>
+
+            <a id="open_analyse_overlay" class="dagsrapport__button">Åpne<i class="fa-solid fa-arrow-right"></i></a>
+        </section>
+
+        <!-- Overlay Input - Analyse fra AI-->
+        <div class="open_filter" id="analyse_overlay">
+            <div class="open_filter__sheet" style="min-height: 80vh; display:flex; flex-direction: column; justify-content: space-between; padding-bottom: 30px;">
+                <!-- Dra-håndtak øverst -->
+                <div class="open_filter__handle"></div>
+                
+                <div style="display:flex; flex-direction: column; justify-content: space-between; height:100%;">
+                <!-- Header som matcher flexbox layouten din -->
+                <div class="open_filter__header">
+                    <div class="open_filter__title">
+                        <h3>Spesifiser analysen</h3>
+                        <p>Hva ønsker du å analysere?</p>
+                    </div>
+                    
+                    <button class="open_filter__close" id="close_analyse_overlay" type="button" aria-label="Lukk">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <style>
+                    .meldings_boks{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 12px;
+                        margin-top:12px;
+                        height: 55vh;
+                    }
+
+                    .min_meldings_boks{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        background-color: #fbfbfd;
+                        padding:12px;
+                        border-radius: 14px;
+                        width: fit-content;
+                        max-width:60%;
+                        align-self: flex-end;
+                    }
+
+                    .min_meldings_boks p{
+                        font-size: 0.72rem;
+                        color: #59616a;
+                        width:100%;
+                        text-align: center;
+                    }
+
+                    .svar_meldings_boks p{
+                        font-size: 0.72rem;
+                        color: #59616a;
+                        margin-left: 8px;
+                    }
+
+                    .svar_meldings_boks u{
+                        font-size: 0.72rem;
+                        color: var(--primary-color);
+                        margin-left: 8px;
+                        cursor: pointer;
+                    }
+
+                    #show_chat_message, #show_link, .min_meldings_boks{
+                        display:none;
+                    }
+                </style>
+
+                <div class="meldings_boks">
+                    <div class="min_meldings_boks">
+                        <p id="place_message"></p>
+                    </div>
+                    <div class="svar_meldings_boks">
+                        <p id="show_chat_message">Hei! Analysen din er klar til å åpnes i ChatGPT. Dataene er allerede kopiert til utklippstavlen. Klikk på «Åpne ChatGPT» og lim inn innholdet for å fortsette.</p>
+                        <a id="show_link" class="no_link" href="https://chatgpt.com/"><u>Åpne ChatGPT</u></a>
+                    </div>
+                </div>
+
+                <style>
+                    .analyse_boks {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 10px;
+                        max-width: 500px;
+                        height: 100%;
+                        background-color: var(--surface-color);
+                        padding: 12px;
+                        border: 1px solid #ddd;
+                        border-radius: 28px;
+                    }
+
+                    .analyse_boks label {
+                        font-size: 0.72rem;
+                        color: #59616a;
+                        margin-left: 8px;
+                    }
+
+                    #analyse_tekst {
+                        width: 100%;
+                        padding: 12px;
+                        border:none;
+                        font-family: inherit;
+                        font-size: 16px;
+                        resize: vertical;
+                        outline: none;
+                        box-sizing: border-box;
+                    }
+
+                    #analyse_tekst:focus {
+                        border-color: #888;
+                    }
+
+                    #kopier_data {
+                        align-self: center;
+                        padding: 12px 14px;
+                        inset:1;
+                        width:auto;
+                        height:auto;
+                        border: none;
+                        background: #222;
+                        color: white;
+                        font-weight: 500;
+                        cursor: pointer;
+                        border-radius: 50%;
+                    }
+
+                    #kopier_data:hover {
+                        background: #3a3a3a;
+                    }
+                </style>
+
+                 <div class="open_filter__content">
+                    <!-- Her kommer innholdet i overlay -->
+                    <div class="analyse_boks">
+                        <textarea  name="analyse" id="analyse_tekst" placeholder="Skriv forespørsel her ..."></textarea>
+                        <button id="kopier_data"><i class="fa-solid fa-arrow-up"></i></button>
+                    </div>
+                 </div>
+                 </div>
+            </div>
+        </div>
+
+        <script>
+            const open_analyse_overlay = document.getElementById("open_analyse_overlay");
+            const analyse_overlay = document.getElementById("analyse_overlay");
+
+            open_analyse_overlay.addEventListener("click", () => {
+                analyse_overlay.classList.toggle("open_now");
+            });
+
+            const close_analyse_overlay = document.getElementById("close_analyse_overlay");
+            close_analyse_overlay.addEventListener("click", () => {
+                analyse_overlay.classList.remove("open_now");
+            });
+
+            analyse_overlay.addEventListener('click', (event) => {
+                if (event.target === analyse_overlay) {
+                    analyse_overlay.classList.remove('open_now');
+                }
+            });
+        </script>
     </main>
 
 
@@ -2292,6 +2463,7 @@
     <script src="navigator.js" defer></script>
     <script type="module" src="progress.js"></script>
     <script type="module" src="module.js"></script>
+    <script type="module" src="promt.js"></script>
 
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
