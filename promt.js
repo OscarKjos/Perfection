@@ -4,6 +4,8 @@ const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
 const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+    let prompt = "";
+
 // Kopier forespørsel og samler data for så å sende til ChatGPT i form av et promt
     const analyse_tekst = document.getElementById("analyse_tekst");
     const kopier_analyse = document.getElementById("kopier_data");
@@ -12,11 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
     kopier_analyse.addEventListener("click", async () => {
         place_message.innerHTML = analyse_tekst.value;
 
-        setTimeout(() => {
-            document.getElementById("show_chat_message").style.display = "block";
-            document.getElementById("show_link").style.display = "block";
-            document.querySelector(".min_meldings_boks").style.display = "block";
-        } , 1000);
+        document.querySelector(".min_meldings_boks").style.display = "block";
 
         async function hentData(tabell) {              
             const { data, error } = await supabase 
@@ -35,7 +33,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
         const vaner = await hentData("bruker_data_vaner");
         const produktivitet = await hentData("bruker_data_produktivitet");
 
-        const prompt = `
+        prompt = `
             Du skal fungere som analyseassistent for Kvador, et digitalt system for
             personlig utvikling innen trening, produktivitet, studie, vaner og refleksjon.
 
@@ -179,7 +177,15 @@ const supabase = createClient(supabaseUrl, supabaseKey)
             analysevelvet i [Kvador](https://oscarkjos.github.io/Perfection/index.html).
         `;
 
-        await navigator.clipboard.writeText(prompt);
+        document.getElementById("show_chat_message").style.display = "block";
+        document.getElementById("show_link").style.display = "block";
 
         analyse_tekst.value = "";
+    });
+
+    const show_link = document.getElementById("show_link");
+    show_link.addEventListener("click", () => {
+        navigator.clipboard.writeText(prompt);
+        window.open("https://chatgpt.com/", "_blank");
+
     });
