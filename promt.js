@@ -1,8 +1,16 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
-const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
-const supabase = createClient(supabaseUrl, supabaseKey)
+    const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+    const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+
+    // Definerer datagrunnlaget for analysen (Antall dager med data)
+    let datagrunnlag = 7;
+    const datagrunnlag_valg = document.getElementById("datagrunnlag_valg");
+    datagrunnlag_valg.addEventListener("change", () => {
+        datagrunnlag = datagrunnlag_valg.value;
+    });
 
     let prompt = "";
 
@@ -16,10 +24,17 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
         document.querySelector(".min_meldings_boks").style.display = "block";
 
-        async function hentData(tabell) {              
+        async function hentData(tabell) {   
+            const fraDato = new Date();
+            fraDato.setDate(fraDato.getDate() - Number(datagrunnlag));
+
+            // Gjør om til YYYY-MM-DD
+            const fraDatoString = fraDato.toISOString().split("T")[0];
+
             const { data, error } = await supabase 
                 .from(tabell)
                 .select('*')
+                .gte('dato', fraDatoString)
                 .order('dato', { ascending: false });
             return data;
         }
