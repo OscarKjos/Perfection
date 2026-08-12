@@ -199,7 +199,7 @@ async function hentVane(dato_id, check_id, vane_id) {
                 label.style.height = (element.verdi * 10) + "%";
 
                 gjennomsnitt_av_søvn += Number(element.verdi);
-                const gjennomsnitt = gjennomsnitt_av_søvn / 7;
+                const gjennomsnitt = gjennomsnitt_av_søvn / 12;
                 const floor = Math.floor(gjennomsnitt);
                 const decimal = gjennomsnitt - floor;
                 const minutter = decimal * 60;
@@ -217,13 +217,18 @@ async function hentVane(dato_id, check_id, vane_id) {
                     sleepNote.textContent = "Svært lite søvn";
                 }
 
-                if(check_id==="søyle_7"){document.getElementById("sleep_label_7").textContent = element.verdi;}
-                if(check_id==="søyle_6"){document.getElementById("sleep_label_6").textContent = element.verdi;}
-                if(check_id==="søyle_5"){document.getElementById("sleep_label_5").textContent = element.verdi;}
-                if(check_id==="søyle_4"){document.getElementById("sleep_label_4").textContent = element.verdi;}
-                if(check_id==="søyle_3"){document.getElementById("sleep_label_3").textContent = element.verdi;}
-                if(check_id==="søyle_2"){document.getElementById("sleep_label_2").textContent = element.verdi;}
-                if(check_id==="søyle_1"){document.getElementById("sleep_label_1").textContent = element.verdi;}
+                // Plasserer verdiene i labelene og setter ikon på dem som er oppfylt over 8 timer søvn
+                const nummer = Number(check_id.replace("søyle_", ""));
+                const verdi = Number(element.verdi);
+
+                document.getElementById(`sleep_label_${nummer}`).textContent = verdi.toFixed(1);
+
+                const index = 12 - nummer;
+
+                if (verdi > 8) {
+                    document.querySelectorAll(".label_of_day")[index].innerHTML =
+                        "<i class='fa-solid fa-moon'></i>";
+                }
 
                 // Denne skal slettes når funksjon i index.html er ferdig - fungerer for dagsrapport
                 if (dato_id === today) {
@@ -296,6 +301,11 @@ const day4 = new Date(Date.now() - (86400000*3)).toISOString().split('T')[0];
 const day5 = new Date(Date.now() - (86400000*4)).toISOString().split('T')[0];
 const day6 = new Date(Date.now() - (86400000*5)).toISOString().split('T')[0];
 const day7 = new Date(Date.now() - (86400000*6)).toISOString().split('T')[0];
+const day8 = new Date(Date.now() - (86400000*7)).toISOString().split('T')[0];
+const day9 = new Date(Date.now() - (86400000*8)).toISOString().split('T')[0];
+const day10 = new Date(Date.now() - (86400000*9)).toISOString().split('T')[0];
+const day11 = new Date(Date.now() - (86400000*10)).toISOString().split('T')[0];
+const day12 = new Date(Date.now() - (86400000*11)).toISOString().split('T')[0];
 
 // Diagram for oppredd seng (Siste 7 dager)
 hentVane(day7, "fill_7_bed", "Resengen");
@@ -315,7 +325,12 @@ hentVane(day3, "vitamin_3", "Vitaminer");
 hentVane(yesterday, "vitamin_2", "Vitaminer");
 hentVane(today, "vitamin_1", "Vitaminer");
 
-// Diagram for søvn (Siste 7 dager)
+// Diagram for søvn (Siste 12 dager)
+hentVane(day12, "søyle_12", "Søvn");
+hentVane(day11, "søyle_11", "Søvn");
+hentVane(day10, "søyle_10", "Søvn");
+hentVane(day9, "søyle_9", "Søvn");
+hentVane(day8, "søyle_8", "Søvn");
 hentVane(day7, "søyle_7", "Søvn");
 hentVane(day6, "søyle_6", "Søvn");
 hentVane(day5, "søyle_5", "Søvn");
@@ -857,8 +872,8 @@ async function getRace() {
         dayBlock.style.backgroundColor = "#f5f7f9";
         dayBlock.style.color = "#3d4650";
         if (dayBlock.classList.contains("today")) {
-            dayBlock.style.backgroundColor = "var(--primary-color)";
-            dayBlock.style.color = "white";
+            dayBlock.style.backgroundColor = "white";
+            dayBlock.style.color = "black";
         }
     });
 
@@ -874,8 +889,9 @@ async function getRace() {
                 dayBlock.classList.add("race");
                 
                 if (element.status === "påmeldt") {
-                    dayBlock.style.backgroundColor = "#def1e5"; // Lys grønn
-                    dayBlock.style.color = "#167341";
+                    dayBlock.style.backgroundColor = "#1d1d1d"; // Lys grønn #def1e5" og #167341
+                    dayBlock.style.color = "#ffffff";
+                    dayBlock.style.setProperty("--race-dot-color", "#ffffff");
                 } else if (element.status === "avholdt") {
                     dayBlock.style.backgroundColor = "#e4e5e7"; // Lys grå
                     dayBlock.style.color = "#4d4d4d";
@@ -1064,13 +1080,13 @@ logRace()
 
 
 // ====================================== Henter resultater fra databasen ====================================== //
-let limit_number = 5;
+let limit_number = 10;
 async function setRace() {
     
     const find_more_races = document.getElementById("find_more_races");
     find_more_races.addEventListener("click", () => {
         if (limit_number > data.length) return;
-        limit_number += 5;
+        limit_number += 10;
         setRace();
     })
 
@@ -1223,3 +1239,99 @@ async function getBook(){
     })
 }
 getBook();
+
+
+
+// Valg av aktivitet
+let valgmeny_akt = ""
+let valgmeny_dager = 365
+
+
+async function makeHeatmap() {
+
+        const { data, error } = await supabase
+            .from('bruker_data_trening')
+            .select('dato, aktivitet, type')
+            .order('dato', { ascending: true });
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        const heatmap_placeholder = document.getElementById('heatmap_placeholder');
+        heatmap_placeholder.innerHTML = '';
+
+        // Select meny som velger aktivitet å fremvise
+        const velg_aktivitet = document.getElementById('velg_aktivitet');
+        velg_aktivitet.addEventListener('change', () => {
+            valgmeny_akt = velg_aktivitet.value;
+            makeHeatmap();
+        });
+
+        const velg_dager = document.getElementById('velg_dager');
+        velg_dager.addEventListener('change', () => {
+            valgmeny_dager = velg_dager.value;
+            makeHeatmap();
+        });
+
+        // Lager et Set med alle datoer hvor det finnes trening
+        const registrerteDatoer = new Set();
+        const intervallDatoer = new Set();
+
+        data.forEach(element => {
+            if (valgmeny_akt === "" || valgmeny_akt === "Alle") {
+            registrerteDatoer.add(element.dato);
+            }
+            if (element.aktivitet === valgmeny_akt) {
+                registrerteDatoer.add(element.dato);
+                if (element.type === "Intervall") {
+                    intervallDatoer.add(element.dato);
+                }
+            }
+        });
+
+
+        // Startdato = 364 dager tilbake
+        const startDato = new Date();
+        startDato.setHours(12, 0, 0, 0);
+        startDato.setDate(startDato.getDate() - valgmeny_dager-1);
+
+        // Lager én rute for hver dag
+        for (let i = 0; i < valgmeny_dager; i++) {
+
+            const dato = new Date(startDato);
+            dato.setDate(startDato.getDate() + i);
+
+            // YYYY-MM-DD
+            const datoString =
+                dato.getFullYear() + '-' +
+                String(dato.getMonth() + 1).padStart(2, '0') + '-' +
+                String(dato.getDate()).padStart(2, '0');
+
+
+            const box = document.createElement('div');
+            box.classList.add('box');
+
+            if (valgmeny_dager === "90"){
+                box.style = "height: 12px; width: 12px;";
+            } if (valgmeny_dager === "30"){
+                box.style = "height: 15px; width: 15px;";
+            }
+
+            // Hvis datoen finnes i Supabase
+            if (registrerteDatoer.has(datoString)) {
+                box.classList.add('active');
+                if (intervallDatoer.has(datoString)) {
+                    box.style.backgroundColor = 'green';
+                }
+            }
+
+            // Nyttig når du holder musepekeren over
+            box.title = datoString;
+
+            heatmap_placeholder.appendChild(box);
+        }
+    }
+
+    makeHeatmap();

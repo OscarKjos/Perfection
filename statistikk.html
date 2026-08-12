@@ -404,14 +404,14 @@
                     <span>Trening</span>
                 </button>
 
-                <button id="health_stats" class="category_btn">
-                    <i class="fa-solid fa-heart"></i>
-                    <span>Helse & ernæring</span>
-                </button>
-
                 <button id="work_stats" class="category_btn">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Arbeid/Studie</span>
+                </button>
+
+                <button id="health_stats" class="category_btn">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Helse & ernæring</span>
                 </button>
 
                 <button id="structure_stats" class="category_btn">
@@ -1261,7 +1261,518 @@
     </div>
 </section>
 
-        <style>
+    <style>
+        #heatmap_card {
+            box-sizing: border-box;
+            width: calc(100% - 16px);
+            max-width: 900px;
+            margin:8px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+
+            background-color: var(--surface-color);
+            padding: 22px 24px;
+
+            border-radius: 16px;
+            border: 1px solid #e7eaf1;
+
+            box-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.02),
+                0 8px 20px rgba(0, 0, 0, 0.04);
+        }
+
+
+        /* HEADER */
+
+        .heatmap_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .heatmap_title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #20242c;
+        }
+
+        .heatmap_subtitle {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            color: #8a9099;
+        }
+
+
+        /* HEATMAP */
+
+        #heatmap_placeholder {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+
+        /* RUTER */
+
+        .box {
+            width: 10px;
+            height: 10px;
+
+            background-color: #e8eaed;
+
+            border-radius: 3px;
+
+            transition:
+                transform 0.15s ease,
+                background-color 0.15s ease;
+        }
+
+        .box:hover {
+            transform: scale(1.35);
+        }
+
+        .box.active {
+            background-color: #20242c;
+            color:white;
+            font-size: 0.5rem;
+        }
+
+
+        /* FORKLARING */
+
+        .heatmap_footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            margin-top:20px;
+
+            font-size: 11px;
+            color: #969ba3;
+        }
+
+        .legend_box {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background-color: #e8eaed;
+        }
+
+        .legend_box.active {
+            background-color: #20242c;
+        }
+
+        #velg_aktivitet, #velg_dager{
+            background-color: var(--surface-color);
+            cursor: pointer;
+            border:none;
+        }
+    </style>
+
+    <section class="training_stats" id="heatmap_card">
+        <div class="heatmap_header">
+            <div>
+                <p class="heatmap_title">Registrerte treningsøkter</p>
+                <p class="heatmap_subtitle">Aktivitet de siste 365 dagene</p>
+            </div>
+
+            <div style="display:flex; flex-direction: column;">
+            <select class="mikrookt-seksjon__description" name="aktivitet" id="velg_aktivitet">
+                <option>Alle</option>
+                <option>Løping</option>
+                <option>Sykling</option>
+                <option>Styrke</option>
+                <option>Svømming</option>
+                <option>Langrenn</option>
+                <option>Ellipse</option>
+                <option>Gåtur</option>
+                <option>Forebyggende</option>
+            </select>
+
+            <select class="mikrookt-seksjon__description" name="aktivitet" id="velg_dager">
+                <option value="365">1 år</option>
+                <option value="180">180 dager</option>
+                <option value="90">90 dager</option>
+                <option value="30">30 dager</option>
+                <option value="730">2 år</option>
+            </select>
+            </div>
+        </div>
+
+
+        <div class="heatmap_container">
+            <div id="heatmap_placeholder">
+                <!-- Her kommer heatmap innholdet -->
+            </div>
+        </div>
+
+
+        <div class="heatmap_footer">
+            <div class="legend_box"></div>
+            <span style="margin-right:10px;">Ingen trening</span>
+
+            <div style="margin-left:10px;" class="legend_box active"></div>
+            <span>Trening</span>
+        </div>
+    </section>
+
+
+    <section class="training_stats">
+        <div class="open_stats">
+        <div class="open_stats__content">
+            <div class="open_stats__icon"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i></div>
+            <div class="open_stats__text">
+                <p class="open_stats__title">Legg til resultater</p>
+                <p class="open_stats__description">For stevner og konkurranser</p>
+            </div>
+        </div>
+
+        <a class="open_stats__button" id="open_filter_of_registration" aria-label="Legg til resultater">
+            <span>Legg til</span>
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+        </a>
+        </div>
+    </section>
+
+    <!-- Open filter for registrering av resultater -->
+    <div class="open_filter" id="race_registration_form">
+            <div class="open_filter__sheet">
+                <!-- Dra-håndtak øverst -->
+                <div class="open_filter__handle"></div>
+                
+                <!-- Header som matcher flexbox layouten din -->
+                <div class="open_filter__header">
+                    <div class="open_filter__title">
+                        <h3>Legg til resultat</h3>
+                        <p>Registrer fullførte løp her</p>
+                    </div>
+                    
+                    <button class="open_filter__close" id="remove_filter" type="button" aria-label="Lukk">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+            <style>
+                #register_result_button{
+                    grid-column:1 / -1;
+                    height:40px;
+                    margin-top:5px;
+                    border:0;
+                    border-radius:12px;
+                    background:var(--primary-color);
+                    color:#fff;
+                    font:inherit;
+                    font-size:.82rem;
+                    font-weight:700;
+                    cursor:pointer;
+                    transition:transform .15s, opacity .15s;
+                }
+
+                #register_result_button:active{
+                    transform:scale(.98);
+                }
+
+                #register_result_button:hover{
+                    opacity:.92;
+                }
+
+                #competition_name, #competition_minutes, #competition_seconds, #competition_milliseconds{
+                    padding-left:12px;
+                }
+            </style>
+
+        <div class="open_filter__content">
+            <div class="form_group full_width">
+                <label for="competition_name">Navn på stevne</label>
+                <input type="text" id="competition_name" placeholder="Hytteplanmila" required>
+            </div>
+
+            <div class="form_group custom_width">
+                <label for="competition_date">Dato</label>
+                <input type="date" id="competition_date" required>
+            </div>
+
+            <div class="form_group">
+                <label for="competition_location">Sted</label>
+
+                <div class="input_wrapper">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input type="text" id="competition_location" placeholder="By eller arena" required>
+                </div>
+            </div>
+
+            <div class="form_group">
+                <label for="competition_distance">Distanse</label>
+
+                <div class="input_wrapper">
+                    <i class="fa-solid fa-person-running"></i>
+
+                    <select id="competition_distance" required>
+                        <option value="">Velg...</option>
+                        <option value="60">60 m</option>
+                        <option value="100">100 m</option>
+                        <option value="200">200 m</option>
+                        <option value="400">400 m</option>
+                        <option value="600">600 m</option>
+                        <option value="800">800 m</option>
+                        <option value="1500">1 500 m</option>
+                        <option value="3000">3 000 m</option>
+                        <option value="5000">5 000 m</option>
+                        <option value="10000">10 000 m</option>
+                        <option value="21097">Halvmaraton</option>
+                        <option value="42195">Maraton</option>
+                        <option value="0">Annen distanse</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form_group">
+                <label for="competition_type">Type løp</label>
+
+                <div class="input_wrapper">
+                    <i class="fa-solid fa-route"></i>
+
+                    <select id="competition_type" required>
+                        <option value="">Velg...</option>
+                        <option value="bane">Baneløp</option>
+                        <option value="gate">Gateløp</option>
+                        <option value="terreng">Terrengløp</option>
+                        <option value="stafett">Stafett</option>
+                        <option value="pacer">Fartsholder</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form_group">
+                <label for="competition_placement">Plassering</label>
+
+                <div class="input_wrapper">
+                    <i class="fa-solid fa-medal"></i>
+                    <input type="number" id="competition_placement" placeholder="3" min="1">
+                </div>
+            </div>
+
+            <div class="form_group">
+                <label for="competition_participants">Antall deltakere</label>
+
+                <div class="input_wrapper">
+                    <i class="fa-solid fa-users"></i>
+                    <input type="number" id="competition_participants" placeholder="120" min="1">
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:row; grid-column:1 / -1; align-items: center; gap:12px;">
+                <div class="form_group" style="flex:1">
+                    <label for="competition_minutes">Minutter</label>
+                    <input type="number" id="competition_minutes" placeholder="36" min="0" required>
+                </div>
+
+                <div class="form_group" style="flex:1">
+                    <label for="competition_seconds">Sekunder</label>
+                        <input type="number" id="competition_seconds" placeholder="25" min="0" max="59" required>
+                </div>
+
+                <div class="form_group" style="flex:1">
+                    <label for="competition_milliseconds">Millisekunder</label>
+                    <input type="number" id="competition_milliseconds" placeholder="12" min="0" max="59" required>
+                </div>
+            </div>
+
+            <button type="button" id="register_result_button">Legg til resultat</button>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const openFilterButton = document.getElementById('open_filter_of_registration');
+        const raceRegistrationForm = document.getElementById('race_registration_form');
+        const remove_filter = document.getElementById('remove_filter');
+
+        openFilterButton.addEventListener('click', () => {
+            raceRegistrationForm.classList.add('open_now');
+        });
+
+        raceRegistrationForm.addEventListener('click', (event) => {
+            if (event.target === raceRegistrationForm) {
+                raceRegistrationForm.classList.remove('open_now');
+            }
+        });
+
+        remove_filter.addEventListener('click', () => {
+            raceRegistrationForm.classList.remove('open_now');
+        });
+    </script>
+
+    <style>
+    .race_list_table{
+        width:calc(100vw - 30px);
+        max-width: 100vw;
+        overflow-x:auto;
+        border:1px solid #e3e7eb;
+        border-radius:12px;
+        background:var(--surface-color, #fff);
+        margin:5px;
+    }
+
+    .race_list_table::-webkit-scrollbar{
+        display:none;              /* Chrome, Safari og nyere Edge */
+    }
+
+    .race_list_header,
+    .race_list_info{
+        display:grid;
+        grid-template-columns: 85px minmax(100px, 0.35fr) minmax(100px, 0.3fr) 80px 85px 75px 75px 70px 60px;
+        align-items:center;
+        min-width:fit-content;
+    }
+
+    .race_list_header{
+        background:#f3f5f7;
+        border-bottom:1px solid #e3e7eb;
+    }
+
+    .race_list_header span{
+        padding:9px 8px;
+        color:var(--subtext-color, #717780);
+        font-size:.65rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:.04em;
+    }
+
+    #race_list_card{
+        width:100%;
+    }
+
+    #race_list_card > div{
+        border-bottom:1px solid #edf0f2;
+    }
+
+    #race_list_card > div:last-child{
+        border-bottom:0;
+    }
+
+    .race_list_info{
+        transition:background-color .15s;
+    }
+
+    .race_list_info:hover{
+        background:#f8f9fb;
+    }
+
+    .race_list_info p{
+        min-width:0;
+        margin:0;
+        padding:9px 8px;
+        color:var(--text-color, #25282d);
+        font-size:.72rem;
+        line-height:1.2;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+
+    .race_list_name{
+        font-weight:750;
+    }
+
+    .race_list_date,
+    .race_list_location,
+    .race_list_type{
+        color:var(--subtext-color, #707780) !important;
+    }
+
+    .race_list_distance,
+    .race_list_time,
+    .race_list_placement{
+        font-weight:700;
+    }
+
+    .race_list_placement,
+    .race_list_participants,
+    .race_list_xp{
+        text-align:center;
+    }
+
+    .race_list_xp{
+        font-weight:800;
+        font-size:.7rem;
+    }
+
+    #tabel_resultats{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        background-color: var(--surface-color);
+        margin:8px;
+        padding-top:10px;
+        border:1px solid #e3e7eb;
+        border-radius: 12px;
+    }
+    </style>
+
+    <section id="tabel_resultats" class="training_stats">
+        <div class="race_list_table">
+            <div class="race_list_header">
+                <span>Dato</span>
+                <span>Stevne</span>
+                <span>Sted</span>
+                <span>Distanse</span>
+                <span>Type</span>
+                <span>Tid</span>
+                <span>Plass</span>
+                <span>Deltakere</span>
+                <span>Top %</span>
+            </div>
+
+            <div id="race_list_card">
+                <!-- Resultatene legges inn fra Supabase -->
+            </div>
+        </div>
+
+        <div class="chart_legend" style="margin:5px;" aria-label="deltakelser">
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">Totalt</p>
+                    <p id="total_deltakelser" class="chart_legend_value">0 stk</p>
+                </div>
+            </article>
+
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">I år</p>
+                    <p id="års_deltakelser" class="chart_legend_value">0 stk.</p>
+                </div>
+            </article>
+
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">Denne måneden</p>
+                    <p id="måneds_deltakelser" class="chart_legend_value">0 stk.</p>
+                </div>
+            </article>
+        </div>
+
+        <div class="ovelser__more">
+        <button class="get_more_button" id="find_more_races" type="button">
+            <span class="find-more__icon">
+                <i class="fa-solid fa-plus icon_replacement"></i>
+            </span>
+            <span class="find-more__content">
+                <span id="text_replacement">Last inn flere løp</span>
+            </span>
+        </button>
+        </div>
+    </section>
+
+
+    <style>
         .calendar {
             width: min(100% - 20px, 400px);
             padding: 14px;
@@ -1326,8 +1837,13 @@
         .day.today {
             background: var(--primary-color);
             color: white;
-            box-shadow: 0 6px 15px rgba(23, 105, 224, 0.25);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.8rem;
+            border: 1px solid var(--primary-color);
+            padding-bottom:10px;
         }
+
+        
 
         .day.race {
             background: #def1e5;
@@ -1346,6 +1862,21 @@
             height: 4px;
             border-radius: 50%;
             background: var(--race-dot-color);
+        }
+
+        .day.today::after {
+            content: "I dag";
+            position: absolute;
+            bottom: 4px;
+            right: 5px;
+            font-size: 0.45rem;
+            font-weight: 700;
+            background-color: black;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 6px;
+            width:fit-content;
+            height:fit-content;
         }
 
         .empty {
@@ -1768,355 +2299,6 @@
             open_filter.classList.remove('open_now');
         });
     </script>
-
-
-    <section class="training_stats">
-        <div class="open_stats">
-        <div class="open_stats__content">
-            <div class="open_stats__icon"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i></div>
-            <div class="open_stats__text">
-                <p class="open_stats__title">Legg til resultater</p>
-                <p class="open_stats__description">For stevner og konkurranser</p>
-            </div>
-        </div>
-
-        <a class="open_stats__button" id="open_filter_of_registration" aria-label="Legg til resultater">
-            <span>Legg til</span>
-            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-        </a>
-        </div>
-    </section>
-
-    <!-- Open filter for registrering av resultater -->
-    <div class="open_filter" id="race_registration_form">
-            <div class="open_filter__sheet">
-                <!-- Dra-håndtak øverst -->
-                <div class="open_filter__handle"></div>
-                
-                <!-- Header som matcher flexbox layouten din -->
-                <div class="open_filter__header">
-                    <div class="open_filter__title">
-                        <h3>Legg til resultat</h3>
-                        <p>Registrer fullførte løp her</p>
-                    </div>
-                    
-                    <button class="open_filter__close" id="remove_filter" type="button" aria-label="Lukk">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-            <style>
-                #register_result_button{
-                    grid-column:1 / -1;
-                    height:40px;
-                    margin-top:5px;
-                    border:0;
-                    border-radius:12px;
-                    background:var(--primary-color);
-                    color:#fff;
-                    font:inherit;
-                    font-size:.82rem;
-                    font-weight:700;
-                    cursor:pointer;
-                    transition:transform .15s, opacity .15s;
-                }
-
-                #register_result_button:active{
-                    transform:scale(.98);
-                }
-
-                #register_result_button:hover{
-                    opacity:.92;
-                }
-
-                #competition_name, #competition_minutes, #competition_seconds, #competition_milliseconds{
-                    padding-left:12px;
-                }
-            </style>
-
-        <div class="open_filter__content">
-            <div class="form_group full_width">
-                <label for="competition_name">Navn på stevne</label>
-                <input type="text" id="competition_name" placeholder="Hytteplanmila" required>
-            </div>
-
-            <div class="form_group custom_width">
-                <label for="competition_date">Dato</label>
-                <input type="date" id="competition_date" required>
-            </div>
-
-            <div class="form_group">
-                <label for="competition_location">Sted</label>
-
-                <div class="input_wrapper">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <input type="text" id="competition_location" placeholder="By eller arena" required>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <label for="competition_distance">Distanse</label>
-
-                <div class="input_wrapper">
-                    <i class="fa-solid fa-person-running"></i>
-
-                    <select id="competition_distance" required>
-                        <option value="">Velg...</option>
-                        <option value="60">60 m</option>
-                        <option value="100">100 m</option>
-                        <option value="200">200 m</option>
-                        <option value="400">400 m</option>
-                        <option value="600">600 m</option>
-                        <option value="800">800 m</option>
-                        <option value="1500">1 500 m</option>
-                        <option value="3000">3 000 m</option>
-                        <option value="5000">5 000 m</option>
-                        <option value="10000">10 000 m</option>
-                        <option value="21097">Halvmaraton</option>
-                        <option value="42195">Maraton</option>
-                        <option value="0">Annen distanse</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <label for="competition_type">Type løp</label>
-
-                <div class="input_wrapper">
-                    <i class="fa-solid fa-route"></i>
-
-                    <select id="competition_type" required>
-                        <option value="">Velg...</option>
-                        <option value="bane">Baneløp</option>
-                        <option value="gate">Gateløp</option>
-                        <option value="terreng">Terrengløp</option>
-                        <option value="stafett">Stafett</option>
-                        <option value="pacer">Fartsholder</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form_group">
-                <label for="competition_placement">Plassering</label>
-
-                <div class="input_wrapper">
-                    <i class="fa-solid fa-medal"></i>
-                    <input type="number" id="competition_placement" placeholder="3" min="1">
-                </div>
-            </div>
-
-            <div class="form_group">
-                <label for="competition_participants">Antall deltakere</label>
-
-                <div class="input_wrapper">
-                    <i class="fa-solid fa-users"></i>
-                    <input type="number" id="competition_participants" placeholder="120" min="1">
-                </div>
-            </div>
-
-            <div style="display:flex; flex-direction:row; grid-column:1 / -1; align-items: center; gap:12px;">
-                <div class="form_group" style="flex:1">
-                    <label for="competition_minutes">Minutter</label>
-                    <input type="number" id="competition_minutes" placeholder="36" min="0" required>
-                </div>
-
-                <div class="form_group" style="flex:1">
-                    <label for="competition_seconds">Sekunder</label>
-                        <input type="number" id="competition_seconds" placeholder="25" min="0" max="59" required>
-                </div>
-
-                <div class="form_group" style="flex:1">
-                    <label for="competition_milliseconds">Millisekunder</label>
-                    <input type="number" id="competition_milliseconds" placeholder="12" min="0" max="59" required>
-                </div>
-            </div>
-
-            <button type="button" id="register_result_button">Legg til resultat</button>
-        </div>
-    </div>
-    </div>
-
-    <script>
-        const openFilterButton = document.getElementById('open_filter_of_registration');
-        const raceRegistrationForm = document.getElementById('race_registration_form');
-        const remove_filter = document.getElementById('remove_filter');
-
-        openFilterButton.addEventListener('click', () => {
-            raceRegistrationForm.classList.add('open_now');
-        });
-
-        raceRegistrationForm.addEventListener('click', (event) => {
-            if (event.target === raceRegistrationForm) {
-                raceRegistrationForm.classList.remove('open_now');
-            }
-        });
-
-        remove_filter.addEventListener('click', () => {
-            raceRegistrationForm.classList.remove('open_now');
-        });
-    </script>
-
-    <style>
-    .race_list_table{
-        width:calc(100vw - 30px);
-        max-width: 100vw;
-        overflow-x:auto;
-        border:1px solid #e3e7eb;
-        border-radius:12px;
-        background:var(--surface-color, #fff);
-        margin:5px;
-    }
-
-    .race_list_table::-webkit-scrollbar{
-        display:none;              /* Chrome, Safari og nyere Edge */
-    }
-
-    .race_list_header,
-    .race_list_info{
-        display:grid;
-        grid-template-columns: 85px minmax(100px, 0.35fr) minmax(100px, 0.3fr) 80px 85px 75px 75px 70px 60px;
-        align-items:center;
-        min-width:fit-content;
-    }
-
-    .race_list_header{
-        background:#f3f5f7;
-        border-bottom:1px solid #e3e7eb;
-    }
-
-    .race_list_header span{
-        padding:9px 8px;
-        color:var(--subtext-color, #717780);
-        font-size:.65rem;
-        font-weight:800;
-        text-transform:uppercase;
-        letter-spacing:.04em;
-    }
-
-    #race_list_card{
-        width:100%;
-    }
-
-    #race_list_card > div{
-        border-bottom:1px solid #edf0f2;
-    }
-
-    #race_list_card > div:last-child{
-        border-bottom:0;
-    }
-
-    .race_list_info{
-        transition:background-color .15s;
-    }
-
-    .race_list_info:hover{
-        background:#f8f9fb;
-    }
-
-    .race_list_info p{
-        min-width:0;
-        margin:0;
-        padding:9px 8px;
-        color:var(--text-color, #25282d);
-        font-size:.72rem;
-        line-height:1.2;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-    }
-
-    .race_list_name{
-        font-weight:750;
-    }
-
-    .race_list_date,
-    .race_list_location,
-    .race_list_type{
-        color:var(--subtext-color, #707780) !important;
-    }
-
-    .race_list_distance,
-    .race_list_time,
-    .race_list_placement{
-        font-weight:700;
-    }
-
-    .race_list_placement,
-    .race_list_participants,
-    .race_list_xp{
-        text-align:center;
-    }
-
-    .race_list_xp{
-        font-weight:800;
-        font-size:.7rem;
-    }
-
-    #tabel_resultats{
-        display:flex;
-        flex-direction:column;
-        gap:12px;
-        background-color: var(--surface-color);
-        margin:8px;
-        padding-top:10px;
-        border:1px solid #e3e7eb;
-        border-radius: 12px;
-    }
-    </style>
-
-    <section id="tabel_resultats" class="training_stats">
-        <div class="race_list_table">
-            <div class="race_list_header">
-                <span>Dato</span>
-                <span>Stevne</span>
-                <span>Sted</span>
-                <span>Distanse</span>
-                <span>Type</span>
-                <span>Tid</span>
-                <span>Plass</span>
-                <span>Deltakere</span>
-                <span>Top %</span>
-            </div>
-
-            <div id="race_list_card">
-                <!-- Resultatene legges inn fra Supabase -->
-            </div>
-        </div>
-
-        <div class="chart_legend" style="margin:5px;" aria-label="deltakelser">
-            <article class="chart_legend_item">
-                <div class="chart_legend_text">
-                    <p class="chart_legend_label">Totalt</p>
-                    <p id="total_deltakelser" class="chart_legend_value">0 stk</p>
-                </div>
-            </article>
-
-            <article class="chart_legend_item">
-                <div class="chart_legend_text">
-                    <p class="chart_legend_label">I år</p>
-                    <p id="års_deltakelser" class="chart_legend_value">0 stk.</p>
-                </div>
-            </article>
-
-            <article class="chart_legend_item">
-                <div class="chart_legend_text">
-                    <p class="chart_legend_label">Denne måneden</p>
-                    <p id="måneds_deltakelser" class="chart_legend_value">0 stk.</p>
-                </div>
-            </article>
-        </div>
-
-        <div class="ovelser__more">
-        <button class="get_more_button" id="find_more_races" type="button">
-            <span class="find-more__icon">
-                <i class="fa-solid fa-plus icon_replacement"></i>
-            </span>
-            <span class="find-more__content">
-                <span id="text_replacement">Last inn flere løp</span>
-            </span>
-        </button>
-        </div>
-    </section>
 
 
     <section class="training_stats">
@@ -2758,7 +2940,7 @@
             align-items:center;
             gap:2px;
             height: 100%;
-            width:25px;
+            width:15px;
         }
 
         .chart_fill{
@@ -2786,6 +2968,7 @@
             white-space:nowrap;
             overflow:hidden;
             text-overflow:ellipsis;
+            margin-top:5px;
         }
 
         .health_numbers{
@@ -2805,7 +2988,7 @@
             </div>
 
             <div class="mikrookt-seksjon__text">
-                <h2 class="mikrookt-seksjon__title">Søvndata (siste 7 dager)</h2>
+                <h2 class="mikrookt-seksjon__title">Søvndata (siste 12 dager)</h2>
                 <p class="mikrookt-seksjon__description">
                     Oversikt over antall timer søvn
                 </p>
@@ -2821,40 +3004,66 @@
                 <div></div>
             </div>
 
+
+            <div class="chart_occupied">
+                <div class="value" id="sleep_label_12">0</div>
+                <div class="chart_fill" id="søyle_12"></div>
+                <div class="label_of_day">-</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value" id="sleep_label_11">0</div>
+                <div class="chart_fill" id="søyle_11"></div>
+                <div class="label_of_day">-</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value" id="sleep_label_10">0</div>
+                <div class="chart_fill" id="søyle_10"></div>
+                <div class="label_of_day">-</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value" id="sleep_label_9">0</div>
+                <div class="chart_fill" id="søyle_9"></div>
+                <div class="label_of_day">-</div>
+            </div>
+            <div class="chart_occupied">
+                <div class="value" id="sleep_label_8">0</div>
+                <div class="chart_fill" id="søyle_8"></div>
+                <div class="label_of_day">-</div>
+            </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_7">0</div>
                 <div class="chart_fill" id="søyle_7"></div>
-                <div class="label_of_day">Man</div>
+                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_6">0</div>
                 <div class="chart_fill" id="søyle_6"></div>
-                <div class="label_of_day">Tir</div>
+                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_5">0</div>
                 <div class="chart_fill" id="søyle_5"></div>
-                <div class="label_of_day">Ons</div>
+                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_4">0</div>
                 <div class="chart_fill" id="søyle_4"></div>
-                <div class="label_of_day">Tor</div>
+                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_3">0</div>
                 <div class="chart_fill" id="søyle_3"></div>
-                <div class="label_of_day">Fre</div>
+                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_2">0</div>
                 <div class="chart_fill" id="søyle_2"></div>
-                <div class="label_of_day">Lør</div>
+                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_1">0</div>
                 <div class="chart_fill" id="søyle_1"></div>
-                <div class="label_of_day">Søn</div>
+                <div class="label_of_day">-</div>
             </div>
         </div>
 
