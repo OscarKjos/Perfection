@@ -663,7 +663,7 @@ reps_count();
 
 // Funksjon for å lage work-diagram
 
-
+let workOrStudy = "work";
 async function getWork(tabelltype) {
     const { data, error } = await supabase
         .from(tabelltype)
@@ -802,11 +802,15 @@ getWork("bruker_data_produktivitet");
 const work_button = document.getElementById("work_button");
 work_button.addEventListener("click", () => {
     getWork("bruker_data_produktivitet");
+    makeHeatmap('bruker_data_produktivitet', 'dato, kategori', 'heatmap_second_placeholder', 'velg_second_aktivitet', "velg_second_date");
+    workOrStudy = "work";
 });
 
 const study_button = document.getElementById("study_button");
 study_button.addEventListener("click", () => {
     getWork("bruker_data_studie");
+    makeHeatmap('bruker_data_studie', 'dato', 'heatmap_second_placeholder', 'velg_second_aktivitet', "velg_second_date");
+    workOrStudy = "study";
 });
 
 
@@ -1080,13 +1084,13 @@ logRace()
 
 
 // ====================================== Henter resultater fra databasen ====================================== //
-let limit_number = 10;
+let limit_number = 5;
 async function setRace() {
     
     const find_more_races = document.getElementById("find_more_races");
     find_more_races.addEventListener("click", () => {
         if (limit_number > data.length) return;
-        limit_number += 10;
+        limit_number += 5;
         setRace();
     })
 
@@ -1244,14 +1248,13 @@ getBook();
 
 // Valg av aktivitet
 let valgmeny_akt = ""
-let valgmeny_dager = 365
+let valgmeny_dager = 90
 
-
-async function makeHeatmap() {
+async function makeHeatmap(tabell, kolonner, heatmap, valgmeny, valgmeny_days) {
 
         const { data, error } = await supabase
-            .from('bruker_data_trening')
-            .select('dato, aktivitet, type')
+            .from(tabell)
+            .select(kolonner)
             .order('dato', { ascending: true });
 
         if (error) {
@@ -1259,20 +1262,29 @@ async function makeHeatmap() {
             return;
         }
 
-        const heatmap_placeholder = document.getElementById('heatmap_placeholder');
+        const heatmap_placeholder = document.getElementById(heatmap);
         heatmap_placeholder.innerHTML = '';
 
         // Select meny som velger aktivitet å fremvise
-        const velg_aktivitet = document.getElementById('velg_aktivitet');
+        const velg_aktivitet = document.getElementById(valgmeny);
         velg_aktivitet.addEventListener('change', () => {
             valgmeny_akt = velg_aktivitet.value;
-            makeHeatmap();
+            makeHeatmap('bruker_data_trening', 'dato, aktivitet, type', 'heatmap_placeholder', 'velg_aktivitet', "velg_dager");
+            makeHeatmap('bruker_data_produktivitet', 'dato, kategori', 'heatmap_second_placeholder', 'velg_second_aktivitet', "velg_second_date");
+
         });
 
-        const velg_dager = document.getElementById('velg_dager');
+        const velg_dager = document.getElementById(valgmeny_days);
         velg_dager.addEventListener('change', () => {
             valgmeny_dager = velg_dager.value;
-            makeHeatmap();
+            makeHeatmap('bruker_data_trening', 'dato, aktivitet, type', 'heatmap_placeholder', 'velg_aktivitet', "velg_dager");
+
+            if (workOrStudy === "work") {
+                makeHeatmap('bruker_data_produktivitet', 'dato, kategori', 'heatmap_second_placeholder', 'velg_second_aktivitet', "velg_second_date");
+            }
+            if (workOrStudy === "study") {
+                makeHeatmap('bruker_data_studie', 'dato', 'heatmap_second_placeholder', 'velg_second_aktivitet', "velg_second_date");
+            }
         });
 
         // Lager et Set med alle datoer hvor det finnes trening
@@ -1295,7 +1307,7 @@ async function makeHeatmap() {
         // Startdato = 364 dager tilbake
         const startDato = new Date();
         startDato.setHours(12, 0, 0, 0);
-        startDato.setDate(startDato.getDate() - valgmeny_dager-1);
+        startDato.setDate(startDato.getDate() - (valgmeny_dager-1));
 
         // Lager én rute for hver dag
         for (let i = 0; i < valgmeny_dager; i++) {
@@ -1313,10 +1325,17 @@ async function makeHeatmap() {
             const box = document.createElement('div');
             box.classList.add('box');
 
-            if (valgmeny_dager === "90"){
+
+            if (valgmeny_dager === "730"){
+                box.style = "height: 9px; width: 9px;";
+            } if (valgmeny_dager === "365"){
+                box.style = "height: 10px; width: 10px;";
+            } if (valgmeny_dager === "180"){
+                box.style = "height: 11px; width: 11px;";
+            }  if (valgmeny_dager === "90"){
                 box.style = "height: 12px; width: 12px;";
             } if (valgmeny_dager === "30"){
-                box.style = "height: 15px; width: 15px;";
+                box.style = "height: 13px; width: 13px; margin:1.5px;";
             }
 
             // Hvis datoen finnes i Supabase
@@ -1332,6 +1351,47 @@ async function makeHeatmap() {
 
             heatmap_placeholder.appendChild(box);
         }
-    }
+}
+makeHeatmap('bruker_data_trening', 'dato, aktivitet, type', 'heatmap_placeholder', 'velg_aktivitet', "velg_dager");
+makeHeatmap('bruker_data_produktivitet', 'dato, kategori', 'heatmap_second_placeholder', 'velg_second_aktivitet', "velg_second_date");
 
-    makeHeatmap();
+
+
+let gj_snitt_vekt_7 = 0;
+let antall_vekt_7 = 0;
+let gj_snitt_vekt_30 = 0;
+let antall_vekt_30 = 0;
+
+async function getWeight(){
+    const { data, error } = await supabase
+    .from('bruker_data_vaner')
+    .select('dato, vane, verdi')
+    .order('dato', { ascending: true });
+
+    const current_weight = document.getElementById("current_weight");
+
+    data.forEach(element => {
+        if (element.vane === "Vekt" && element.dato === today){
+            if (element.verdi === null){
+                current_weight.innerHTML = "-";
+            } else current_weight.innerHTML = element.verdi + " kg";
+        }
+
+        for (let i = 0; i < 7; i++){
+            if (element.vane === "Vekt" && element.dato === new Date(Date.now() - (86400000*i)).toISOString().split('T')[0] && element.verdi !== null){
+                gj_snitt_vekt_7 += Number(element.verdi);
+                antall_vekt_7 += 1;
+            }
+        }
+
+        for (let i = 0; i < 30; i++){
+            if (element.vane === "Vekt" && element.dato === new Date(Date.now() - (86400000*i)).toISOString().split('T')[0] && element.verdi !== null){
+                gj_snitt_vekt_30 += Number(element.verdi);
+                antall_vekt_30 += 1;
+            }
+        }
+    })
+    document.getElementById("weight_7").innerHTML = (gj_snitt_vekt_7 / antall_vekt_7).toFixed(1) + " kg";
+    document.getElementById("weight_30").innerHTML = (gj_snitt_vekt_30 / antall_vekt_30).toFixed(1) + " kg";
+}
+getWeight();

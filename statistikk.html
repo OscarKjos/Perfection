@@ -1262,7 +1262,7 @@
 </section>
 
     <style>
-        #heatmap_card {
+        .heatmap_global {
             box-sizing: border-box;
             width: calc(100% - 16px);
             max-width: 900px;
@@ -1310,7 +1310,7 @@
 
         /* HEATMAP */
 
-        #heatmap_placeholder {
+        #heatmap_placeholder, #heatmap_second_placeholder {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -1321,8 +1321,8 @@
         /* RUTER */
 
         .box {
-            width: 10px;
-            height: 10px;
+            width: 11px;
+            height: 11px;
 
             background-color: #e8eaed;
 
@@ -1368,14 +1368,14 @@
             background-color: #20242c;
         }
 
-        #velg_aktivitet, #velg_dager{
+        #velg_aktivitet, #velg_dager, #velg_second_aktivitet, #velg_second_date{
             background-color: var(--surface-color);
             cursor: pointer;
             border:none;
         }
     </style>
 
-    <section class="training_stats" id="heatmap_card">
+    <section class="training_stats heatmap_global" id="heatmap_card">
         <div class="heatmap_header">
             <div>
                 <p class="heatmap_title">Registrerte treningsøkter</p>
@@ -1396,10 +1396,9 @@
             </select>
 
             <select class="mikrookt-seksjon__description" name="aktivitet" id="velg_dager">
-                <option value="365">1 år</option>
-                <option value="180">180 dager</option>
                 <option value="90">90 dager</option>
-                <option value="30">30 dager</option>
+                <option value="180">180 dager</option>
+                <option value="365">1 år</option>
                 <option value="730">2 år</option>
             </select>
             </div>
@@ -1867,15 +1866,16 @@
         .day.today::after {
             content: "I dag";
             position: absolute;
-            bottom: 4px;
-            right: 5px;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.45rem;
             font-weight: 700;
             background-color: black;
             color: white;
             padding: 2px 6px;
             border-radius: 6px;
-            width:fit-content;
+            width:max-content;
             height:fit-content;
         }
 
@@ -2917,7 +2917,7 @@
             border-radius: 16px;
             padding:12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            margin:8px;
+            margin:10px;
         }
 
         .health_stats__chart{
@@ -2927,6 +2927,7 @@
             height: 170px;
             background: var(--surface-color);
             border-radius: 16px;
+            margin-top:10px;
 
             display:flex;
             justify-content: space-evenly;
@@ -2975,7 +2976,7 @@
             display:grid;
             flex-direction:row;
             justify-content:space-between;
-            margin-top:16px;
+            margin-top:4px;
             gap:8px;
             grid-template-columns:1fr 2fr;
         }
@@ -3008,62 +3009,50 @@
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_12">0</div>
                 <div class="chart_fill" id="søyle_12"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_11">0</div>
                 <div class="chart_fill" id="søyle_11"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_10">0</div>
                 <div class="chart_fill" id="søyle_10"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_9">0</div>
                 <div class="chart_fill" id="søyle_9"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_8">0</div>
                 <div class="chart_fill" id="søyle_8"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_7">0</div>
                 <div class="chart_fill" id="søyle_7"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_6">0</div>
                 <div class="chart_fill" id="søyle_6"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_5">0</div>
                 <div class="chart_fill" id="søyle_5"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_4">0</div>
                 <div class="chart_fill" id="søyle_4"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_3">0</div>
                 <div class="chart_fill" id="søyle_3"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_2">0</div>
                 <div class="chart_fill" id="søyle_2"></div>
-                <div class="label_of_day">-</div>
             </div>
             <div class="chart_occupied">
                 <div class="value" id="sleep_label_1">0</div>
                 <div class="chart_fill" id="søyle_1"></div>
-                <div class="label_of_day">-</div>
             </div>
         </div>
 
@@ -3822,8 +3811,6 @@
 
         <style>
             .box{
-                width: 8px;
-                height: 8px;
                 border-radius: 2px;
                 display: flex;
                 align-items: center;
@@ -3927,6 +3914,31 @@
                 <div id="kreatin_1">-</div>
             </div>
         </span>
+    </section>
+
+    <section class="diagram_grid health_stats">
+        <div class="chart_legend" aria-label="Timeoversikt">
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">gj.snitt (30 dager)</p>
+                    <p id="weight_30" class="chart_legend_value">0 kg</p>
+                </div>
+            </article>
+
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">gj.snitt (7 dager)</p>
+                    <p id="weight_7" class="chart_legend_value">0 kg</p>
+                </div>
+            </article>
+
+            <article class="chart_legend_item">
+                <div class="chart_legend_text">
+                    <p class="chart_legend_label">Registrert i dag</p>
+                    <p id="current_weight" class="chart_legend_value">-</p>
+                </div>
+            </article>
+        </div>
     </section>
 
     <!-- Diagram (Ukentlige arbeidstimer - studie og prosjekter) -->
@@ -4579,6 +4591,46 @@
                 </div>
             </div>
         </div>
+
+
+        <section class="work_stats heatmap_global" id="heatmap_second_card">
+        <div class="heatmap_header">
+            <div>
+                <p class="heatmap_title">Registrerte arbeidsøkter</p>
+                <p class="heatmap_subtitle">Aktivitet de siste 365 dagene</p>
+            </div>
+
+            <div style="display:flex; flex-direction: column;">
+            <select class="mikrookt-seksjon__description" name="aktivitet" id="velg_second_aktivitet" style="display:none;">
+                <option>Arbeid</option>
+                <option>Studie</option>
+            </select>
+
+            <select class="mikrookt-seksjon__description" name="aktivitet" id="velg_second_date">
+                <option value="90">90 dager</option>
+                <option value="180">180 dager</option>
+                <option value="365">1 år</option>
+                <option value="730">2 år</option>
+            </select>
+            </div>
+        </div>
+
+
+        <div class="heatmap_container">
+            <div id="heatmap_second_placeholder">
+                <!-- Her kommer heatmap innholdet -->
+            </div>
+        </div>
+
+
+        <div class="heatmap_footer">
+            <div class="legend_box"></div>
+            <span style="margin-right:10px;">Ingen arbeid</span>
+
+            <div style="margin-left:10px;" class="legend_box active"></div>
+            <span>Arbeid</span>
+        </div>
+    </section>
 
     </main>
 
