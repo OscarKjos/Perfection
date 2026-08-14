@@ -1129,7 +1129,7 @@
             color: inherit;
 
             font-family: inherit;
-            font-size: 0.84rem;
+            font-size: 16px;
         }
 
         .to_do_list__add input::placeholder {
@@ -1246,6 +1246,595 @@
                 localStorage.getItem('to_do_list');
             });
         });
+    </script>
+
+    <style>
+        /* ==============================
+        TRAINING PLANNER
+        ================================ */
+
+        .training_planner {
+            margin: 16px 10px;
+            padding: 20px;
+
+            background: var(--surface-color);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 18px;
+
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* ==============================
+        HEADER
+        ================================ */
+
+        .training_planner_header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+
+        .training_planner_label {
+            margin: 0 0 5px;
+
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+
+            color: var(--primary-color);
+        }
+
+
+        .training_planner_header h4 {
+            margin: 0;
+
+            font-size: 19px;
+            font-weight: 700;
+
+            color: var(--text-color);
+        }
+
+        /* ==============================
+        EDIT BUTTON
+        ================================ */
+
+        .plan_select {
+            flex-shrink: 0;
+
+            padding: 9px 14px;
+
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 9px;
+
+            background: transparent;
+            color: var(--text-color);
+
+            font-size: 12px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .planner_edit_button:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+
+        /* ==============================
+        WEEK
+        ================================ */
+
+        .training_week {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+
+        /* ==============================
+        DAY CARD
+        ================================ */
+
+        .training_day {
+            border-radius: 12px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+            
+            display:grid;
+            grid-template-columns: 1fr 2fr;
+        }
+
+
+        .training_day:hover {
+            border-color: rgba(0, 0, 0, 0.1);
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035);
+        }
+
+
+        /* ==============================
+        DAY HEADER
+        ================================ */
+
+        .training_day_header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+
+        .training_day_header > div {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background-color: var(--secondary_color);
+            padding:10px;
+            border-radius: 8px 0px 0px 8px;
+        }
+
+
+        .day_number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 9px;
+
+            background: rgba(0, 0, 0, 0.04);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            color: var(--secondary-text-color);
+        }
+
+
+        .training_day_header h5 {
+            margin: 0 0 2px;
+
+            font-size: 14px;
+            font-weight: 650;
+
+            color: var(--text-color);
+        }
+
+
+        .training_day_header p {
+            margin: 0;
+
+            font-size: 11px;
+
+            color: var(--secondary-text-color);
+        }
+
+
+        /* ==============================
+        1x / 2x BUTTON
+        ================================ */
+
+        .session_amount {
+            min-width: 42px;
+
+            padding: 7px 10px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: rgba(0, 0, 0, 0.05);
+
+            color: var(--text-color);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .session_amount:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+
+        /* ==============================
+        SESSIONS
+        ================================ */
+
+        .training_sessions {
+            display: flex;
+            flex-direction: column;
+            width:100%;
+            gap: 10px;
+            background-color: var(--secondary_color);
+            padding:10px;
+            border-radius: 8px;
+        }
+
+
+        .training_session {
+            position: relative;
+        }
+
+
+        .session_number {
+            display: block;
+
+            margin: 0 0 5px 2px;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+
+            color: var(--secondary-text-color);
+        }
+
+
+        /* ==============================
+        TEXTAREA
+        ================================ */
+
+        .training_session textarea {
+            display: block;
+
+            width: 100%;
+            min-height: 50px;
+
+            padding: 10px 11px;
+
+            box-sizing: border-box;
+
+            resize: vertical;
+
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 9px;
+
+            outline: none;
+
+            background: var(--surface-color);
+            color: var(--text-color);
+
+            font-family: inherit;
+            font-size: 12px;
+            line-height: 1.5;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .training_session textarea::placeholder {
+            color: var(--secondary-text-color);
+            opacity: 0.65;
+        }
+
+
+        .training_session textarea:focus {
+            border-color: var(--primary-color);
+
+            box-shadow: 0 0 0 3px
+                color-mix(in srgb, var(--primary-color) 12%, transparent);
+        }
+    </style>
+
+    <section class="training_planner">
+    <header class="training_planner_header">
+        <div>
+            <h4>Ukentlig treningsplan</h4>
+            <p class="open_stats__description">
+                Basert på behov, intensitet og belastning.
+            </p>
+        </div>
+
+        <select class="plan_select">
+            <option value="all">Hele uken</option>
+            <option value="mandag">Mandag</option>
+            <option value="tirsdag">Tirsdag</option>
+            <option value="onsdag">Onsdag</option>
+            <option value="torsdag">Torsdag</option>
+            <option value="fredag">Fredag</option>
+            <option value="lørdag">Lørdag</option>
+            <option value="søndag">Søndag</option>
+        </select>
+    </header>
+
+
+    <div class="training_week">
+
+        <!-- Mandag -->
+        <article class="training_day" data-tag="mandag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="mandag">2x</button>
+                    <div>
+                        <h5>Mandag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="mandag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="mandag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Tirsdag -->
+        <article class="training_day" data-tag="tirsdag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="tirsdag">1x</button>
+                    <div>
+                        <h5>Tirsdag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="tirsdag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div style="display:none;" class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="tirsdag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Onsdag -->
+        <article class="training_day" data-tag="onsdag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="mandag">2x</button>
+                    <div>
+                        <h5>Onsdag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="onsdag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="onsdag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Torsdag -->
+        <article class="training_day" data-tag="torsdag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="tirsdag">1x</button>
+                    <div>
+                        <h5>Torsdag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="torsdag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div style="display:none;" class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="torsdag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Fredag -->
+        <article class="training_day" data-tag="fredag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="tirsdag">1x</button>
+                    <div>
+                        <h5>Fredag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="fredag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div style="display:none;" class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="fredag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Lørdag -->
+        <article class="training_day" data-tag="lørdag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="tirsdag">1x</button>
+                    <div>
+                        <h5>Lørdag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="lørdag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div style="display:none;" class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="lørdag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Søndag -->
+        <article class="training_day" data-tag="søndag">
+            <div class="training_day_header">
+                <div>
+                    <button class="session_amount" type="button" data-day="tirsdag">1x</button>
+                    <div>
+                        <h5>Søndag</h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="training_sessions">
+                <div class="training_session">
+                    <span class="session_number">Økt 1</span>
+                    <textarea class="first_textarea" data-day="søndag_1" placeholder="Hva skal du trene?"></textarea>
+                </div>
+
+                <div style="display:none;" class="training_session second_session">
+                    <span class="session_number">Økt 2</span>
+                    <textarea class="second_textarea" data-day="søndag_2" placeholder="Legg til dagens andre økt..."></textarea>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+    <script>
+        const training_day = document.querySelectorAll('.training_day');
+
+        training_day.forEach(day => {
+            const session_amount = day.querySelector('.session_amount');
+            session_amount.addEventListener('click', () => {
+                if (session_amount.innerHTML === '1x') {
+                    const textearea = day.querySelector('.second_session');
+                    textearea.style.display = 'block';
+                    session_amount.innerHTML = '2x';
+                    localStorage.setItem(`${day.dataset.tag}_session_amount`, '2x');
+                } else if (session_amount.innerHTML === '2x') {
+                    const textearea = day.querySelector('.second_session');
+                    textearea.style.display = 'none';
+                    session_amount.innerHTML = '1x';
+                    localStorage.setItem(`${day.dataset.tag}_session_amount`, '1x');
+                }
+                changeColor()
+            })
+
+            const saved_session_amount =
+                localStorage.getItem(`${day.dataset.tag}_session_amount`);
+
+            if (saved_session_amount) {
+                session_amount.innerHTML = saved_session_amount;
+                if (session_amount.innerHTML === '2x') {
+                    const textearea = day.querySelector('.second_session');
+                    textearea.style.display = 'block';
+                } else if (session_amount.innerHTML === '1x') {
+                    const textearea = day.querySelector('.second_session');
+                    textearea.style.display = 'none';
+                }
+            }
+
+            const first_textarea = day.querySelector('.first_textarea');
+            const second_textarea = day.querySelector('.second_textarea');
+            first_textarea.addEventListener('input', () => {
+                localStorage.setItem(`${first_textarea.dataset.day}_first_textarea`, first_textarea.value);
+            });
+            first_textarea.value = localStorage.getItem(`${first_textarea.dataset.day}_first_textarea`);
+
+            second_textarea.addEventListener('input', () => {
+                localStorage.setItem(`${second_textarea.dataset.day}_second_textarea`, second_textarea.value);
+            });
+            second_textarea.value = localStorage.getItem(`${second_textarea.dataset.day}_second_textarea`);
+        });
+
+        function changeColor() {
+        const colorname = document.querySelectorAll('.session_amount');
+        colorname.forEach(day => {
+            if (day.innerHTML === '2x') {
+                day.style.backgroundColor = 'black';
+                day.style.color = 'white';
+            } else {
+                day.style.backgroundColor = 'white';
+                day.style.color = 'black';
+            }
+        })
+        } changeColor()
+    </script>
+
+    <script>
+        const plan_select = document.querySelector('.plan_select');
+
+        const days = ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'];
+
+        const day_of_today = days[new Date().getDay()];
+
+        plan_select.value = day_of_today;
+
+        function hideOtherDays() {
+            const selectedValue = plan_select.value;
+            const training_days = document.querySelectorAll('.training_day');
+
+            training_days.forEach(day => {
+
+                if (selectedValue === 'all' || day.dataset.tag === selectedValue) {
+                    day.style.display = 'flex';
+                } else {
+                    day.style.display = 'none';
+                }
+
+            });
+        }
+        hideOtherDays();
+
+        plan_select.addEventListener('change', hideOtherDays);
     </script>
 
     <script>
