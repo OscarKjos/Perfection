@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ekstern CSS / JavaScript for global stil og funksjonalitet -->
+    <script src="global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Ikoner for ulike enheter -->
+    <link rel="icon" type="image/png" sizes="32x32" href="Bilder/ikoner/logo_webb.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="Bilder/ikoner/logo_webb.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="Bilder/ikoner/logo_light.png">
+
+    <!-- PWA / mobiloptimalisering -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="white">
+
+    <!-- Tittel og beskrivelse -->
+    <title>Kvador</title>
+    <meta name="description" content="Kvador er en app som hjelper deg å bli bedre hver dag.">
+</head>
+
+<body>
+    <!-- Loading screen -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+
+    <!-- Sideinnhold -->
+    <main style="padding-bottom: 80px;">
+        <style>
+        .calendar {
+            width: min(100% - 20px, 400px);
+            background: #ffffff;
+            border: 1px solid #e6e9ed;
+            border-radius: 20px;
+            margin:8px;
+        }
+
+        .calendar_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-left:5px;
+            background-color: rgba(128, 128, 128, 0.112);
+            padding:20px;
+            border-radius: 20px 20px 0px 0px;
+            border: 5px solid white;
+        }
+
+
+        .calendar_header h1 {
+            font-size:.9rem;
+            margin:0;
+        }
+
+        .calendar_grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 7px;
+            padding:5px;
+            padding:0px 20px 10px 20px;
+        }
+
+        .weekday {
+            padding-bottom: 7px;
+            color: #9aa1aa;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .day {
+            position: relative;
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 11px;
+            background: #f5f7f9;
+            color: #3d4650;
+            font: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .day:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .day.today {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.8rem;
+            border: 1px solid var(--primary-color);
+            padding-bottom:10px;
+        }
+
+        
+
+        .day.race {
+            background: #def1e5;
+            color: #167341;
+        }
+
+        :root{
+            --race-dot-color: #20a45b;
+        }
+
+        .day.race::after {
+            content: "";
+            position: absolute;
+            bottom: 5px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--race-dot-color);
+        }
+
+        .day.today::after {
+            content: "I dag";
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.45rem;
+            font-weight: 700;
+            background-color: black;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 6px;
+            width:max-content;
+            height:fit-content;
+        }
+
+        .empty {
+            aspect-ratio: 1;
+            background: #f5f7f9b2;
+            border-radius: 11px;
+        }
+
+        .calendar_title{
+            display:flex;
+            gap:15px;
+            align-items: center;
+        }
+
+        .calendar_title i{
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            background-color: var(--secondary_color);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .open_filter__content input{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e6e9ed;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .edit_race{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            gap:10px;
+            width:25px;
+            height: 25px;
+            border-radius: 5px;
+            background-color: var(--secondary_color);
+            color:var(--primary-color);
+            font-weight: 600;
+            font-size: 14px;
+            border:none;
+        }
+
+        #race_info{
+            display:none;
+            flex-direction:column;
+            gap:10px;
+            background-color: var(--surface-color);
+            pointer-events: none;
+            padding:20px;
+            padding-top:10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            min-width:220px;
+            border-top: 1px solid #e6e9ed;
+            margin-top:5px;
+            border-radius: 0px 0px 8px 8px;
+        }
+
+        #race_info p{
+            margin:0;
+            font-size: 14px;
+        }
+
+        #race_info div{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            gap:5px;
+            color: var(--subtext-color);
+        }
+
+        #race_info b{
+            font-size: 12px;
+            color: var(--subtext-color);
+            font-weight: lighter;
+        }
+
+        #race_info h3{
+            margin:0;
+            font-size: 16px;
+            display:flex;
+            align-items: center;
+        }
+
+        .race_status{
+            font-size: 14px;
+            font-weight: 600;
+            color:var(--primary-color);
+            background-color: var(--secondary_color);
+            padding:5px;
+            border-radius: 8px;
+        }
+
+        #race_info span{
+            display:flex;
+            justify-content: space-between;
+        }
+
+        #race_info.getRaceInfo{
+            display:flex;
+            pointer-events: all;
+        }
+    </style>
+
+    <section class="calendar">
+
+        <header class="calendar_header">
+            <div class="calendar_title">
+                <i class="fa-solid fa-calendar-days"></i>
+                <div class="calendar_title_text">
+                    <h1>Løpskalender</h1>
+                    <select id="calendar_month" class="mikrookt-seksjon__description" style="border:none; background:none; max-width:70px;">
+                        <option id="date_placement" value=""></option>
+                        <option value="1">Januar</option>
+                        <option value="2">Februar</option>
+                        <option value="3">Mars</option>
+                        <option value="4">April</option>
+                        <option value="5">Mai</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
+                    <small class="mikrookt-seksjon__description" id="calendar_year">Årstall</small>
+                </div>
+            </div>
+            <button class="open_stats__button" id="race_registration">Legg til <i class="fa-solid fa-plus"></i></button>
+        </header>
+
+        <style>
+            .plan_controls {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                margin-bottom: 20px;
+                padding:0px 18px 0px 18px;
+
+                background: var(--surface-color, #ffffff);
+                border-radius: 16px;
+            }
+
+
+            /* =========================
+            Trening / Studie
+            ========================= */
+
+            .plan_controls__tabs {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                padding: 4px;
+
+                background: #f3f5f7;
+                border-radius: 12px;
+            }
+
+
+            .plan_tab {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 7px;
+
+                min-height: 36px;
+                padding: 0 14px;
+
+                border: none;
+                border-radius: 9px;
+
+                background: transparent;
+                color: var(--subtext-color, #747b84);
+
+                font: inherit;
+                font-size: 0.78rem;
+                font-weight: 600;
+
+                cursor: pointer;
+
+                transition:
+                    background-color 0.2s ease,
+                    color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    transform 0.15s ease;
+            }
+
+
+            .plan_tab i {
+                font-size: 0.75rem;
+            }
+
+
+            .plan_tab:hover {
+                color: var(--text-color, #20242a);
+            }
+
+
+            .plan_tab.active {
+                background: #ffffff;
+                color: var(--primary-color, #16804b);
+
+                box-shadow:
+                    0 1px 3px rgba(0, 0, 0, 0.08),
+                    0 3px 8px rgba(0, 0, 0, 0.04);
+            }
+
+
+            .plan_tab:active {
+                transform: scale(0.97);
+            }
+
+
+            /* =========================
+            Forrige / neste
+            ========================= */
+
+            .plan_controls__navigation {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+
+            .plan_navigation_button {
+                width: 36px;
+                height: 36px;
+
+                display: grid;
+                place-items: center;
+
+                padding: 0;
+
+                border: 1px solid #e4e8ec;
+                border-radius: 10px;
+
+                background: #ffffff;
+                color: var(--text-color, #24282d);
+
+                cursor: pointer;
+
+                transition:
+                    background-color 0.2s ease,
+                    color 0.2s ease,
+                    border-color 0.2s ease,
+                    transform 0.15s ease;
+            }
+
+
+            .plan_navigation_button i {
+                font-size: 0.72rem;
+            }
+
+
+            .plan_navigation_button:hover {
+                background: var(--secondary_color, #eaf6ef);
+                color: var(--primary-color, #16804b);
+                border-color: transparent;
+            }
+
+
+            .plan_navigation_button:active {
+                transform: scale(0.92);
+            }
+        </style>
+
+        <article class="plan_controls">
+            <!-- Velg kategori -->
+            <div class="plan_controls__tabs" role="group" aria-label="Velg kategori">
+                <button class="plan_tab active" type="button" data-category="training">
+                    <i class="fa-solid fa-person-running"></i> Trening
+                </button>
+
+                <button class="plan_tab" type="button" data-category="study">
+                    <i class="fa-solid fa-graduation-cap"></i> Studie
+                </button>
+            </div>
+
+            <!-- Navigering -->
+            <div class="plan_controls__navigation">
+                <button class="plan_navigation_button" type="button" id="previous_period" aria-label="Forrige periode">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <button class="plan_navigation_button" type="button" id="next_period" aria-label="Neste periode">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </article>
+
+        <div class="calendar_grid">
+            <div class="weekday">Man</div>
+            <div class="weekday">Tir</div>
+            <div class="weekday">Ons</div>
+            <div class="weekday">Tor</div>
+            <div class="weekday">Fre</div>
+            <div class="weekday">Lør</div>
+            <div class="weekday">Søn</div>
+
+            <!-- Blank spaces for å definere riktig ukedag -->
+            <div class="empty" id="space_0"></div>
+            <div class="empty" id="space_1"></div>
+            <div class="empty" id="space_2"></div>
+            <div class="empty" id="space_3"></div>
+            <div class="empty" id="space_4"></div>
+            <div class="empty" id="space_5"></div>
+
+            <button class="day" type="button">1</button>
+            <button class="day" type="button">2</button>
+            <button class="day" type="button">3</button>
+            <button class="day" type="button">4</button>
+            <button class="day" type="button">5</button>
+            <button class="day" type="button">6</button>
+            <button class="day" type="button">7</button>
+            <button class="day" type="button">8</button>
+            <button class="day" type="button">9</button>
+            <button class="day" type="button">10</button>
+            <button class="day" type="button">11</button>
+            <button class="day" type="button">12</button>
+            <button class="day" type="button">13</button>
+            <button class="day" type="button">14</button>
+            <button class="day" type="button">15</button>
+            <button class="day" type="button">16</button>
+            <button class="day" type="button">17</button>
+            <button class="day" type="button">18</button>
+            <button class="day" type="button">19</button>
+            <button class="day" type="button">20</button>
+            <button class="day" type="button">21</button>
+            <button class="day" type="button">22</button>
+            <button class="day" type="button">23</button>
+            <button class="day" type="button">24</button>
+            <button class="day" type="button">25</button>
+            <button class="day" type="button">26</button>
+            <button class="day" type="button">27</button>
+            <button class="day" type="button">28</button>
+            <button class="day" id="extra_day_1" type="button">29</button>
+            <button class="day" id="extra_day_2" type="button">30</button>
+            <button class="day" id="extra_day_3" type="button">31</button>
+        </div>
+
+        <div id="race_info">
+            <!-- Her kommer informasjon om løp dynamisk fra Supabase -->
+        </div>
+
+        <div class="open_filter" id="race_form">
+            <div class="open_filter__sheet">
+                <!-- Dra-håndtak øverst -->
+                <div class="open_filter__handle"></div>
+                
+                <!-- Header som matcher flexbox layouten din -->
+                <div class="open_filter__header">
+                    <div class="open_filter__title">
+                        <h3>Løpskalender</h3>
+                        <p>Registrer kommende løp her</p>
+                    </div>
+                    
+                    <button class="open_filter__close" id="close_filter" type="button" aria-label="Lukk">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+            <style>
+                .open_filter__content{
+                    display:grid;
+                    grid-template-columns:repeat(2, minmax(0, 1fr));
+                    gap:18px;
+                    padding:10px 15px 0;
+                }
+
+                .form_group{
+                    display:flex;
+                    flex-direction:column;
+                    gap:6px;
+                }
+
+                .form_group.full_width{
+                    grid-column:1 / -1;
+                }
+
+                .form_group label{
+                    color:var(--text-color);
+                    font-size:.72rem;
+                    font-weight:700;
+                }
+
+                .input_wrapper{
+                    position:relative;
+                    display:flex;
+                    align-items:center;
+                }
+
+                .input_wrapper i{
+                    position:absolute;
+                    left:13px;
+                    color:var(--subtext-color);
+                    font-size:.8rem;
+                    pointer-events:none;
+                }
+
+                .form_group input,
+                .form_group select{
+                    width:100%;
+                    height:44px;
+                    padding:0 12px 0 34px;
+                    border:1px solid #e2e6ea;
+                    border-radius:11px;
+                    background:#f8f9fb;
+                    color:var(--text-color);
+                    font:inherit;
+                    font-size:16px;
+                    outline:none;
+                    transition:border-color .2s, background .2s, box-shadow .2s;
+                }
+
+                .form_group input:focus,
+                .form_group select:focus{
+                    border-color:var(--primary-color);
+                    background:#fff;
+                    box-shadow:0 0 0 3px rgba(23,105,224,.1);
+                }
+
+                .form_group input::placeholder{
+                    color:#a0a6ae;
+                }
+
+                .custom_width input{
+                    padding:0px;
+                    padding-left:0;
+                    max-width:100%;
+                }
+
+                #register_race_button{
+                    grid-column:1 / -1;
+                    height:40px;
+                    margin-top:5px;
+                    border:0;
+                    border-radius:12px;
+                    background:var(--primary-color);
+                    color:#fff;
+                    font:inherit;
+                    font-size:.82rem;
+                    font-weight:700;
+                    cursor:pointer;
+                    transition:transform .15s, opacity .15s;
+                }
+
+                #register_race_button:active{
+                    transform:scale(.98);
+                }
+
+                #register_race_button:hover{
+                    opacity:.92;
+                }
+
+                #race_name{
+                    padding-left:12px;
+                }
+            </style>
+
+            <div class="open_filter__content">
+                <div class="form_group full_width">
+                    <label for="race_name">Navn på løp</label>
+                    <input type="text" id="race_name" placeholder="Hytteplanmila" required>
+                </div>
+
+                <div class="form_group custom_width">
+                    <label for="race_date">Dato</label>
+                    <input type="date" id="race_date" required>
+                </div>
+
+                <div class="form_group custom_width">
+                    <label for="race_time">Klokkeslett</label>
+                    <input type="time" id="race_time">
+                </div>
+
+                <div class="form_group full_width">
+                    <label for="race_location">Sted</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input  type="text" id="race_location"  placeholder="By eller arena" required>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <label for="race_distance">Distanse</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-person-running"></i>
+                        <select id="race_distance" required>
+                            <option value="">Velg...</option>
+                            <option value="60">60 m</option>
+                            <option value="100">100 m</option>
+                            <option value="200">200 m</option>
+                            <option value="400">400 m</option>
+                            <option value="600">600 m</option>
+                            <option value="800">800 m</option>
+                            <option value="1500">1 500 m</option>
+                            <option value="3000">3 000 m</option>
+                            <option value="5000">5 000 m</option>
+                            <option value="10000">10 000 m</option>
+                            <option value="21097">Halvmaraton</option>
+                            <option value="42195">Maraton</option>
+                            <option value="0">Annen distanse</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <label for="race_type">Type løp</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-route"></i>
+
+                        <select id="race_type">
+                            <option value="">Velg type</option>
+                            <option value="bane">Baneløp</option>
+                            <option value="gate">Gateløp</option>
+                            <option value="terreng">Terrengløp</option>
+                            <option value="stafett">Stafett</option>
+                            <option value="pacer">Fartsholder</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" id="register_race_button"> Registrer løp </button>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .open_stats{
+            width:calc(100vw - 20px);
+            margin:10px;
+            padding:14px;
+            background:var(--surface-color);
+            border-radius:16px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.05);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+        }
+
+        .open_stats__content{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            min-width:0;
+        }
+
+        .open_stats__icon{
+            width:34px;
+            height:34px;
+            border-radius:50%;
+            background:var(--secondary_color);
+            color:var(--primary-color);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:.95rem;
+            flex-shrink:0;
+        }
+
+        .open_stats__text{
+            min-width:0;
+        }
+
+        .open_stats__title{
+            color:var(--text-color);
+            font-size:.9rem;
+            font-weight:700;
+            margin:0;
+        }
+
+        .open_stats__description{
+            color:var(--subtext-color);
+            font-size:.72rem;
+            line-height:1.35;
+            margin:3px 0 0 0;
+        }
+
+        .open_stats__button{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+            min-height:34px;
+            padding:0 12px;
+            border-radius:999px;
+            background:var(--primary-color);
+            color:white;
+            font-size:.78rem;
+            font-weight:700;
+            text-decoration:none;
+            flex-shrink:0;
+            box-shadow:0 4px 10px rgba(0,176,121,0.18);
+            border:none;
+        }
+    </style>
+
+    <section>
+        <div class="open_stats">
+        <div class="open_stats__content">
+            <div class="open_stats__icon"><i class="fa-solid fa-running" aria-hidden="true"></i></div>
+            <div class="open_stats__text">
+                <p class="open_stats__title">Treningsprogram</p>
+                <p class="open_stats__description">Se utvalgte treningsprogram</p>
+            </div>
+        </div>
+
+        <a class="open_stats__button" id="open_programs" aria-label="Åpne trenings-statistikk">
+            <span>Åpne</span>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
+        </div>
+    </section>
+
+    <div class="open_filter" id="program_overlay">
+        <div class="open_filter__sheet">
+            <!-- Dra-håndtak øverst -->
+            <div class="open_filter__handle"></div>
+            
+            <!-- Header som matcher flexbox layouten din -->
+            <div class="open_filter__header">
+                <div class="open_filter__title">
+                    <h3>Program</h3>
+                    <p>Trening, mobilitet og skadeforebyggende</p>
+                </div>
+                
+                <button class="open_filter__close" id="close_program_overlay" type="button" aria-label="Lukk">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <style>
+                .utvidelser__card{
+                    min-width:0;
+                    padding:12px;
+                    display:flex;
+                    flex-direction:column;
+                    justify-content:space-between;
+                    background:var(--surface-color);
+                    border:1px solid #f0f0f4;
+                    border-radius:10px;
+                    width:100%;
+                }
+
+                .utvidelser__icon{
+                    width:34px;
+                    height:34px;
+                    border-radius:10px;
+                    background:#e6f9ef;
+                    color:var(--primary-color);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:.9rem;
+                }
+
+
+                .utvidelser__name{
+                    margin:0;
+                    color:var(--text-color);
+                    font-size:.86rem;
+                    font-weight:700;
+                    line-height:1.2;
+                    overflow-wrap:anywhere;
+                }
+
+                .utvidelser__description{
+                    margin:3px 0 0;
+                    color:var(--subtext-color);
+                    font-size:.7rem;
+                    line-height:1.3;
+                }
+            </style>
+
+            <div class="open_filter__content" style="grid-template-columns: 1fr; padding:0;">
+                <a class="no_link" style="width:100%;" href="program.html?type=stretching">
+                    <article class="utvidelser__card">
+                        <p class="utvidelser__name">Uttøying</p>
+                        <p class="utvidelser__description">Skadeforebyggende og mobilitet</p>
+                    </article>
+                </a>
+
+                <a class="no_link" style="width:100%;" href="program.html?type=mobility"">
+                    <article class="utvidelser__card">
+                        <p class="utvidelser__name">Mobilitet</p>
+                        <p class="utvidelser__description">Skadeforebyggende og mobilitet</p>
+                    </article>
+                </a>
+
+                <a class="no_link" style="width:100%;" href="program.html?type=drill">
+                    <article class="utvidelser__card">
+                        <p class="utvidelser__name">Drill-Øvelser</p>
+                        <p class="utvidelser__description">Skadeforebyggende og mobilitet</p>
+                    </article>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .to_do_list,
+        .to_do_list * {
+            box-sizing: border-box;
+        }
+
+        .to_do_list {
+            width: calc(100% - 16px);
+            margin: 12px 8px 8px;
+            padding: 18px;
+
+            background: var(--surface-color);
+            border: 1px solid rgba(120, 120, 120, 0.10);
+            border-radius: 18px;
+
+            box-shadow:
+                0 2px 6px rgba(0, 0, 0, 0.03),
+                0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* ---------- HEADER ---------- */
+
+        .to_do_list__title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+
+            margin-bottom: 16px;
+        }
+
+        .to_do_list__heading {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .to_do_list__heading-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: color-mix(
+                in srgb,
+                var(--primary-color) 12%,
+                transparent
+            );
+
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .to_do_list__title h4 {
+            margin: 0;
+
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .to_do_list__title small {
+            display: block;
+            margin-top: 2px;
+
+            font-size: 0.72rem;
+            font-weight: 500;
+
+            opacity: 0.55;
+        }
+
+
+        /* ---------- CLEAR BUTTON ---------- */
+
+        #clear_input {
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 0 10px;
+
+            background: transparent;
+            border: 0;
+            border-radius: 8px;
+
+            color: var(--primary-color);
+
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 650;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        #clear_input:hover {
+            background: color-mix(
+                in srgb,
+                var(--primary-color) 8%,
+                transparent
+            );
+        }
+
+        #clear_input:active {
+            transform: scale(0.96);
+        }
+
+
+        /* ---------- TASK LIST ---------- */
+
+        .to_do_list__items {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+
+            margin-bottom: 12px;
+        }
+
+        .to_do_list__items:empty {
+            margin-bottom: 4px;
+        }
+
+
+        /* Opprettet av JavaScriptet ditt */
+
+        .to_do_list__item {
+            min-height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 11px;
+
+            padding: 10px 12px;
+
+            background: color-mix(
+                in srgb,
+                var(--surface-color) 94%,
+                var(--primary-color)
+            );
+
+            border: 1px solid rgba(120, 120, 120, 0.10);
+            border-radius: 11px;
+
+            font-size: 0.86rem;
+            font-weight: 500;
+
+            transition:
+                transform 0.15s ease,
+                background-color 0.15s ease,
+                opacity 0.15s ease;
+        }
+
+        .to_do_list__item:hover {
+            transform: translateY(-1px);
+
+            background: color-mix(
+                in srgb,
+                var(--surface-color) 90%,
+                var(--primary-color)
+            );
+        }
+
+
+        /* ---------- CHECKBOX ---------- */
+
+        .to_do_list__item input[type="checkbox"] {
+            appearance: none;
+
+            width: 19px;
+            height: 19px;
+
+            flex-shrink: 0;
+
+            margin: 0;
+
+            border: 2px solid rgba(120, 120, 120, 0.35);
+            border-radius: 6px;
+
+            background: var(--surface-color);
+
+            cursor: pointer;
+
+            position: relative;
+
+            transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .to_do_list__item input[type="checkbox"]:hover {
+            border-color: var(--primary-color);
+        }
+
+        .to_do_list__item input[type="checkbox"]:checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .to_do_list__item input[type="checkbox"]:checked::after {
+            content: "";
+
+            position: absolute;
+
+            width: 5px;
+            height: 9px;
+
+            left: 4px;
+            top: 0px;
+
+            border: solid white;
+            border-width: 0 2px 2px 0;
+
+            transform: rotate(45deg);
+        }
+
+        .to_do_list__item:has(input:checked) {
+            opacity: 0.48;
+            text-decoration: line-through;
+        }
+
+
+        /* ---------- ADD TASK ---------- */
+
+        .to_do_list__add {
+            display: flex;
+            align-items: center;
+
+            border: 1px solid rgba(120, 120, 120, 0.16);
+            border-radius: 12px;
+
+            background: color-mix(in srgb,var(--surface-color) 96%,#888);
+
+            transition:
+                border-color 0.15s ease,
+                box-shadow 0.15s ease;
+            font-size: 16px;
+        }
+
+        .to_do_list__add:focus-within {
+            border-color: color-mix(
+                in srgb,
+                var(--primary-color) 60%,
+                transparent
+            );
+
+            box-shadow: 0 0 0 3px
+                color-mix(
+                    in srgb,
+                    var(--primary-color) 10%,
+                    transparent
+                );
+        }
+
+        .to_do_list__add input {
+            width: 100%;
+            height: 38px;
+
+            padding: 0 10px;
+
+            background: transparent;
+            border: 0;
+            outline: 0;
+
+            color: inherit;
+
+            font-family: inherit;
+            font-size: 0.84rem;
+        }
+
+        .to_do_list__add input::placeholder {
+            color: inherit;
+            opacity: 0.4;
+        }
+
+
+        /* ---------- PLUS BUTTON ---------- */
+
+        #place_task {
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border: 0;
+            border-radius: 9px;
+
+            background: var(--primary-color);
+            color: white;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                filter 0.15s ease;
+        }
+
+        #place_task:hover {
+            filter: brightness(1.06);
+            transform: scale(1.03);
+        }
+
+        #place_task:active {
+            transform: scale(0.95);
+        }
+    </style>
+
+
+    <section class="to_do_list">
+        <div class="to_do_list__title">
+            <div class="to_do_list__heading">
+                <div class="to_do_list__heading-icon">
+                    <i class="fa-regular fa-rectangle-list"></i>
+                </div>
+                <div>
+                    <h4>Dagens oppgaver</h4>
+                    <small>Hold oversikt over det du skal gjøre</small>
+                </div>
+            </div>
+            <button id="clear_input" type="button">Tøm<i class="fa-solid fa-broom"></i></button>
+        </div>
+
+        <div class="to_do_list__items"></div>
+
+        <div class="to_do_list__add">
+            <input type="text" placeholder="Legg til en ny oppgave..." autocomplete="off">
+            <button id="place_task" type="button" aria-label="Legg til oppgave">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+    </section>
+
+    <script>
+        const to_do_list = document.querySelector('.to_do_list');
+        const to_do_list_items = to_do_list.querySelector('.to_do_list__items');
+        const to_do_list_input = to_do_list.querySelector('input');
+        const place_task = to_do_list.querySelector('#place_task');
+        
+        to_do_list_items.innerHTML = localStorage.getItem('to_do_list')
+
+
+        to_do_list_input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                add_to_do_list_item();
+            }
+        });
+
+        place_task.addEventListener('click', () => {
+            add_to_do_list_item();
+        });
+
+        function add_to_do_list_item() {
+            const new_item = document.createElement('div');
+            new_item.classList.add('to_do_list__item');
+            new_item.innerHTML = `
+                <span style="display:flex; gap:8px; align-items: center;">
+                    <input type='checkbox'>
+                    ${to_do_list_input.value}
+                </span>
+                <i class='fa-solid fa-xmark remove_item'></i>
+            `
+            to_do_list_items.appendChild(new_item);
+            to_do_list_input.value = '';
+            localStorage.setItem('to_do_list', to_do_list_items.innerHTML);
+        }
+
+        const clear_to_do_list = to_do_list.querySelector('#clear_input');
+        clear_to_do_list.addEventListener('click', () => {
+            to_do_list_items.innerHTML = '';
+            localStorage.removeItem('to_do_list');
+        });
+
+        const remove_item = document.querySelectorAll('.remove_item');
+        remove_item.forEach(item => {
+            item.addEventListener('click', () => {
+                item.parentElement.remove();
+                localStorage.setItem('to_do_list', to_do_list_items.innerHTML);
+                localStorage.getItem('to_do_list');
+            });
+        });
+    </script>
+
+    <script>
+        const open_programs = document.getElementById('open_programs');
+        const program_overlay = document.getElementById('program_overlay');
+        const close_program_overlay = document.getElementById('close_program_overlay');
+
+        open_programs.addEventListener('click', () => {
+            program_overlay.classList.add('open_now');
+        });
+
+        close_program_overlay.addEventListener('click', () => {
+            program_overlay.classList.remove('open_now');
+        });
+
+        program_overlay.addEventListener('click', (event) => {
+            if (event.target === program_overlay) {
+                program_overlay.classList.remove('open_now');
+            }
+        });
+    </script>
+
+    <!-- JavaScript for kalender funksjoner -->
+    <script>
+        const calendar_month = document.getElementById('calendar_month');
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const date = today.getDate();
+        let month = new Date().getMonth() + 1;  // Months are zero-based, so we add 1
+
+        calendar_month.addEventListener('change', () => {
+            month = Number(calendar_month.value);
+            getRightDate();
+        });
+
+        // Knapper for neste periode/måned
+        const next_period = document.getElementById('next_period');
+        next_period.addEventListener('click', () => {
+            month++;
+            if (month > 12) {
+                month = 1;
+                year++;
+            }
+            getRightDate();
+        });
+
+        // Knapper for forrige periode/måned
+        const prev_period = document.getElementById('previous_period');
+        prev_period.addEventListener('click', () => {
+            month--;
+            if (month < 1) {
+                month = 12;
+                year--;
+            }
+            getRightDate();
+        });
+
+    function getRightDate() {
+        const extraDays1 = document.querySelectorAll("#extra_day_2, #extra_day_3, #extra_day_1");
+        extraDays1.forEach((extraDay) => {
+            extraDay.style.display = "block";
+        });
+
+        const datePlacement = document.getElementById('date_placement');
+        const monthNames = [
+            "Januar", "Februar", "Mars", "April", "Mai", "Juni",
+            "Juli", "August", "September", "Oktober", "November", "Desember"
+        ];
+
+        datePlacement.textContent = monthNames[month-1];
+
+        const calendarYear = document.getElementById('calendar_year');
+        calendarYear.textContent = year;
+
+        const day = document.querySelectorAll('.day');
+        day.forEach((dayElement) => {
+            const dayNumber = parseInt(dayElement.textContent);
+            if (dayNumber === date && month === new Date().getMonth() + 1) {
+                dayElement.classList.add('today');
+            } else {
+                dayElement.classList.remove('today');
+            }
+        });
+       
+        if (month === 4 || month === 6 || month === 9 || month === 11) {
+            const extraDays = document.querySelector("#extra_day_3");
+            extraDays.style.display = "none";
+        } else if (month === 2) {
+            const extraDays1 = document.querySelectorAll("#extra_day_2, #extra_day_3, #extra_day_1");
+            extraDays1.forEach((day) => {
+                day.style.display = "none";
+            });
+        }
+
+        const firstDayOfMonth = new Date(year, month - 1, 1).getDay(); // 0 (Sun) to 6 (Sat)
+        const emptySpaces = document.querySelectorAll('.empty');
+        emptySpaces.forEach((space, index) => {
+            if (index < firstDayOfMonth - 1) { // Adjusting for Monday start
+                space.style.display = "block";
+            } else {
+                space.style.display = "none";
+            }
+        });
+    };
+    getRightDate();
+
+        // ================================== Funksjon for å registrere et løp ================================== //
+
+        const registerRaceButton = document.querySelector('#race_registration');
+        const open_filter = document.getElementById('race_form');
+        const close_filter = document.getElementById('close_filter');
+
+        registerRaceButton.addEventListener('click', () => {
+           open_filter.classList.add('open_now');
+        });
+
+        open_filter.addEventListener('click', (event) => {
+            if (event.target === open_filter) {
+                open_filter.classList.remove('open_now');
+            }
+        });
+
+        close_filter.addEventListener('click', () => {
+            open_filter.classList.remove('open_now');
+        });
+    </script>
+    </main>
+
+    <!-- Global navigasjon -->
+    <script src="navigator.js" defer></script>
+
+    <!-- Loading screen -->
+    <script>
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document.getElementById("loader")?.classList.add("hidden");
+            }, 400);
+        });
+    </script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+        const supabaseUrl = 'https://phvvbnmpujqyzqicdrrc.supabase.co'
+        const supabaseKey = 'sb_publishable_owGo8PDUBRjA6l4Iq5RT0Q_N8w8Awhj'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+
+        async function createRace() {
+            // Input felt
+            const race_name = document.getElementById("race_name");
+            const race_date = document.getElementById("race_date");
+            const race_time = document.getElementById("race_time");
+            const race_location = document.getElementById("race_location");
+            const race_distance = document.getElementById("race_distance");
+            const race_type = document.getElementById("race_type");
+
+            const registrer = document.getElementById("register_race_button");
+
+            registrer.addEventListener("click", async () => {
+            // Henter bruker-id
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            
+            const { data, error } = await supabase
+                .from("bruker_data_kalender")
+                .insert([{ user_id:user.id, navn:race_name.value, dato:race_date.value, starttid:race_time.value, sted:race_location.value, distanse:race_distance.value, type:race_type.value, status:"planlagt" }]);
+            
+            const race_form = document.getElementById("race_form");
+            race_form.classList.remove('open_now');
+
+            race_name.value = "";
+            race_date.value = "";
+            race_time.value = "";
+            race_location.value = "";
+            race_distance.value = "";
+            race_type.value = "";
+
+            });
+        }
+        createRace()
+
+        let Month = new Date().getMonth();
+        let Year = new Date().getFullYear(); 
+
+        async function getRace() {
+            const { data, error } = await supabase
+                .from("bruker_data_kalender")
+                .select("id, dato, navn, starttid, sted, distanse, type, status")
+                .order("dato", { ascending: true });
+            
+                const select_month = document.getElementById('calendar_month');
+                select_month.addEventListener('change', () => {
+                    Month = Number(select_month.value)-1;
+                    updateRaces();
+                });
+
+                // Knapper for neste periode/måned
+                const next_period = document.getElementById('next_period');
+                next_period.addEventListener('click', () => {
+                    Month++;
+                    if (Month > 11) {
+                        Month = 0;
+                        Year++;
+                    }
+                    updateRaces();
+                });
+
+                // Knapper for forrige periode/måned
+                const prev_period = document.getElementById('previous_period');
+                prev_period.addEventListener('click', () => {
+                    Month--;
+                    if (Month < 0) {
+                        Month = 11;
+                        Year--;
+                    }
+                    updateRaces();
+                });
+            
+            function updateRaces() {
+            const day = document.querySelectorAll(".day");
+            
+            day.forEach(dayBlock => {
+                dayBlock.classList.remove("race");
+                dayBlock.style.backgroundColor = "#f5f7f9";
+                dayBlock.style.color = "#3d4650";
+                if (dayBlock.classList.contains("today")) {
+                    dayBlock.style.backgroundColor = "white";
+                    dayBlock.style.color = "black";
+                }
+            });
+
+            data.forEach(element => {
+                const race_date = new Date(element.dato);
+
+                const race_info = document.getElementById("race_info");
+                race_info.classList.remove("getRaceInfo");
+
+                day.forEach(dayBlock => {
+                    
+                    if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month && race_date.getFullYear() === Year) {
+                        dayBlock.classList.add("race");
+                        
+                        if (element.status === "påmeldt") {
+                            dayBlock.style.backgroundColor = "#1d1d1d"; // Lys grønn #def1e5" og #167341
+                            dayBlock.style.color = "#ffffff";
+                            dayBlock.style.setProperty("--race-dot-color", "#ffffff");
+                        } else if (element.status === "avholdt") {
+                            dayBlock.style.backgroundColor = "#e4e5e7"; // Lys grå
+                            dayBlock.style.color = "#4d4d4d";
+                            dayBlock.style.setProperty("--race-dot-color", "#4d4d4d");
+                        } else if (element.status === "planlagt") {
+                            dayBlock.style.backgroundColor = "#e4e4e4"; // Lys gul #f1ebd8 og  #7a5e2d
+                            dayBlock.style.color = "#3d3d3d";
+                            dayBlock.style.setProperty("--race-dot-color", "#4d4d4d");
+                        }
+
+                    dayBlock.addEventListener("click", () => {
+                        if (dayBlock.classList.contains("race")) {
+                            // Her dukker det opp en boks med info om løpet som er registrert på den datoen
+                            race_info.classList.add("getRaceInfo");
+
+                            race_info.innerHTML = `
+                                <span>
+                                    <h3>${element.navn}</h3>
+                                    <span style="display:flex; gap:10px; align-items: center;">
+                                        <p class="race_status">${element.status}</p>
+                                        <button class="edit_race"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </span>
+                                </span>
+
+                                <span>
+                                    <div>
+                                        <b><i class="fa-regular fa-calendar"></i></b>
+                                        <p>${race_date.getDate()} ${race_date.toLocaleString('nb-NO', { month: 'short' })}</p>
+                                    </div>
+
+                                    <div>
+                                        <b><i class="fa-regular fa-clock"></i></b>
+                                        <p>${element.starttid.slice(0, 5)}</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <b><i class="fa-solid fa-map-pin"></i></b>
+                                        <p>${element.sted}</p>
+                                    </div>
+
+                                </span>
+
+                                <span>
+                                    <div>
+                                        <b><i class="fa-solid fa-route"></i></b>
+                                        <p>${(element.distanse).toLocaleString('nb-NO') + " m"}</p>
+                                    </div>
+
+                                    <div>
+                                        <b><i class="fa-regular fa-font-awesome"></i></b>
+                                        <p>${element.type}</p>
+                                    </div>
+                                </span>
+                            `;
+                        }
+                        const close_race_info = document.getElementById("close_race_info");
+                        close_race_info.addEventListener("click", () => {
+                            race_info.classList.remove("getRaceInfo");
+                        })
+
+                        const edit_race = document.querySelectorAll(".edit_race");
+                        edit_race.forEach(edit => {
+                            edit.addEventListener("click", () => {
+                            // Her skal det gå ann å redigere status på løpet
+                                let race_status = "";
+                                if (element.status === "planlagt") {
+                                    race_status = "påmeldt";
+                                } else if (element.status === "påmeldt") {
+                                    race_status = "planlagt";
+                                }
+                                updateRaceStatus(element.id, race_status);
+                            })
+                        })
+                    });
+                    }
+                })
+            });
+            }
+            updateRaces();
+
+            async function updateRaceStatus(id, race_status) {
+                const { error } = await supabase
+                    .from("bruker_data_kalender")
+                    .update({
+                        status: race_status
+                    })
+                    .eq("id", id);
+
+                if (error) {
+                    console.error("Kunne ikke oppdatere status:", error);
+                    return false;
+                }
+
+                window.location.reload();
+                return true;
+            }
+        }
+        getRace()
+    </script>
+</body>
+</html>

@@ -391,9 +391,9 @@ navContainer.innerHTML = `
         <button id="navclick" class="bottomnav-plus" title="Legg til">
             <i class="fa-solid fa-plus"></i>
         </button>
-        <button id="leaderboard_referrer" class="bottomnav-btn" title="Leaderboard">
-            <i class="fa-solid fa-trophy"></i>
-            <span class="bottomnav-label">Leaderboard</span>
+        <button id="plan_referrer" class="bottomnav-btn" title="Plan">
+            <i class="fa-regular fa-calendar-check"></i>
+            <span class="bottomnav-label">Plan</span>
         </button>
         <button id="data_referrer" class="bottomnav-btn" title="Data">
             <i class="fa-solid fa-database"></i>
@@ -450,7 +450,7 @@ function referrer(Id_tag, adresse) {
 }
 referrer('profil_referrer', 'index.html');
 referrer('statistikk_referrer', 'statistikk.html');
-referrer('leaderboard_referrer', 'leaderboard.html');
+referrer('plan_referrer', 'plan.html');
 referrer('data_referrer', 'data.html');
 
 /* ==================== Splash screen ====================== */
