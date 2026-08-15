@@ -200,7 +200,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
                         <div class="circle_tag_color" style="background-color: #23262c"></div>
                         <p>Vaner:</p>
                     </span>
-                    <p>${habitsXP}</p>
+                    <p>${habitsXP.toFixed(1)}</p>
                 </span>
 
                 <span class="space_between">
@@ -208,15 +208,15 @@ const supabase = createClient(supabaseUrl, supabaseKey)
                         <div class="circle_tag_color" style="background-color:#35393f"></div>
                         <p>Arbeid:</p>
                     </span>
-                    <p>${arbeidXP}</p>
+                    <p>${arbeidXP.toFixed(1)}</p>
                 </span>
 
                 <span class="space_between">
                     <span>
-                        <div class="circle_tag_color" style="background-color: white"></div>
+                        <div class="circle_tag_color" style="background-color: white; border: 1px solid #b5b7b9;"></div>
                         <p>Journal:</p>
                     </span>
-                    <p>${journalXP}</p>
+                    <p>${journalXP.toFixed(1)}</p>
                 </span>
 
                 <span class="space_between">
@@ -224,23 +224,23 @@ const supabase = createClient(supabaseUrl, supabaseKey)
                         <div class="circle_tag_color" style="background-color: #b5b7b9"></div>
                         <p>Studie:</p>
                     </span>
-                    <p>${studieXP}</p>
+                    <p>${studieXP.toFixed(1)}</p>
                 </span>
 
                 <span class="space_between">
                     <span>
-                        <div class="circle_tag_color" style="background-color: white"></div>
+                        <div class="circle_tag_color" style="background-color: white; border: 1px solid #b5b7b9;"></div>
                         <p>Styrke:</p>
                     </span>
-                    <p>${mikroXP}</p>
+                    <p>${mikroXP.toFixed(1)}</p>
                 </span>
 
                 <span class="space_between">
                     <span>
-                        <div class="circle_tag_color" style="background-color: white"></div>
+                        <div class="circle_tag_color" style="background-color: #2f2f35b5;"></div>
                         <p>Stevne:</p>
                     </span>
-                    <p>${resultaterXP}</p>
+                    <p>${resultaterXP.toFixed(1)}</p>
                 </span>
 
                 <span class="space_between">
@@ -248,7 +248,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
                         <div class="circle_tag_color" style="background-color: #44484d"></div>
                         <p>Trening:</p>
                     </span>
-                    <p>${treningXP}</p>
+                    <p>${treningXP.toFixed(1)}</p>
                 </span>
                 </div>
                 

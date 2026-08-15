@@ -1335,51 +1335,51 @@
         const badge = card.querySelector(".badge");
         const icon = card.querySelector(".iconSwapper");
 
-        if (element.aktivitet == "Sykling") {
-            badge.style.backgroundColor = "#f7bf9a";
-            badge.style.color = "#992a10";
-            icon.classList = "fas fa-bicycle";
-        }
-
-        else if (element.aktivitet == "Forebyggende") {
-            badge.style.backgroundColor = "#f9ffb5";
-            badge.style.color = "#8a6b0f";
+        if (element.aktivitet == "Forebyggende") {
+            badge.style.backgroundColor = "#F2F2F2";   // Alternativ farge: #f7bf9a
+            badge.style.color = "black";                // Alternativ farge: #992a10
             icon.className = "fas fa-heartbeat";
         }
 
+        else if (element.aktivitet == "Sykling") {
+            badge.style.backgroundColor = "#666666";   // Alternativ farge: #f9ffb5
+            badge.style.color = "white";                // Alternativ farge: #8a6b0f
+            icon.classList = "fas fa-bicycle";
+        }
+
         else if (element.aktivitet == "Styrke") {
-            badge.style.backgroundColor = "#ebdff7";
-            badge.style.color = "#581c94";
+            badge.style.backgroundColor = "#B8B8B8";   // Alternativ farge: #ebdff7
+            badge.style.color = "white";                // Alternativ farge: #581c94
             icon.className = "fas fa-dumbbell";
         }
 
         else if (element.aktivitet == "Romaskin") {
-            badge.style.backgroundColor = "#fcc7d6";
-            badge.style.color = "#d12c42";
+            badge.style.backgroundColor = "#2F2F2F";   // Alternativ farge: #fcc7d6
+            badge.style.color = "white";                // Alternativ farge: #d12c42
             icon.className = "fas fa-rowing-boat";
         }
 
         else if (element.aktivitet == "Svømming") {
-            badge.style.backgroundColor = "#c5f6fa";
-            badge.style.color = "#17727a";
+            badge.style.backgroundColor = "#4A4A4A";   // Alternativ farge: #c5f6fa
+            badge.style.color = "white";                // Alternativ farge: #17727a
             icon.className = "fas fa-swimmer";
         }
 
         else if (element.aktivitet == "Langrenn") {
-            badge.style.backgroundColor = "#eef2ff";
-            badge.style.color = "#4f46e5";
+            badge.style.backgroundColor = "#D8D8D8";   // Alternativ farge: #eef2ff
+            badge.style.color = "black";                // Alternativ farge: #4f46e5
             icon.className = "fas fa-skiing";
         }
 
         else if (element.aktivitet == "Ellipse") {
-            badge.style.backgroundColor = "#e9fac8";
-            badge.style.color = "#5c940d";
+            badge.style.backgroundColor = "#989898";   // Alternativ farge: #e9fac8
+            badge.style.color = "black";                // Alternativ farge: #5c940d
             icon.className = "fas fa-person-running";
         }
 
         else if (element.aktivitet == "Annet" || element.aktivitet == "Gåtur") {
-            badge.style.backgroundColor = "#eef1f6";
-            badge.style.color = "#4b5563";
+            badge.style.backgroundColor = element.aktivitet == "Gåtur" ? "#3B3B3B" : "#E6E6E6"; // Alternativ: #eef1f6
+            badge.style.color = element.aktivitet == "Gåtur" ? "white" : "black";                   // Alternativ: #4b5563
             icon.className = element.aktivitet == "Gåtur" ? "fas fa-walking" : "fas fa-running";
         }
 
@@ -1415,16 +1415,16 @@
                 aktivitet_extra.style.color = textfarge;
             }
         }
-        changeActivityColor("Løping", "#58d19d", "white");
-        changeActivityColor("Sykling", "rgb(250, 229, 211)", "brown");
-        changeActivityColor("Forebyggende", "#f9ffb5", "#8a6b0f");
-        changeActivityColor("Styrke", "#ebdff7", "#581c94");
-        changeActivityColor("Romaskin", "#ffe3bf", "#b45309");   // Lys rav/oransje
-        changeActivityColor("Langrenn", "#dbeafe", "#1d4ed8");
-        changeActivityColor("Svømming", "#c5f6fa", "#17727a");
-        changeActivityColor("Ellipse", "#e9fac8", "#5c940d");
-        changeActivityColor("Annet", "#eef1f6", "#4b5563");
-        changeActivityColor("Gåtur", "#eef1f6", "#4b5563");
+        changeActivityColor("Løping", "#1E1E1E", "white");              // Alternativ farge: #58d19d
+        changeActivityColor("Sykling", "#F2F2F2", "black");             // Alternativ farge: rgb(250, 229, 211)
+        changeActivityColor("Forebyggende", "#666666", "white");        // Alternativ farge: #f9ffb5
+        changeActivityColor("Styrke", "#B8B8B8", "black");              // Alternativ farge: #ebdff7
+        changeActivityColor("Romaskin", "#2F2F2F", "white");            // Alternativ farge: #ffe3bf
+        changeActivityColor("Langrenn", "#D8D8D8", "black");            // Alternativ farge: #dbeafe
+        changeActivityColor("Svømming", "#4A4A4A", "white");            // Alternativ farge: #c5f6fa
+        changeActivityColor("Ellipse", "#989898", "black");              // Alternativ farge: #e9fac8
+        changeActivityColor("Annet", "#E6E6E6", "black");               // Alternativ farge: #eef1f6
+        changeActivityColor("Gåtur", "#3B3B3B", "white");               // Alternativ farge: #eef1f6
        
         dynamic.appendChild(row);
         });
@@ -1532,13 +1532,35 @@
                 const row = document.createElement("tr");
                 row.innerHTML = `
                         <td class="nameDate">${element.dato}</td>
-                        <td>${element.fagområde}</td>
+                        <td class="aktivitet_extra">${element.fagområde}</td>
                         <td>${element.studiemetode}</td>
                         <td>${element.varighet} min</td>
                         <td>${element.fokus}/10</td>
                         <td>${element.sted}</td>
                         <td>${element.xp}</td>
                 `;
+
+                function changeActivityColor(aktivitet_value, bakgrunnsfarge, textfarge) {
+                    if (element.fagområde == aktivitet_value) {
+                        const aktivitet_extra = row.querySelector(".aktivitet_extra");
+                        aktivitet_extra.style.backgroundColor = bakgrunnsfarge;
+                        aktivitet_extra.style.color = textfarge;
+                    }
+                }
+                changeActivityColor("Kjemi", "#1E1E1E", "white");             // Alternativ farge: #58d19d
+                changeActivityColor("Fysikk", "#F2F2F2", "black");            // Alternativ farge: rgb(250, 229, 211)
+                changeActivityColor("Biologi", "#666666", "white");            // Alternativ farge: #f9ffb5
+                changeActivityColor("Mattematikk", "#B8B8B8", "black");        // Alternativ farge: #ebdff7
+                changeActivityColor("IT-fag", "#2F2F2F", "white");             // Alternativ farge: #ffe3bf
+                changeActivityColor("Geografi", "#D8D8D8", "black");           // Alternativ farge: #dbeafe
+                changeActivityColor("Naturfag", "#4A4A4A", "white");           // Alternativ farge: #c5f6fa
+                changeActivityColor("Norsk", "#989898", "black");              // Alternativ farge: #e9fac8
+                changeActivityColor("Tysk", "#3B3B3B", "white");               // Alternativ farge: #eef1f6
+                changeActivityColor("Svensk", "#E6E6E6", "black");             // Alternativ farge: #eef1f6
+                changeActivityColor("Historie", "#555555", "white");           // Alternativ farge: #eef1f6
+                changeActivityColor("Økonomi-fag", "#C8C8C8", "black");        // Alternativ farge: #eef1f6
+                changeActivityColor("Psykologi", "#7A7A7A", "white");          // Alternativ farge: #eef1f6
+
                 dynamic.appendChild(row);
 
                 if (element.dato == new Date().toISOString().split("T")[0]) {
@@ -1649,18 +1671,20 @@
                         aktivitet_extra.style.color = textfarge;
                     }
                 }
-                getHabitDetailValues("Kalddusj", "#baf5f7", "#0f4142");
-                getHabitDetailValues("Resengen", "#92d050", "white");
-                getHabitDetailValues("Vitaminer", "#f7b5b5", "white");
-                getHabitDetailValues("Skrittmål", "#f7c8a1", "#0f4142");
-                getHabitDetailValues("Søvn", "#dda1f7", "#0f4142");
-                getHabitDetailValues("Meditasjon", "#f7c8a1", "#0f4142");
-                getHabitDetailValues("Vanntilførsel",   "#32c8db", "#FFFFFF");
-                getHabitDetailValues("Kaloriinntak", "#f7c8a1", "#0f4142");
-                getHabitDetailValues("Mealpreap", "#f7c8a1", "#0f4142");
-                getHabitDetailValues("Proteintilskudd", "#f7c8a1", "#0f4142");
-                getHabitDetailValues("BodyBattery", "#f7c8a1", "#0f4142");
-                getHabitDetailValues("Kreatin", "#607D8B", "#FFFFFF");
+                getHabitDetailValues("Kalddusj", "#1E1E1E", "white");          // Alternativ farge: #baf5f7
+                getHabitDetailValues("Resengen", "#F2F2F2", "black");           // Alternativ farge: #92d050
+                getHabitDetailValues("Vitaminer", "#666666", "white");          // Alternativ farge: #f7b5b5
+                getHabitDetailValues("Skrittmål", "#B8B8B8", "black");         // Alternativ farge: #f7c8a1
+                getHabitDetailValues("Søvn", "#2F2F2F", "white");               // Alternativ farge: #dda1f7
+                getHabitDetailValues("Meditasjon", "#D8D8D8", "black");         // Alternativ farge: #f7c8a1
+                getHabitDetailValues("Vanntilførsel", "#4A4A4A", "white");      // Alternativ farge: #32c8db
+                getHabitDetailValues("Kaloriinntak", "#989898", "black");       // Alternativ farge: #f7c8a1
+                getHabitDetailValues("Mealpreap", "#3B3B3B", "white");          // Alternativ farge: #f7c8a1
+                getHabitDetailValues("Proteintilskudd", "#E6E6E6", "black");    // Alternativ farge: #f7c8a1
+                getHabitDetailValues("BodyBattery", "#808080", "white");        // Alternativ farge: #f7c8a1
+                getHabitDetailValues("Kreatin", "#252525", "white");            // Alternativ farge: #607D8B
+                getHabitDetailValues("Vekt", "#C8C8C8", "black");               // Alternativ farge: #f7c8a1
+                getHabitDetailValues("Mealprep", "#555555", "white");           // Alternativ farge: #f7c8a1
             });
         };
         hentData_vaner()
@@ -1970,17 +1994,17 @@
                         aktivitet_extra.style.color = textfarge;
                     }
                 }
-                changeColorOfProductivity("Kode / Bygg", "#b9d158", "white"); 
-                changeColorOfProductivity("Lesing", "#d15858", "white");
-                changeColorOfProductivity("Språk", "#FF9800", "white");            // Oransje
-                changeColorOfProductivity("Dyp fokus", "#6A1B9A", "white");        // Mørk lilla
-                changeColorOfProductivity("Planlegging", "#009688", "white");      // Teal
-                changeColorOfProductivity("Skriving", "#795548", "white");         // Brun
-                changeColorOfProductivity("Prosjekt", "#E91E63", "white");         // Rosa
-                changeColorOfProductivity("Video / Kurs", "#F44336", "white");     // Rød
-                changeColorOfProductivity("Instrument", "#FFC107", "black");       // Gul
-                changeColorOfProductivity("Kreativt", "#9C27B0", "white");         // Lilla
-                changeColorOfProductivity("Research", "#2196F3", "white");         // Blå
+                changeColorOfProductivity("Kode / Bygg", "#1E1E1E", "white");      // Alternativ farge: #b9d158
+                changeColorOfProductivity("Lesing", "#F2F2F2", "black");           // Alternativ farge: #d15858
+                changeColorOfProductivity("Språk", "#666666", "white");            // Alternativ farge: #FF9800
+                changeColorOfProductivity("Dyp fokus", "#2F2F2F", "white");        // Alternativ farge: #6A1B9A
+                changeColorOfProductivity("Planlegging", "#B8B8B8", "black");      // Alternativ farge: #009688
+                changeColorOfProductivity("Skriving", "#4A4A4A", "white");         // Alternativ farge: #795548
+                changeColorOfProductivity("Prosjekt", "#D8D8D8", "black");         // Alternativ farge: #E91E63
+                changeColorOfProductivity("Video / Kurs", "#808080", "white");     // Alternativ farge: #F44336
+                changeColorOfProductivity("Instrument", "#FFFFFF", "black");       // Alternativ farge: #FFC107
+                changeColorOfProductivity("Kreativt", "#989898", "black");         // Alternativ farge: #9C27B0
+                changeColorOfProductivity("Research", "#3B3B3B", "white");         // Alternativ farge: #2196F3
 
                 dynamic.appendChild(row);
             });
