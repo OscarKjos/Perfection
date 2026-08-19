@@ -259,7 +259,7 @@
             <div class="calendar_title">
                 <i class="fa-solid fa-calendar-days"></i>
                 <div class="calendar_title_text">
-                    <h1>Løpskalender</h1>
+                    <h1 class="change_title">Løpskalender</h1>
                     <select id="calendar_month" class="mikrookt-seksjon__description" style="border:none; background:none; max-width:70px;">
                         <option id="date_placement" value=""></option>
                         <option value="1">Januar</option>
@@ -422,11 +422,11 @@
         <article class="plan_controls">
             <!-- Velg kategori -->
             <div class="plan_controls__tabs" role="group" aria-label="Velg kategori">
-                <button class="plan_tab active" type="button" data-category="training">
+                <button id="training_option" class="plan_tab" type="button" data-category="training">
                     <i class="fa-solid fa-person-running"></i> Trening
                 </button>
 
-                <button class="plan_tab" type="button" data-category="study">
+                <button id="study_option" class="plan_tab" type="button" data-category="study">
                     <i class="fa-solid fa-graduation-cap"></i> Studie
                 </button>
             </div>
@@ -505,8 +505,8 @@
                 <!-- Header som matcher flexbox layouten din -->
                 <div class="open_filter__header">
                     <div class="open_filter__title">
-                        <h3>Løpskalender</h3>
-                        <p>Registrer kommende løp her</p>
+                        <h3 class="change_title">Løpskalender</h3>
+                        <p>Registrer kommende hendelser her</p>
                     </div>
                     
                     <button class="open_filter__close" id="close_filter" type="button" aria-label="Lukk">
@@ -584,7 +584,7 @@
                     max-width:100%;
                 }
 
-                #register_race_button{
+                #register_race_button, #register_test_button{
                     grid-column:1 / -1;
                     height:40px;
                     margin-top:5px;
@@ -599,23 +599,40 @@
                     transition:transform .15s, opacity .15s;
                 }
 
-                #register_race_button:active{
+                #register_race_button:active, #register_test_button:active{
                     transform:scale(.98);
                 }
 
-                #register_race_button:hover{
+                #register_race_button:hover, #register_test_button:hover{
                     opacity:.92;
                 }
 
-                #race_name{
+                #race_name, #test_title{
                     padding-left:12px;
                 }
             </style>
 
-            <div class="open_filter__content">
+            <div id="training_content" class="open_filter__content">
+                <!-- Her kommer informasjon om løp dynamisk fra Supabase -->
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const study_option = document.getElementById("study_option");
+        const training_option = document.getElementById("training_option");
+
+
+        training_option.addEventListener("click", () => {
+            training_option.classList.add("active");
+            study_option.classList.remove("active");
+            const training_content = document.getElementById("training_content");
+            training_content.innerHTML = `
+            
                 <div class="form_group full_width">
                     <label for="race_name">Navn på løp</label>
-                    <input type="text" id="race_name" placeholder="Hytteplanmila" required>
+                    <input type="text" id="race_name" placeholder="F.eks. Hytteplanmila" required>
                 </div>
 
                 <div class="form_group custom_width">
@@ -676,10 +693,81 @@
                 </div>
 
                 <button type="button" id="register_race_button"> Registrer løp </button>
-            </div>
-            </div>
-        </div>
-    </section>
+            `;
+
+            const change_title = document.querySelectorAll(".change_title");
+            change_title.forEach(item => {
+                item.innerHTML = "Løpskalender";
+            });
+        });
+
+        training_option.click();
+
+        study_option.addEventListener("click", () => {
+            const training_content = document.getElementById("training_content");
+            training_content.innerHTML = `
+
+                <div class="form_group full_width">
+                    <label for="test_title">Tittel / Tema</label>
+                    <input type="text" id="test_title" placeholder="F.eks. Termokjemi" required>
+                </div>
+
+                <div class="form_group custom_width">
+                    <label for="test_date">Dato</label>
+                    <input type="date" id="test_date" required>
+                </div>
+
+                <div class="form_group custom_width">
+                    <label for="test_time">Tidspunkt</label>
+                    <input type="time" id="test_time">
+                </div>
+
+                <div class="form_group">
+                    <label for="test_subject">Fag</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-book"></i>
+                        <select id="test_subject" required>
+                            <option value="">Velg fag...</option>
+                            <option value="matematikk">Matematikk</option>
+                            <option value="fysikk">Fysikk</option>
+                            <option value="kjemi">Kjemi</option>
+                            <option value="norsk">Norsk</option>
+                            <option value="engelsk">Engelsk</option>
+                            <option value="historie">Historie</option>
+                            <option value="samfunnsfag">Samfunnsfag</option>
+                            <option value="biologi">Biologi</option>
+                            <option value="annet">Annet fag</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <label for="test_type">Vurderingsform</label>
+                    <div class="input_wrapper">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <select id="test_type" required>
+                            <option value="">Velg type...</option>
+                            <option value="skriftlig">Skriftlig</option>
+                            <option value="muntlig">Fagsamtale</option>
+                            <option value="innlevering">Innlevering</option>
+                            <option value="praktisk">Praktisk</option>
+                            <option value="fremføring">Fremføring</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" id="register_test_button">Registrer prøve</button>
+
+            `;
+            study_option.classList.add("active");
+            training_option.classList.remove("active");
+
+            const change_title = document.querySelectorAll(".change_title");
+            change_title.forEach(item => {
+                item.innerHTML = "Vurderingskalender";
+            });
+        });
+    </script>
 
     <style>
         .open_stats{
@@ -1984,38 +2072,90 @@
         const supabase = createClient(supabaseUrl, supabaseKey)
 
 
-        async function createRace() {
-            // Input felt
-            const race_name = document.getElementById("race_name");
-            const race_date = document.getElementById("race_date");
-            const race_time = document.getElementById("race_time");
-            const race_location = document.getElementById("race_location");
-            const race_distance = document.getElementById("race_distance");
-            const race_type = document.getElementById("race_type");
+        const trainingContent = document.getElementById("training_content");
 
-            const registrer = document.getElementById("register_race_button");
+        trainingContent.addEventListener("click", async (event) => {
+            const raceButton = event.target.closest("#register_race_button");
+            const testButton = event.target.closest("#register_test_button");
 
-            registrer.addEventListener("click", async () => {
-            // Henter bruker-id
+            if (!raceButton && !testButton) return;
+
             const { data: { user }, error: userError } = await supabase.auth.getUser();
-            
-            const { data, error } = await supabase
-                .from("bruker_data_kalender")
-                .insert([{ user_id:user.id, navn:race_name.value, dato:race_date.value, starttid:race_time.value, sted:race_location.value, distanse:race_distance.value, type:race_type.value, status:"planlagt" }]);
-            
-            const race_form = document.getElementById("race_form");
-            race_form.classList.remove('open_now');
+            if (userError || !user) {
+                console.error("Kunne ikke hente innlogget bruker:", userError);
+                alert("Du må være logget inn for å registrere i kalenderen.");
+                return;
+            }
 
-            race_name.value = "";
-            race_date.value = "";
-            race_time.value = "";
-            race_location.value = "";
-            race_distance.value = "";
-            race_type.value = "";
+            if (raceButton) {
+                const raceName = document.getElementById("race_name");
+                const raceDate = document.getElementById("race_date");
+                const raceTime = document.getElementById("race_time");
+                const raceLocation = document.getElementById("race_location");
+                const raceDistance = document.getElementById("race_distance");
+                const raceType = document.getElementById("race_type");
 
-            });
-        }
-        createRace()
+                if (!raceName.value || !raceDate.value || !raceLocation.value || !raceDistance.value) {
+                    alert("Fyll ut alle obligatoriske felt.");
+                    return;
+                }
+
+                const { error } = await supabase
+                    .from("bruker_data_kalender")
+                    .insert([{
+                        user_id: user.id,
+                        navn: raceName.value,
+                        dato: raceDate.value,
+                        starttid: raceTime.value || null,
+                        sted: raceLocation.value,
+                        distanse: raceDistance.value,
+                        type: raceType.value,
+                        status: "planlagt",
+                        tag: "race"
+                    }]);
+
+                if (error) {
+                    console.error("Kunne ikke registrere løpet:", error);
+                    alert("Løpet kunne ikke registreres. Prøv igjen.");
+                    return;
+                }
+            }
+
+            if (testButton) {
+                const testName = document.getElementById("test_title");
+                const testDate = document.getElementById("test_date");
+                const testTime = document.getElementById("test_time");
+                const testSubject = document.getElementById("test_subject");
+                const testType = document.getElementById("test_type");
+                const testSyllabus = document.getElementById("test_syllabus");
+
+                if (!testName.value || !testDate.value || !testSubject.value || !testType.value) {
+                    alert("Fyll ut alle obligatoriske felt.");
+                    return;
+                }
+
+                const { error } = await supabase
+                    .from("bruker_data_kalender")
+                    .insert([{
+                        user_id: user.id,
+                        navn: `${testSubject.value} - ${testName.value}`,
+                        dato: testDate.value,
+                        starttid: testTime.value || null,
+                        type: testType.value,
+                        sted: testSyllabus.value,
+                        status: "påmeldt",
+                        tag: "test"
+                    }]);
+
+                if (error) {
+                    console.error("Kunne ikke registrere prøven:", error);
+                    alert("Prøven kunne ikke registreres. Prøv igjen.");
+                    return;
+                }
+            }
+
+            document.getElementById("race_form").classList.remove("open_now");
+        });
 
         let Month = new Date().getMonth();
         let Year = new Date().getFullYear(); 
@@ -2023,7 +2163,7 @@
         async function getRace() {
             const { data, error } = await supabase
                 .from("bruker_data_kalender")
-                .select("id, dato, navn, starttid, sted, distanse, type, status")
+                .select("id, dato, navn, starttid, sted, distanse, type, status, tag")
                 .order("dato", { ascending: true });
             
                 const select_month = document.getElementById('calendar_month');
@@ -2053,6 +2193,19 @@
                     }
                     updateRaces();
                 });
+
+                let kalender_tag = "race";
+                const study_option = document.getElementById("study_option");
+                study_option.addEventListener("click", () => {
+                    kalender_tag = "test";
+                    updateRaces();
+                });
+
+                const training_option = document.getElementById("training_option");
+                training_option.addEventListener("click", () => {
+                    kalender_tag = "race";
+                    updateRaces();
+                });
             
             function updateRaces() {
             const day = document.querySelectorAll(".day");
@@ -2075,7 +2228,7 @@
 
                 day.forEach(dayBlock => {
                     
-                    if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month && race_date.getFullYear() === Year) {
+                    if (race_date.getDate() === Number(dayBlock.innerHTML) && race_date.getMonth() === Month && race_date.getFullYear() === Year && element.tag === kalender_tag) {
                         dayBlock.classList.add("race");
                         
                         if (element.status === "påmeldt") {
@@ -2119,15 +2272,15 @@
                                     
                                     <div>
                                         <b><i class="fa-solid fa-map-pin"></i></b>
-                                        <p>${element.sted}</p>
+                                        <p>${element.sted || element.type}</p>
                                     </div>
 
                                 </span>
 
-                                <span>
+                                <span class="if_race">
                                     <div>
                                         <b><i class="fa-solid fa-route"></i></b>
-                                        <p>${(element.distanse).toLocaleString('nb-NO') + " m"}</p>
+                                        <p>${(element.distanse || 0).toLocaleString('nb-NO') + " m"}</p>
                                     </div>
 
                                     <div>
@@ -2137,9 +2290,14 @@
                                 </span>
                             `;
                         }
-                        const close_race_info = document.getElementById("close_race_info");
-                        close_race_info.addEventListener("click", () => {
-                            race_info.classList.remove("getRaceInfo");
+        
+                        const if_race = document.querySelectorAll(".if_race");
+                        if_race.forEach(race => {
+                            if (kalender_tag === "race") {
+                                race.style.display = "flex";
+                            } else {
+                                race.style.display = "none";
+                            }
                         })
 
                         const edit_race = document.querySelectorAll(".edit_race");
