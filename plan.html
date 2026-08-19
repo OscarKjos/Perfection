@@ -728,15 +728,39 @@
                         <i class="fa-solid fa-book"></i>
                         <select id="test_subject" required>
                             <option value="">Velg fag...</option>
-                            <option value="matematikk">Matematikk</option>
-                            <option value="fysikk">Fysikk</option>
-                            <option value="kjemi">Kjemi</option>
-                            <option value="norsk">Norsk</option>
-                            <option value="engelsk">Engelsk</option>
-                            <option value="historie">Historie</option>
-                            <option value="samfunnsfag">Samfunnsfag</option>
-                            <option value="biologi">Biologi</option>
-                            <option value="annet">Annet fag</option>
+                            <optgroup label="Realfag">
+                                <option>Kjemi</option>
+                                <option>Biologi</option>
+                                <option>Fysikkk</option>
+                                <option>Mattematikk</option>
+                                <option>IT-fag</option>
+                                <option>Geografi</option>
+                                <option>Naturfag</option>
+                            </optgroup>
+
+                            <optgroup label="Språk">
+                                <option>Engelsk</option>
+                                <option>Norsk</option>
+                                <option>Spansk</option>
+                                <option>Tysk</option>
+                                <option>Fransk</option>
+                                <option>Svensk</option>
+                            </optgroup>
+
+                            <optgroup label="Samfunnsfag">
+                                <option>Samfunnskunnskap</option>
+                                <option>Historie</option>
+                                <option>Psykologi</option>
+                                <option>Politikk</option>
+                                <option>Rettslære</option>
+                                <option>Sosialkunnskap</option>
+                            </optgroup>
+
+                            <optgroup label="Økonomi">
+                                <option>Entrepenørskap</option>
+                                <option>Markedsføring</option>
+                                <option>Økonomi</option>
+                            </optgroup>
                         </select>
                     </div>
                 </div>
@@ -2127,7 +2151,6 @@
                 const testTime = document.getElementById("test_time");
                 const testSubject = document.getElementById("test_subject");
                 const testType = document.getElementById("test_type");
-                const testSyllabus = document.getElementById("test_syllabus");
 
                 if (!testName.value || !testDate.value || !testSubject.value || !testType.value) {
                     alert("Fyll ut alle obligatoriske felt.");
@@ -2142,7 +2165,6 @@
                         dato: testDate.value,
                         starttid: testTime.value || null,
                         type: testType.value,
-                        sted: testSyllabus.value,
                         status: "påmeldt",
                         tag: "test"
                     }]);

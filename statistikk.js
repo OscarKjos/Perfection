@@ -111,32 +111,40 @@ KmCount(`${year}-01-01`, `${year}-${månedString}-01`, akt_type);
                 }
             }
 
+            let faktor = 1;
+
+            if (aktivitet === "Sykling") {
+                faktor = 3;
+            } else if (aktivitet === "Svømming") {
+                faktor = 0.5;
+            }
+
             // Setter antall km per uke og runder av desimaler
             document.getElementById("km_per_uke_1").innerText = Math.round(km_uke1);
                 localStorage.setItem("ukentlig_distanse", Math.round(km_uke1));
-                document.getElementById("progress_fill_1").style.height = `${km_uke1}%`;
+                document.getElementById("progress_fill_1").style.height = `${km_uke1/faktor}%`;
             document.getElementById("km_per_uke_2").innerText = Math.round(km_uke2); 
-                document.getElementById("progress_fill_2").style.height = `${km_uke2}%`;
+                document.getElementById("progress_fill_2").style.height = `${km_uke2/faktor}%`;
             document.getElementById("km_per_uke_3").innerText = Math.round(km_uke3);
-                document.getElementById("progress_fill_3").style.height = `${km_uke3}%`;
+                document.getElementById("progress_fill_3").style.height = `${km_uke3/faktor}%`;
             document.getElementById("km_per_uke_4").innerText = Math.round(km_uke4);
-                document.getElementById("progress_fill_4").style.height = `${km_uke4}%`;
+                document.getElementById("progress_fill_4").style.height = `${km_uke4/faktor}%`;
             document.getElementById("km_per_uke_5").innerText = Math.round(km_uke5);
-                document.getElementById("progress_fill_5").style.height = `${km_uke5}%`;
+                document.getElementById("progress_fill_5").style.height = `${km_uke5/faktor}%`;
             document.getElementById("km_per_uke_6").innerText = Math.round(km_uke6);
-                document.getElementById("progress_fill_6").style.height = `${km_uke6}%`;
+                document.getElementById("progress_fill_6").style.height = `${km_uke6/faktor}%`;
             document.getElementById("km_per_uke_7").innerText = Math.round(km_uke7);
-                document.getElementById("progress_fill_7").style.height = `${km_uke7}%`;
+                document.getElementById("progress_fill_7").style.height = `${km_uke7/faktor}%`;
             document.getElementById("km_per_uke_8").innerText = Math.round(km_uke8);
-                document.getElementById("progress_fill_8").style.height = `${km_uke8}%`;
+                document.getElementById("progress_fill_8").style.height = `${km_uke8/faktor}%`;
             document.getElementById("km_per_uke_9").innerText = Math.round(km_uke9);
-                document.getElementById("progress_fill_9").style.height = `${km_uke9}%`;
+                document.getElementById("progress_fill_9").style.height = `${km_uke9/faktor}%`;
             document.getElementById("km_per_uke_10").innerText = Math.round(km_uke10);
-                document.getElementById("progress_fill_10").style.height = `${km_uke10}%`;
+                document.getElementById("progress_fill_10").style.height = `${km_uke10/faktor}%`;
             document.getElementById("km_per_uke_11").innerText = Math.round(km_uke11);
-                document.getElementById("progress_fill_11").style.height = `${km_uke11}%`;
+                document.getElementById("progress_fill_11").style.height = `${km_uke11/faktor}%`;
             document.getElementById("km_per_uke_12").innerText = Math.round(km_uke12);
-                document.getElementById("progress_fill_12").style.height = `${km_uke12}%`;
+                document.getElementById("progress_fill_12").style.height = `${km_uke12/faktor}%`;
         });
     }
     const week = getWeekNumber(new Date());
@@ -616,7 +624,7 @@ async function reps_count() {
             reps_week[antall + 1] += Number(element.repetisjoner);
 
             document.getElementById(id_element).textContent = reps_week[antall + 1];
-            document.getElementById(id_prosent).style.height = (reps_week[antall + 1])/5 + "%";
+            document.getElementById(id_prosent).style.height = (reps_week[antall + 1])/15 + "%";
 
             if (antall === 0) {
                 document.getElementById("antall-reps-uke").textContent = reps_week[1];
